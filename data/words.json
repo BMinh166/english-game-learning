@@ -1,0 +1,32 @@
+[
+  {
+	"text": "big",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["size_big"],
+	  "degree": ["size"],
+	  "family": ["big_family"],
+	  "type": ["adj"]
+	}
+  },
+  {
+	"text": "huge",
+	"level": "A2",
+	"groups": {
+	  "synonym": ["size_big"],
+	  "degree": ["size"],
+	  "family": ["huge_family"],
+	  "type": ["adj"]
+	}
+  },
+  {
+	"text": "small",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["size_small"],
+	  "degree": ["size"],
+	  "family": ["small_family"],
+	  "type": ["adj"]
+	}
+  }
+]
