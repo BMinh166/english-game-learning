@@ -1,32 +1,1028 @@
 [
   {
+	"id": 0,
 	"text": "big",
 	"level": "A1",
 	"groups": {
 	  "synonym": ["size_big"],
-	  "degree": ["size"],
+	  "degree": ["size_general"],
 	  "family": ["big_family"],
 	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
 	}
   },
   {
+	"id": 1,
 	"text": "huge",
 	"level": "A2",
 	"groups": {
 	  "synonym": ["size_big"],
-	  "degree": ["size"],
+	  "degree": ["size_general"],
 	  "family": ["huge_family"],
 	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
 	}
   },
   {
+	"id": 2,
 	"text": "small",
 	"level": "A1",
 	"groups": {
 	  "synonym": ["size_small"],
-	  "degree": ["size"],
+	  "degree": ["size_general"],
 	  "family": ["small_family"],
 	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
 	}
-  }
+  },
+  {
+	"id": 3,
+	"text": "tiny",
+	"level": "A2",
+	"groups": {
+	  "synonym": ["size_small"],
+	  "degree": ["size_general"],
+	  "family": ["tiny_family"],
+	  "type": ["adj"]
+	},
+	"tracking": { 
+		"seen": 0, 
+		"correct": 0, 
+		"wrong": 0, 
+		"streak": 0, 
+		"last_seen": null, 
+		"mastery": 0, 
+		"status": "new" 
+	}
+  },
+  {
+	"id": 4,
+	"text": "large",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["size_big"],
+	  "degree": ["size_general"],
+	  "family": ["large_family"],
+	  "type": ["adj"]
+	},
+	"tracking": { 
+		"seen": 0, 
+		"correct": 0, 
+		"wrong": 0, 
+		"streak": 0, 
+		"last_seen": null, 
+		"mastery": 0, 
+		"status": "new" 
+	}
+  },
+  {
+	"id": 5,
+	"text": "gigantic",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["size_big"],
+	  "degree": ["size_general"],
+	  "family": ["gigantic_family"],
+	  "type": ["adj"]
+	},
+	"tracking": { 
+		"seen": 0, 
+		"correct": 0, 
+		"wrong": 0, 
+		"streak": 0, 
+		"last_seen": null, 
+		"mastery": 0, 
+		"status": "new" 
+	}
+  },
+  {
+	"id": 6,
+	"text": "massive",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["size_big"],
+	  "degree": ["size_general"],
+	  "family": ["massive_family"],
+	  "type": ["adj"]
+	},
+	"tracking": { 
+		"seen": 0, 
+		"correct": 0, 
+		"wrong": 0, 
+		"streak": 0, 
+		"last_seen": null, 
+		"mastery": 0, 
+		"status": "new" 
+	}
+  },
+  {
+	"id": 7,
+	"text": "little",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["size_small"],
+	  "degree": ["size_general"],
+	  "family": ["little_family"],
+	  "type": ["adj"]
+	},
+	"tracking": { 
+		"seen": 0, 
+		"correct": 0, 
+		"wrong": 0, 
+		"streak": 0, 
+		"last_seen": null, 
+		"mastery": 0, 
+		"status": "new" 
+	}
+  },
+  {
+	"id": 8,
+	"text": "mini",
+	"level": "A2",
+	"groups": {
+	  "synonym": ["size_small"],
+	  "degree": ["size_general"],
+	  "family": ["mini_family"],
+	  "type": ["adj"]
+	},
+	"tracking": { 
+		"seen": 0, 
+		"correct": 0, 
+		"wrong": 0, 
+		"streak": 0, 
+		"last_seen": null, 
+		"mastery": 0, 
+		"status": "new" 
+	}
+  },
+  {
+	"id": 9,
+	"text": "enormous",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["size_big"],
+	  "degree": ["size_general"],
+	  "family": ["enormous_family"],
+	  "type": ["adj"]
+	},
+	"tracking": { 
+		"seen": 0, 
+		"correct": 0, 
+		"wrong": 0, 
+		"streak": 0, 
+		"last_seen": null, 
+		"mastery": 0, 
+		"status": "new" 
+	}
+  },
+  {
+	"id": 10,
+	"text": "compact",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["size_small", "density_dense"],
+	  "degree": ["size_general", "density"],
+	  "family": ["compact_family"],
+	  "type": ["adj"]
+	},
+	"tracking": { 
+		"seen": 0, 
+		"correct": 0, 
+		"wrong": 0, 
+		"streak": 0, 
+		"last_seen": null, 
+		"mastery": 0, 
+		"status": "new" 
+	}
+  },
+  {
+	"id": 11,
+	"text": "wide",
+	"level": "A2",
+	"groups": {
+	  "synonym": ["width_large"],
+	  "degree": ["width"],
+	  "family": ["wide_family"],
+	  "type": ["adj"]
+	},
+	"tracking": { 
+		"seen": 0, 
+		"correct": 0, 
+		"wrong": 0, 
+		"streak": 0, 
+		"last_seen": null, 
+		"mastery": 0, 
+		"status": "new" 
+	}
+  },
+  {
+	"id": 12,
+	"text": "narrow",
+	"level": "A2",
+	"groups": {
+	  "synonym": ["width_small"],
+	  "degree": ["width"],
+	  "family": ["narrow_family"],
+	  "type": ["adj"]
+	},
+	"tracking": { 
+		"seen": 0, 
+		"correct": 0, 
+		"wrong": 0, 
+		"streak": 0, 
+		"last_seen": null, 
+		"mastery": 0, 
+		"status": "new" 
+	}
+  },
+  {
+	"id": 13,
+	"text": "thick",
+	"level": "A2",
+	"groups": {
+	  "synonym": ["thickness_large"],
+	  "degree": ["thickness"],
+	  "family": ["thick_family"],
+	  "type": ["adj"]
+	},
+	"tracking": { 
+		"seen": 0, 
+		"correct": 0, 
+		"wrong": 0, 
+		"streak": 0, 
+		"last_seen": null, 
+		"mastery": 0, 
+		"status": "new" 
+	}
+  },
+  {
+	"id": 14,
+	"text": "thin",
+	"level": "A2",
+	"groups": {
+	  "synonym": ["thickness_small"],
+	  "degree": ["thickness"],
+	  "family": ["thin_family"],
+	  "type": ["adj"]
+	},
+	"tracking": { 
+		"seen": 0, 
+		"correct": 0, 
+		"wrong": 0, 
+		"streak": 0, 
+		"last_seen": null, 
+		"mastery": 0, 
+		"status": "new" 
+	}
+  },
+  {
+	"id": 15,
+	"text": "tall",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["height_large"],
+	  "degree": ["heigt"],
+	  "family": ["tall_family"],
+	  "type": ["adj"]
+	},
+	"tracking": { 
+		"seen": 0, 
+		"correct": 0, 
+		"wrong": 0, 
+		"streak": 0, 
+		"last_seen": null, 
+		"mastery": 0, 
+		"status": "new" 
+	}
+   },
+{
+	"id": 16,
+	"text": "short",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["height_small"],
+	  "degree": ["height"],
+	  "family": ["short_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+{
+	"id": 17,
+	"text": "high",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["height_large"],
+	  "degree": ["height"],
+	  "family": ["high_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+{
+	"id": 18,
+	"text": "low",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["height_small"],
+	  "degree": ["height"],
+	  "family": ["low_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 19,
+	"text": "long",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["length_large"],
+	  "degree": ["length"],
+	  "family": ["long_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+{
+	"id": 20,
+	"text": "spacious",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["space_large"],
+	  "degree": ["space"],
+	  "family": ["spacious_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 21,
+	"text": "cramped",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["space_small"],
+	  "degree": ["space"],
+	  "family": ["cramped_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 22,
+	"text": "roomy",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["space_large"],
+	  "degree": ["space"],
+	  "family": ["roomy_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 23,
+	"text": "tight",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["space_small", "density_dense"],
+	  "degree": ["space", "density"],
+	  "family": ["tight_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+{
+	"id": 24,
+	"text": "many",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["quantity_large"],
+	  "degree": ["quantity"],
+	  "family": ["many_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 25,
+	"text": "few",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["quantity_small"],
+	  "degree": ["quantity"],
+	  "family": ["few_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 26,
+	"text": "numerous",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["quantity_large"],
+	  "degree": ["quantity"],
+	  "family": ["numerous_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 27,
+	"text": "scarce",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["quantity_small"],
+	  "degree": ["quantity"],
+	  "family": ["scarce_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+
+  {
+	"id": 28,
+	"text": "loud",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["sound_high"],
+	  "degree": ["sound"],
+	  "family": ["loud_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 29,
+	"text": "quiet",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["sound_low"],
+	  "degree": ["sound"],
+	  "family": ["quiet_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 30,
+	"text": "silent",
+	"level": "A2",
+	"groups": {
+	  "synonym": ["sound_low"],
+	  "degree": ["sound"],
+	  "family": ["silent_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 31,
+	"text": "noisy",
+	"level": "A2",
+	"groups": {
+	  "synonym": ["sound_high"],
+	  "degree": ["sound"],
+	  "family": ["noisy_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+
+  {
+	"id": 32,
+	"text": "strong",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["intensity_high"],
+	  "degree": ["intensity"],
+	  "family": ["strong_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 33,
+	"text": "powerful",
+	"level": "A2",
+	"groups": {
+	  "synonym": ["intensity_high"],
+	  "degree": ["intensity"],
+	  "family": ["powerful_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 34,
+	"text": "weak",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["intensity_low"],
+	  "degree": ["intensity"],
+	  "family": ["weak_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 35,
+	"text": "faint",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["intensity_low"],
+	  "degree": ["intensity"],
+	  "family": ["faint_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+
+  {
+	"id": 36,
+	"text": "hot",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["temperature_high"],
+	  "degree": ["temperature"],
+	  "family": ["hot_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 37,
+	"text": "warm",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["temperature_medium"],
+	  "degree": ["temperature"],
+	  "family": ["warm_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 38,
+	"text": "cold",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["temperature_low"],
+	  "degree": ["temperature"],
+	  "family": ["cold_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 39,
+	"text": "freezing",
+	"level": "A2",
+	"groups": {
+	  "synonym": ["temperature_low"],
+	  "degree": ["temperature"],
+	  "family": ["freezing_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+
+  {
+	"id": 40,
+	"text": "fast",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["speed_fast"],
+	  "degree": ["speed"],
+	  "family": ["fast_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 41,
+	"text": "quick",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["speed_fast"],
+	  "degree": ["speed"],
+	  "family": ["quick_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 42,
+	"text": "rapid",
+	"level": "A2",
+	"groups": {
+	  "synonym": ["speed_fast"],
+	  "degree": ["speed"],
+	  "family": ["rapid_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 43,
+	"text": "slow",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["speed_slow"],
+	  "degree": ["speed"],
+	  "family": ["slow_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 44,
+	"text": "sluggish",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["speed_slow"],
+	  "degree": ["speed"],
+	  "family": ["sluggish_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+
+  {
+	"id": 45,
+	"text": "dense",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["density_dense"],
+	  "degree": ["density"],
+	  "family": ["dense_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 46,
+	"text": "sparse",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["density_sparse"],
+	  "degree": ["density"],
+	  "family": ["sparse_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 47,
+	"text": "packed",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["density_dense"],
+	  "degree": ["density"],
+	  "family": ["packed_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 48,
+	"text": "scattered",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["density_sparse"],
+	  "degree": ["density"],
+	  "family": ["scattered_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+
+  {
+	"id": 49,
+	"text": "heavy",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["weight_large"],
+	  "degree": ["weight"],
+	  "family": ["heavy_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
+  {
+	"id": 50,
+	"text": "light",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["weight_small"],
+	  "degree": ["weight"],
+	  "family": ["light_family"],
+	  "type": ["adj"]
+	},
+	"tracking": {
+	  "seen": 0,
+	  "correct": 0,
+	  "wrong": 0,
+	  "streak": 0,
+	  "last_seen": null,
+	  "mastery": 0,
+	  "status": "new"
+	}
+  },
 ]
