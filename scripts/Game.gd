@@ -1,5 +1,10 @@
 extends Node
 
+@onready var word_label = $Control/Main/WordLabel
+@onready var score_label = $Control/Main/ScoreLabel
+@onready var turn_label = $Control/Main/TurnLabel
+@onready var hand_buttons = $Control/Main/HandContainer.get_children()
+
 var word_db
 var relation
 var score_system
@@ -17,10 +22,7 @@ func _ready():
 	score_system = Score.new()
 
 	start_game()
-
-	# test auto play
-	for i in range(15):
-		play_word(hand.pick_random())
+	update_ui()
 		
 func start_game():
 	current_word = word_db.get_random_word_exclude(current_word)
@@ -85,3 +87,25 @@ func play_word(word):
 
 	if turn <= 0:
 		print("Game Over")
+		
+func update_ui():
+	word_label.text = "Word: " + current_word.text
+	score_label.text = "Score: " + str(score)
+	turn_label.text = "Turn: " + str(turn)
+
+	for i in range(hand_buttons.size()):
+		if i < hand.size():
+			var w = hand[i]
+			hand_buttons[i].text = w.text
+			
+			# clear signal cũ
+			for c in hand_buttons[i].pressed.get_connections():
+				hand_buttons[i].pressed.disconnect(c.callable)
+			
+			# gắn click mới
+			hand_buttons[i].pressed.connect(func():
+				play_word(w)
+				update_ui()
+			)
+		else:
+			hand_buttons[i].text = ""

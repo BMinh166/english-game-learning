@@ -4,3 +4,57 @@
 
 [node name="Game" type="Node"]
 script = ExtResource("1_elqb8")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Main" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/Main"]
+layout_mode = 2
+
+[node name="ScoreBar" type="CenterContainer" parent="Control/Main"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/Main/ScoreBar"]
+layout_mode = 2
+
+[node name="WordLabel" type="Label" parent="Control/Main"]
+layout_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="Control/Main"]
+layout_mode = 2
+
+[node name="TurnLabel" type="Label" parent="Control/Main"]
+layout_mode = 2
+
+[node name="HandContainer" type="HBoxContainer" parent="Control/Main"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+
+[node name="Button" type="Button" parent="Control/Main/HandContainer"]
+layout_mode = 2
+
+[node name="Button2" type="Button" parent="Control/Main/HandContainer"]
+layout_mode = 2
+
+[node name="Button3" type="Button" parent="Control/Main/HandContainer"]
+layout_mode = 2
+
+[node name="Button4" type="Button" parent="Control/Main/HandContainer"]
+layout_mode = 2
+
+[node name="Button5" type="Button" parent="Control/Main/HandContainer"]
+layout_mode = 2
