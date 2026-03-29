@@ -3,9 +3,12 @@ class_name Score
 
 func calculate(relations, level):
 	if relations.is_empty():
-		return 0
+		return {
+			"point": 0,
+			"mult": 0,
+			"score": 0
+		}
 
-	# 1. chọn relation mạnh nhất
 	var best = relations[0]
 
 	for r in relations:
@@ -15,11 +18,9 @@ func calculate(relations, level):
 		if current_score > best_score:
 			best = r
 
-	# 2. lấy base
 	var point = best.point
 	var mult = best.mult
 
-	# 3. level bonus (1 lần)
 	match level:
 		"A1", "A2":
 			point += 10
@@ -32,4 +33,10 @@ func calculate(relations, level):
 		"C2":
 			mult += 3
 
-	return point * mult
+	var total = point * mult
+
+	return {
+		"point": point,
+		"mult": mult,
+		"score": total
+	}
