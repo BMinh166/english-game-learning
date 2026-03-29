@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://b5of4wmqava30"]
+[gd_scene load_steps=4 format=3 uid="uid://b5of4wmqava30"]
 
 [ext_resource type="Script" uid="uid://dnq84hekjhund" path="res://scripts/Game.gd" id="1_elqb8"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rvslj"]
+font_size = 32
+
+[sub_resource type="LabelSettings" id="LabelSettings_elqb8"]
+font_size = 46
 
 [node name="Game" type="Node"]
 script = ExtResource("1_elqb8")
@@ -21,40 +27,151 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ProgressBar" type="ProgressBar" parent="Control/Main"]
+[node name="Panel" type="Panel" parent="Control/Main"]
 layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/Main/Panel"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 50.0
+show_percentage = false
+
+[node name="ProgressScore" type="Label" parent="Control/Main/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "500/1000"
+label_settings = SubResource("LabelSettings_rvslj")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="ScoreBar" type="CenterContainer" parent="Control/Main"]
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Control/Main/ScoreBar"]
+[node name="ScoreContainer" type="VBoxContainer" parent="Control/Main/ScoreBar"]
 layout_mode = 2
 
-[node name="WordLabel" type="Label" parent="Control/Main"]
+[node name="Score" type="Label" parent="Control/Main/ScoreBar/ScoreContainer"]
+layout_mode = 2
+text = "600"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PointandMult" type="HBoxContainer" parent="Control/Main/ScoreBar/ScoreContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Point" type="Label" parent="Control/Main/ScoreBar/ScoreContainer/PointandMult"]
+layout_mode = 2
+text = "120"
+
+[node name="X" type="Label" parent="Control/Main/ScoreBar/ScoreContainer/PointandMult"]
+layout_mode = 2
+text = "x"
+
+[node name="Mult" type="Label" parent="Control/Main/ScoreBar/ScoreContainer/PointandMult"]
+layout_mode = 2
+text = "5"
+
+[node name="Body" type="HBoxContainer" parent="Control/Main"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LeftItemBar" type="VBoxContainer" parent="Control/Main/Body"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Button" type="Button" parent="Control/Main/Body/LeftItemBar"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="ScoreLabel" type="Label" parent="Control/Main"]
+[node name="Button2" type="Button" parent="Control/Main/Body/LeftItemBar"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="TurnLabel" type="Label" parent="Control/Main"]
+[node name="Button3" type="Button" parent="Control/Main/Body/LeftItemBar"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="HandContainer" type="HBoxContainer" parent="Control/Main"]
+[node name="Button4" type="Button" parent="Control/Main/Body/LeftItemBar"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Button5" type="Button" parent="Control/Main/Body/LeftItemBar"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="CenterArea" type="VBoxContainer" parent="Control/Main/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="Control/Main/Body/CenterArea"]
+layout_mode = 2
+
+[node name="WordLabel" type="Label" parent="Control/Main/Body/CenterArea/CenterContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+text = "Word"
+label_settings = SubResource("LabelSettings_elqb8")
+
+[node name="HandContainer" type="HBoxContainer" parent="Control/Main/Body/CenterArea"]
+custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
 size_flags_horizontal = 4
-size_flags_vertical = 0
+size_flags_vertical = 10
 
-[node name="Button" type="Button" parent="Control/Main/HandContainer"]
+[node name="Button" type="Button" parent="Control/Main/Body/CenterArea/HandContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button2" type="Button" parent="Control/Main/Body/CenterArea/HandContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button3" type="Button" parent="Control/Main/Body/CenterArea/HandContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button4" type="Button" parent="Control/Main/Body/CenterArea/HandContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Button5" type="Button" parent="Control/Main/Body/CenterArea/HandContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Main/Body"]
+custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
-[node name="Button2" type="Button" parent="Control/Main/HandContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/Main/Body/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 6
 
-[node name="Button3" type="Button" parent="Control/Main/HandContainer"]
+[node name="TurnLabel" type="Label" parent="Control/Main/Body/VBoxContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 6
+text = "Turn:"
+vertical_alignment = 1
 
-[node name="Button4" type="Button" parent="Control/Main/HandContainer"]
+[node name="RoundLabel" type="Label" parent="Control/Main/Body/VBoxContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 6
+text = "Round:"
+vertical_alignment = 1
 
-[node name="Button5" type="Button" parent="Control/Main/HandContainer"]
+[node name="BagButton" type="Button" parent="Control/Main/Body/VBoxContainer"]
+custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
+text = "Bag"

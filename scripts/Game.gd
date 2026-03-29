@@ -1,20 +1,29 @@
 extends Node
 
-@onready var word_label = $Control/Main/WordLabel
-@onready var score_label = $Control/Main/ScoreLabel
-@onready var turn_label = $Control/Main/TurnLabel
-@onready var hand_buttons = $Control/Main/HandContainer.get_children()
+@onready var word_label = $Control/Main/Body/CenterArea/CenterContainer/WordLabel
+@onready var score_label = $Control/Main/ScoreBar/ScoreContainer/Score
+@onready var turn_label = $Control/Main/Body/VBoxContainer/VBoxContainer/TurnLabel
+@onready var hand_buttons = $Control/Main/Body/CenterArea/HandContainer.get_children()
+@onready var progress_bar = $Control/Main/Panel/ProgressBar
+@onready var progress_score_label = $Control/Main/Panel/ProgressScore
+@onready var bag_button = $Control/Main/Body/VBoxContainer/BagButton
+@onready var point_label = $Control/Main/ScoreBar/ScoreContainer/PointandMult/Point
+@onready var mult_label = $Control/Main/ScoreBar/ScoreContainer/PointandMult/Mult
 
 var word_db
 var relation
 var score_system
 
-
+var result_score = 0
+var point = 0
+var mult = 0
+var target_score = 500
+var progressbar_ratio = 0
 var current_word
 var hand = []
 var bag = []
 var score = 0
-var turn = 15
+var turn = 5
 
 func _ready():
 	word_db = WordDB
@@ -67,9 +76,13 @@ func play_word(word):
 	print("Play level:", word.level)
 
 	var relations = relation.check_relation(current_word, word)
-	var gained = score_system.calculate(relations, word.level)
+	var result = score_system.calculate(relations, word.level)
+	result_score = result.score
+	mult = result.mult
+	point = result.point
 
-	score += gained
+	score += result_score
+	progressbar_ratio = int(score * 100 /target_score)
 	turn -= 1
 
 	# 🔥 đổi word sau khi log
@@ -80,18 +93,25 @@ func play_word(word):
 	print("Current AFTER:", current_word.text)
 	print("Current AFTER ID:", current_word.id)
 	print("Relation:", relations[0].type)
-	print("Current score:", gained)
+	print("Point:", result.point)
+	print("Mult:", result.mult)
+	print("Score gained:", result_score)
 	print("Score:", score)
 	print("Turn:", turn)
 	print("=============")
 
 	if turn <= 0:
-		print("Game Over")
+		end_game()
+		return
 		
 func update_ui():
-	word_label.text = "Word: " + current_word.text
-	score_label.text = "Score: " + str(score)
+	word_label.text = current_word.text
+	point_label.text = str(point)
+	mult_label.text = str(mult)
+	score_label.text = str(result_score)
 	turn_label.text = "Turn: " + str(turn)
+	progress_score_label.text = str(score) + "/" + str(target_score)
+	progress_bar.value = progressbar_ratio
 
 	for i in range(hand_buttons.size()):
 		if i < hand.size():
@@ -109,3 +129,20 @@ func update_ui():
 			)
 		else:
 			hand_buttons[i].text = ""
+func end_game():
+	print("Game Over - Final Score:", score)
+
+	# reset state
+	score = 0
+	turn = 5
+	mult = 0
+	point = 0
+	progressbar_ratio = 0
+	result_score = 0
+	current_word = null
+	hand.clear()
+	bag.clear()
+
+	# start lại game
+	start_game()
+	update_ui()
