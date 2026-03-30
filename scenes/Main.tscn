@@ -175,3 +175,5 @@ vertical_alignment = 1
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 text = "Bag"
+
+[connection signal="pressed" from="Control/Main/Body/VBoxContainer/BagButton" to="." method="_on_bag_button_pressed"]

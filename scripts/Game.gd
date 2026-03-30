@@ -13,6 +13,7 @@ extends Node
 var word_db
 var relation
 var score_system
+var bag_popup_scene = preload("res://scenes//BagPopup.tscn")
 
 var result_score = 0
 var point = 0
@@ -54,7 +55,7 @@ func generate_hand_and_bag():
 	var hand_size = min(5, pool.size())
 	hand = pool.slice(0, hand_size)
 	
-	var bag_size = min(10, pool.size() - hand_size)
+	var bag_size = min(20, pool.size() - hand_size)
 	bag = pool.slice(hand_size, hand_size + bag_size)
 
 	#print("Current:", current_word.text)
@@ -146,3 +147,10 @@ func end_game():
 	# start lại game
 	start_game()
 	update_ui()
+	
+
+
+func _on_bag_button_pressed() -> void:
+	var popup = bag_popup_scene.instantiate()
+	add_child(popup)
+	popup.setup(bag)
