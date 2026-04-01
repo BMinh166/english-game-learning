@@ -19,19 +19,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Main" type="VBoxContainer" parent="Control"]
+[node name="MarginContainer" type="MarginContainer" parent="Control"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 15
 
-[node name="Panel" type="Panel" parent="Control/Main"]
+[node name="Main" type="VBoxContainer" parent="Control/MarginContainer"]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="ProgressBar" type="ProgressBar" parent="Control/Main/Panel"]
+[node name="Panel" type="Panel" parent="Control/MarginContainer/Main"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="Control/MarginContainer/Main/Panel"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 1
 anchors_preset = 15
@@ -42,7 +49,7 @@ grow_vertical = 2
 value = 50.0
 show_percentage = false
 
-[node name="ProgressScore" type="Label" parent="Control/Main/Panel"]
+[node name="ProgressScore" type="Label" parent="Control/MarginContainer/Main/Panel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,124 +61,146 @@ label_settings = SubResource("LabelSettings_rvslj")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ScoreBar" type="CenterContainer" parent="Control/Main"]
+[node name="Body" type="HBoxContainer" parent="Control/MarginContainer/Main"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LeftItemBar" type="VBoxContainer" parent="Control/MarginContainer/Main/Body"]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="Button" type="Button" parent="Control/MarginContainer/Main/Body/LeftItemBar"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="ScoreContainer" type="VBoxContainer" parent="Control/Main/ScoreBar"]
+[node name="Button2" type="Button" parent="Control/MarginContainer/Main/Body/LeftItemBar"]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 
-[node name="Score" type="Label" parent="Control/Main/ScoreBar/ScoreContainer"]
+[node name="Button3" type="Button" parent="Control/MarginContainer/Main/Body/LeftItemBar"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Button4" type="Button" parent="Control/MarginContainer/Main/Body/LeftItemBar"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="Button5" type="Button" parent="Control/MarginContainer/Main/Body/LeftItemBar"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="CenterArea" type="VBoxContainer" parent="Control/MarginContainer/Main/Body"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ScoreBar" type="CenterContainer" parent="Control/MarginContainer/Main/Body/CenterArea"]
+layout_mode = 2
+
+[node name="ScoreContainer" type="VBoxContainer" parent="Control/MarginContainer/Main/Body/CenterArea/ScoreBar"]
+layout_mode = 2
+
+[node name="Score" type="Label" parent="Control/MarginContainer/Main/Body/CenterArea/ScoreBar/ScoreContainer"]
 layout_mode = 2
 text = "600"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PointandMult" type="HBoxContainer" parent="Control/Main/ScoreBar/ScoreContainer"]
+[node name="PointandMult" type="HBoxContainer" parent="Control/MarginContainer/Main/Body/CenterArea/ScoreBar/ScoreContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="Point" type="Label" parent="Control/Main/ScoreBar/ScoreContainer/PointandMult"]
+[node name="Point" type="Label" parent="Control/MarginContainer/Main/Body/CenterArea/ScoreBar/ScoreContainer/PointandMult"]
 layout_mode = 2
 text = "120"
 
-[node name="X" type="Label" parent="Control/Main/ScoreBar/ScoreContainer/PointandMult"]
+[node name="X" type="Label" parent="Control/MarginContainer/Main/Body/CenterArea/ScoreBar/ScoreContainer/PointandMult"]
 layout_mode = 2
 text = "x"
 
-[node name="Mult" type="Label" parent="Control/Main/ScoreBar/ScoreContainer/PointandMult"]
+[node name="Mult" type="Label" parent="Control/MarginContainer/Main/Body/CenterArea/ScoreBar/ScoreContainer/PointandMult"]
 layout_mode = 2
 text = "5"
 
-[node name="Body" type="HBoxContainer" parent="Control/Main"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="LeftItemBar" type="VBoxContainer" parent="Control/Main/Body"]
-custom_minimum_size = Vector2(150, 0)
-layout_mode = 2
-size_flags_vertical = 4
-
-[node name="Button" type="Button" parent="Control/Main/Body/LeftItemBar"]
-custom_minimum_size = Vector2(0, 100)
+[node name="CenterContainer" type="CenterContainer" parent="Control/MarginContainer/Main/Body/CenterArea"]
 layout_mode = 2
 
-[node name="Button2" type="Button" parent="Control/Main/Body/LeftItemBar"]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-
-[node name="Button3" type="Button" parent="Control/Main/Body/LeftItemBar"]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-
-[node name="Button4" type="Button" parent="Control/Main/Body/LeftItemBar"]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-
-[node name="Button5" type="Button" parent="Control/Main/Body/LeftItemBar"]
-custom_minimum_size = Vector2(0, 100)
-layout_mode = 2
-
-[node name="CenterArea" type="VBoxContainer" parent="Control/Main/Body"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="CenterContainer" type="CenterContainer" parent="Control/Main/Body/CenterArea"]
-layout_mode = 2
-
-[node name="WordLabel" type="Label" parent="Control/Main/Body/CenterArea/CenterContainer"]
+[node name="WordLabel" type="Label" parent="Control/MarginContainer/Main/Body/CenterArea/CenterContainer"]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 text = "Word"
 label_settings = SubResource("LabelSettings_elqb8")
 
-[node name="HandContainer" type="HBoxContainer" parent="Control/Main/Body/CenterArea"]
+[node name="HandContainer" type="HBoxContainer" parent="Control/MarginContainer/Main/Body/CenterArea"]
 custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 10
 
-[node name="Button" type="Button" parent="Control/Main/Body/CenterArea/HandContainer"]
+[node name="Button" type="Button" parent="Control/MarginContainer/Main/Body/CenterArea/HandContainer"]
 custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button2" type="Button" parent="Control/Main/Body/CenterArea/HandContainer"]
+[node name="Button2" type="Button" parent="Control/MarginContainer/Main/Body/CenterArea/HandContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button3" type="Button" parent="Control/Main/Body/CenterArea/HandContainer"]
+[node name="Button3" type="Button" parent="Control/MarginContainer/Main/Body/CenterArea/HandContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button4" type="Button" parent="Control/Main/Body/CenterArea/HandContainer"]
+[node name="Button4" type="Button" parent="Control/MarginContainer/Main/Body/CenterArea/HandContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="Button5" type="Button" parent="Control/Main/Body/CenterArea/HandContainer"]
+[node name="Button5" type="Button" parent="Control/MarginContainer/Main/Body/CenterArea/HandContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/Main/Body"]
+[node name="RightContainer" type="VBoxContainer" parent="Control/MarginContainer/Main/Body"]
 custom_minimum_size = Vector2(150, 0)
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="Control/Main/Body/VBoxContainer"]
+[node name="RoundContainer" type="VBoxContainer" parent="Control/MarginContainer/Main/Body/RightContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="TurnLabel" type="Label" parent="Control/Main/Body/VBoxContainer/VBoxContainer"]
+[node name="TurnLabel" type="Label" parent="Control/MarginContainer/Main/Body/RightContainer/RoundContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 text = "Turn:"
 vertical_alignment = 1
 
-[node name="RoundLabel" type="Label" parent="Control/Main/Body/VBoxContainer/VBoxContainer"]
+[node name="RoundLabel" type="Label" parent="Control/MarginContainer/Main/Body/RightContainer/RoundContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 text = "Round:"
 vertical_alignment = 1
 
-[node name="BagButton" type="Button" parent="Control/Main/Body/VBoxContainer"]
+[node name="PlayButtonContainer" type="VBoxContainer" parent="Control/MarginContainer/Main/Body/RightContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PlayButton" type="Button" parent="Control/MarginContainer/Main/Body/RightContainer/PlayButtonContainer"]
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
+text = "Play"
+
+[node name="DiscardButton" type="Button" parent="Control/MarginContainer/Main/Body/RightContainer/PlayButtonContainer"]
+custom_minimum_size = Vector2(0, 75)
+layout_mode = 2
+text = "Discard"
+
+[node name="DiscardLeft" type="Label" parent="Control/MarginContainer/Main/Body/RightContainer/PlayButtonContainer"]
+layout_mode = 2
+text = "Discard left: 3"
+
+[node name="BagButton" type="Button" parent="Control/MarginContainer/Main/Body/RightContainer"]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 text = "Bag"
+
+[connection signal="pressed" from="Control/MarginContainer/Main/Body/RightContainer/PlayButtonContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/Main/Body/RightContainer/PlayButtonContainer/DiscardButton" to="." method="_on_discard_button_pressed"]
+[connection signal="pressed" from="Control/MarginContainer/Main/Body/RightContainer/BagButton" to="." method="_on_bag_button_pressed"]
