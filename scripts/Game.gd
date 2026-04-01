@@ -1,30 +1,39 @@
 extends Node
 
-@onready var word_label = $Control/Main/Body/CenterArea/CenterContainer/WordLabel
-@onready var score_label = $Control/Main/ScoreBar/ScoreContainer/Score
-@onready var turn_label = $Control/Main/Body/VBoxContainer/VBoxContainer/TurnLabel
-@onready var hand_buttons = $Control/Main/Body/CenterArea/HandContainer.get_children()
-@onready var progress_bar = $Control/Main/Panel/ProgressBar
-@onready var progress_score_label = $Control/Main/Panel/ProgressScore
-@onready var bag_button = $Control/Main/Body/VBoxContainer/BagButton
-@onready var point_label = $Control/Main/ScoreBar/ScoreContainer/PointandMult/Point
-@onready var mult_label = $Control/Main/ScoreBar/ScoreContainer/PointandMult/Mult
+@onready var word_label = $Control/MarginContainer/Main/Body/CenterArea/CenterContainer/WordLabel
+@onready var score_label = $Control/MarginContainer/Main/Body/CenterArea/ScoreBar/ScoreContainer/Score
+@onready var turn_label = $Control/MarginContainer/Main/Body/RightContainer/RoundContainer/TurnLabel
+@onready var round_label = $Control/MarginContainer/Main/Body/RightContainer/RoundContainer/RoundLabel
+@onready var discardleft_label = $Control/MarginContainer/Main/Body/RightContainer/PlayButtonContainer/DiscardLeft
+@onready var hand_buttons = $Control/MarginContainer/Main/Body/CenterArea/HandContainer.get_children()
+@onready var progress_bar = $Control/MarginContainer/Main/Panel/ProgressBar
+@onready var progress_score_label = $Control/MarginContainer/Main/Panel/ProgressScore
+@onready var bag_button = $Control/MarginContainer/Main/Body/RightContainer/BagButton
+@onready var point_label = $Control/MarginContainer/Main/Body/CenterArea/ScoreBar/ScoreContainer/PointandMult/Point
+@onready var mult_label = $Control/MarginContainer/Main/Body/CenterArea/ScoreBar/ScoreContainer/PointandMult/Mult
+@onready var play_button = $Control/MarginContainer/Main/Body/RightContainer/PlayButtonContainer/PlayButton
+@onready var discard_button = $Control/MarginContainer/Main/Body/RightContainer/PlayButtonContainer/DiscardButton
 
 var word_db
 var relation
 var score_system
 var bag_popup_scene = preload("res://scenes//BagPopup.tscn")
 
+var max_discard = 3
+var discard_left = 3
 var result_score = 0
+var round = 1
 var point = 0
 var mult = 0
 var target_score = 500
-var progressbar_ratio = 0
 var current_word
 var hand = []
 var bag = []
 var score = 0
 var turn = 5
+var selected_indices = []
+
+var bag_popup = null
 
 func _ready():
 	word_db = WordDB
@@ -36,6 +45,7 @@ func _ready():
 		
 func start_game():
 	current_word = word_db.get_random_word_exclude(current_word)
+	discard_left = max_discard
 	draw_hand()
 
 	print("Game start")
@@ -83,7 +93,6 @@ func play_word(word):
 	point = result.point
 
 	score += result_score
-	progressbar_ratio = int(score * 100 /target_score)
 	turn -= 1
 
 	# 🔥 đổi word sau khi log
@@ -112,24 +121,35 @@ func update_ui():
 	score_label.text = str(result_score)
 	turn_label.text = "Turn: " + str(turn)
 	progress_score_label.text = str(score) + "/" + str(target_score)
-	progress_bar.value = progressbar_ratio
+	progress_bar.value = float(score) / target_score * 100
 
 	for i in range(hand_buttons.size()):
 		if i < hand.size():
 			var w = hand[i]
 			hand_buttons[i].text = w.text
 			
+			# reset style (tránh bị giữ highlight cũ)
+			hand_buttons[i].modulate = Color.WHITE
+			
+			if i in selected_indices:
+				hand_buttons[i].modulate = Color(0.7, 1, 0.7) # xanh nhẹ
+			
 			# clear signal cũ
 			for c in hand_buttons[i].pressed.get_connections():
 				hand_buttons[i].pressed.disconnect(c.callable)
 			
-			# gắn click mới
+			# click = select/deselect
 			hand_buttons[i].pressed.connect(func():
-				play_word(w)
-				update_ui()
+				toggle_select(i)
 			)
 		else:
 			hand_buttons[i].text = ""
+			
+	play_button.disabled = selected_indices.is_empty()
+	discard_button.disabled = selected_indices.is_empty() or discard_left <= 0
+	discardleft_label.text = "Discard: " + str(discard_left)
+	round_label.text = "Round: " + str(round)
+	
 func end_game():
 	print("Game Over - Final Score:", score)
 
@@ -138,7 +158,6 @@ func end_game():
 	turn = 5
 	mult = 0
 	point = 0
-	progressbar_ratio = 0
 	result_score = 0
 	current_word = null
 	hand.clear()
@@ -149,8 +168,98 @@ func end_game():
 	update_ui()
 	
 
+var max_select = 5
+
+func toggle_select(index):
+	if index in selected_indices:
+		selected_indices.erase(index)
+	else:
+		if selected_indices.size() < max_select:
+			selected_indices.append(index)
+	
+	update_ui()
 
 func _on_bag_button_pressed() -> void:
-	var popup = bag_popup_scene.instantiate()
-	add_child(popup)
-	popup.setup(bag)
+	if bag_popup == null or !is_instance_valid(bag_popup):
+		bag_popup = bag_popup_scene.instantiate()
+		add_child(bag_popup)
+		bag_popup.setup(bag)
+	else:
+		bag_popup.queue_free()
+		bag_popup = null
+
+
+func _on_play_button_pressed():
+	if selected_indices.is_empty():
+		return
+	
+	var total_score = 0
+	var total_point = 0
+	var total_mult = 0
+	
+	for i in selected_indices:
+		var word = hand[i]
+		
+		var relations = relation.check_relation(current_word, word)
+		var result = score_system.calculate(relations, word.level)
+		
+		total_score += result.score
+		total_point += result.point
+		total_mult += result.mult
+	
+	# apply tổng
+	result_score = total_score
+	point = total_point
+	mult = total_mult
+	
+	score += total_score
+	turn -= 1
+	discard_left = max_discard
+
+	# ✅ check round TRƯỚC
+	if score >= target_score:
+		round += 1
+		score -= target_score
+		target_score = int(target_score * 1.5)
+		
+		turn = 5
+		discard_left = max_discard
+		
+		print("=== NEXT ROUND ===")
+
+	# ✅ check game over
+	elif turn <= 0:
+		end_game()
+		return
+
+	# update state sau cùng
+	current_word = WordDB.get_random_word_exclude(current_word)
+	draw_hand()
+	selected_indices.clear()
+	update_ui()
+
+
+
+func _on_discard_button_pressed():
+	if selected_indices.is_empty():
+		return
+	
+	if discard_left <= 0:
+		return
+	
+	discard_left -= 1
+	
+	selected_indices.sort()
+	selected_indices.reverse()
+	
+	for i in selected_indices:
+		hand.remove_at(i)
+	
+	# rút random từ bag
+	while hand.size() < 5 and bag.size() > 0:
+		var rand_index = randi() % bag.size()
+		hand.append(bag[rand_index])
+		bag.remove_at(rand_index)
+	
+	selected_indices.clear()
+	update_ui()

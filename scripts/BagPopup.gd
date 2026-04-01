@@ -1,6 +1,6 @@
 extends Control
 
-@onready var grid = $MarginContainer/Panel/MarginContainer/ScrollContainer/BagContainer
+@onready var grid = $MarginContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer/BagContainer
 
 var card_scene = preload("res://scenes/Card.tscn")
 
@@ -15,3 +15,6 @@ func show_cards(cards):
 		grid.add_child(card)
 		card.setup(card_data)
 		
+
+func _on_close_button_pressed() -> void:
+	queue_free()
