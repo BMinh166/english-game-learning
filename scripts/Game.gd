@@ -150,18 +150,32 @@ func update_ui():
 	discardleft_label.text = "Discard: " + str(discard_left)
 	round_label.text = "Round: " + str(round)
 	
+func next_round():
+	round += 1
+	score -= target_score
+	target_score = int(target_score * 1.5)
+	
+	turn = 5
+	discard_left = max_discard
+	
+	print("=== NEXT ROUND ===")
+	
 func end_game():
 	print("Game Over - Final Score:", score)
 
 	# reset state
 	score = 0
+	round = 0
+	target_score = 500
 	turn = 5
 	mult = 0
 	point = 0
 	result_score = 0
 	current_word = null
+	discard_left = max_discard
 	hand.clear()
 	bag.clear()
+	selected_indices.clear()
 
 	# start lại game
 	start_game()
@@ -218,14 +232,7 @@ func _on_play_button_pressed():
 
 	# ✅ check round TRƯỚC
 	if score >= target_score:
-		round += 1
-		score -= target_score
-		target_score = int(target_score * 1.5)
-		
-		turn = 5
-		discard_left = max_discard
-		
-		print("=== NEXT ROUND ===")
+		next_round()
 
 	# ✅ check game over
 	elif turn <= 0:
