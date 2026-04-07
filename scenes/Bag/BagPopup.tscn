@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3 uid="uid://3iqxf7auxrl8"]
 
-[ext_resource type="Script" uid="uid://wp4ew6783ukk" path="res://scripts/BagPopup.gd" id="1_fa5xg"]
+[ext_resource type="Script" uid="uid://wp4ew6783ukk" path="res://scenes/Bag/BagPopup.gd" id="1_18w1g"]
 
-[node name="Control" type="Control"]
+[node name="BagPopup" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -10,7 +10,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_vertical = 3
-script = ExtResource("1_fa5xg")
+script = ExtResource("1_18w1g")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

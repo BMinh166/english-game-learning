@@ -1,12 +1,12 @@
-[gd_scene load_steps=9 format=3 uid="uid://b5of4wmqava30"]
+[gd_scene load_steps=7 format=3 uid="uid://b5of4wmqava30"]
 
 [ext_resource type="Script" uid="uid://dnq84hekjhund" path="res://scripts/Game.gd" id="1_elqb8"]
 [ext_resource type="PackedScene" uid="uid://dfacalig5kwqo" path="res://scenes/Items/item_container.tscn" id="2_rvslj"]
-[ext_resource type="Script" uid="uid://4dj53gymymv2" path="res://scripts/Ui.gd" id="2_vcsgt"]
 [ext_resource type="PackedScene" uid="uid://dff3rllvxuygp" path="res://scenes/Card/card_container.tscn" id="3_0bbpv"]
-[ext_resource type="PackedScene" uid="uid://bra1jlyfk5mrd" path="res://scenes/Score/score_bar.tscn" id="3_c01mt"]
 [ext_resource type="PackedScene" uid="uid://bsr3ijj7bu30h" path="res://scenes/Bag/bag.tscn" id="4_rarhs"]
-[ext_resource type="PackedScene" uid="uid://rds78cqmw0tj" path="res://scenes/Score/score_counting.tscn" id="5_nxtc6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_rvslj"]
+font_size = 32
 
 [sub_resource type="LabelSettings" id="LabelSettings_elqb8"]
 font_size = 46
@@ -21,7 +21,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("2_vcsgt")
 
 [node name="MarginContainer" type="MarginContainer" parent="UI"]
 layout_mode = 1
@@ -38,8 +37,32 @@ theme_override_constants/margin_bottom = 15
 [node name="Main" type="VBoxContainer" parent="UI/MarginContainer"]
 layout_mode = 2
 
-[node name="ScoreBar" parent="UI/MarginContainer/Main" instance=ExtResource("3_c01mt")]
+[node name="Panel" type="Panel" parent="UI/MarginContainer/Main"]
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+
+[node name="ProgressBar" type="ProgressBar" parent="UI/MarginContainer/Main/Panel"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 50.0
+show_percentage = false
+
+[node name="ProgressScore" type="Label" parent="UI/MarginContainer/Main/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "500/1000"
+label_settings = SubResource("LabelSettings_rvslj")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Body" type="HBoxContainer" parent="UI/MarginContainer/Main"]
 layout_mode = 2
@@ -52,9 +75,33 @@ layout_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="ScoreCounting" parent="UI/MarginContainer/Main/Body/CenterArea" instance=ExtResource("5_nxtc6")]
+[node name="ScoreBar" type="CenterContainer" parent="UI/MarginContainer/Main/Body/CenterArea"]
 layout_mode = 2
-size_flags_horizontal = 4
+
+[node name="ScoreContainer" type="VBoxContainer" parent="UI/MarginContainer/Main/Body/CenterArea/ScoreBar"]
+layout_mode = 2
+
+[node name="Score" type="Label" parent="UI/MarginContainer/Main/Body/CenterArea/ScoreBar/ScoreContainer"]
+layout_mode = 2
+text = "600"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PointandMult" type="HBoxContainer" parent="UI/MarginContainer/Main/Body/CenterArea/ScoreBar/ScoreContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Point" type="Label" parent="UI/MarginContainer/Main/Body/CenterArea/ScoreBar/ScoreContainer/PointandMult"]
+layout_mode = 2
+text = "120"
+
+[node name="X" type="Label" parent="UI/MarginContainer/Main/Body/CenterArea/ScoreBar/ScoreContainer/PointandMult"]
+layout_mode = 2
+text = "x"
+
+[node name="Mult" type="Label" parent="UI/MarginContainer/Main/Body/CenterArea/ScoreBar/ScoreContainer/PointandMult"]
+layout_mode = 2
+text = "5"
 
 [node name="CenterContainer" type="CenterContainer" parent="UI/MarginContainer/Main/Body/CenterArea"]
 layout_mode = 2

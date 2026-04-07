@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://bra1jlyfk5mrd"]
+
+[ext_resource type="Script" uid="uid://chj65i1plkieh" path="res://scenes/Score/ScoreBar.gd" id="1_ata6w"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ctufl"]
+font_size = 24
+
+[node name="ScoreBar" type="Control"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+script = ExtResource("1_ata6w")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_right = 5
+
+[node name="ProgressBar" type="ProgressBar" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+value = 40.0
+show_percentage = false
+
+[node name="ProgressScore" type="Label" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "100/500"
+label_settings = SubResource("LabelSettings_ctufl")

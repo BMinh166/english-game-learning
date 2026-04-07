@@ -1,0 +1,61 @@
+[gd_scene load_steps=6 format=3 uid="uid://rds78cqmw0tj"]
+
+[ext_resource type="Script" uid="uid://dcbwh0vhid33n" path="res://scenes/Score/ScoreCounting.gd" id="1_a4mqh"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_wtyho"]
+font_size = 26
+
+[sub_resource type="LabelSettings" id="LabelSettings_a4mqh"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_lvytm"]
+font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_fj273"]
+font_size = 24
+
+[node name="ScoreCounting" type="Control"]
+custom_minimum_size = Vector2(150, 80)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_a4mqh")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(150, 80)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Score" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "200"
+label_settings = SubResource("LabelSettings_wtyho")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Point" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "50"
+label_settings = SubResource("LabelSettings_a4mqh")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="X" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "x"
+label_settings = SubResource("LabelSettings_lvytm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Mult" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "4"
+label_settings = SubResource("LabelSettings_fj273")
+horizontal_alignment = 1
+vertical_alignment = 1

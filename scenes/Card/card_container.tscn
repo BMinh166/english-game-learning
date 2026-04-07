@@ -1,0 +1,35 @@
+[gd_scene load_steps=2 format=3 uid="uid://dff3rllvxuygp"]
+
+[ext_resource type="PackedScene" uid="uid://b2sv6hi7qb0tj" path="res://scenes/Card/Card.tscn" id="1_5fyhf"]
+
+[node name="CardContainer" type="Control"]
+custom_minimum_size = Vector2(786, 120)
+layout_mode = 3
+anchors_preset = 0
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="Card" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_5fyhf")]
+layout_mode = 2
+
+[node name="Card2" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_5fyhf")]
+layout_mode = 2
+
+[node name="Card3" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_5fyhf")]
+layout_mode = 2
+
+[node name="Card4" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_5fyhf")]
+layout_mode = 2
+
+[node name="Card5" parent="MarginContainer/HBoxContainer" instance=ExtResource("1_5fyhf")]
+layout_mode = 2
