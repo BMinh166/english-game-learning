@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsr3ijj7bu30h"]
+
+[ext_resource type="Script" uid="uid://t16g2oku8mv4" path="res://scenes/Bag/Bag.gd" id="1_de6jr"]
+[ext_resource type="PackedScene" uid="uid://3iqxf7auxrl8" path="res://scenes/Bag/BagPopup.tscn" id="2_0mhic"]
+
+[node name="Bag" type="Control"]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_de6jr")
+bag_popup_scene = ExtResource("2_0mhic")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Bag"
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
