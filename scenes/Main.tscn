@@ -110,5 +110,5 @@ text = "Discard left: 3"
 [node name="Bag" parent="UI/MarginContainer/Main/Body/RightContainer" instance=ExtResource("4_rarhs")]
 layout_mode = 2
 
-[connection signal="pressed" from="UI/MarginContainer/Main/Body/RightContainer/PlayButtonContainer/PlayButton" to="." method="_on_play_button_pressed"]
-[connection signal="pressed" from="UI/MarginContainer/Main/Body/RightContainer/PlayButtonContainer/DiscardButton" to="." method="_on_discard_button_pressed"]
+[connection signal="pressed" from="UI/MarginContainer/Main/Body/RightContainer/PlayButtonContainer/PlayButton" to="UI" method="_on_play_button_pressed"]
+[connection signal="pressed" from="UI/MarginContainer/Main/Body/RightContainer/PlayButtonContainer/DiscardButton" to="UI" method="_on_discard_button_pressed"]

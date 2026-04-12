@@ -1,11 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://dff3rllvxuygp"]
+[gd_scene load_steps=3 format=3 uid="uid://dff3rllvxuygp"]
 
 [ext_resource type="PackedScene" uid="uid://b2sv6hi7qb0tj" path="res://scenes/Card/Card.tscn" id="1_5fyhf"]
+[ext_resource type="Script" uid="uid://4dplp5pr0p7w" path="res://scenes/Card/CardContainer.gd" id="1_hp3u8"]
 
 [node name="CardContainer" type="Control"]
 custom_minimum_size = Vector2(786, 120)
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_hp3u8")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0
