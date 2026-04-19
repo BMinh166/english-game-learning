@@ -16,9 +16,9 @@ var current_state
 
 func _ready():
 	GameManager.connect("update_state_ui", update_state_ui)
+	GameManager.connect("update_score_counting", update_score_couting)
 	hand_scene.connect("card_selected", _on_card_selected)
 
-	# 🔥 THÊM DÒNG NÀY
 	update_state_ui(GameManager.get_state())
 
 func update_state_ui(state):
@@ -27,8 +27,7 @@ func update_state_ui(state):
 	turn_label.text = "Turn: " + str(state["turn"])
 	round_label.text = "Round: " + str(state["round"])
 	discard_left.text = "Discard left: " + str(state["discard_left"])
-	score_counting.set_score(state["result_score"])
-	score_counting.set_pm_value(state["point"], state["mult"])
+	update_score_couting(state)
 	score_bar.set_progress_bar(state["score"], state["target_score"])
 	var hand = GameManager.hand
 	hand_scene.setup(hand)
@@ -37,11 +36,9 @@ func update_state_ui(state):
 	update_buttons()
 	print("Update UI")
 	
-func update_score_couting_pm(state):
-	score_counting.set_pm_value(state["point"], state["mult"])
-	
 func update_score_couting(state):
-	score_counting.set_score(state["result_score"])
+	score_counting.set_score(state["result_score"], state["point"], state["mult"])
+	print("UPDATE SCORE")
 	
 func update_buttons():
 	play_button.disabled = selected_indices.is_empty()
@@ -67,7 +64,7 @@ func _on_play_button_pressed() -> void:
 	if selected_indices.is_empty():
 		return
 	
-	GameManager.play_selected(selected_indices)
+	GameManager.play_selected(selected_indices.duplicate())
 	selected_indices.clear()
 	update_hand_selection()
 

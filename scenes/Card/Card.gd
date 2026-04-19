@@ -15,7 +15,7 @@ func setup(word, i):
 	index = i
 	label.text = word.text
 	
-	print("SETUP CARD: ", index," ", label.text)  # debug
+	#print("SETUP CARD: ", index," ", label.text)  # debug
 
 func _gui_input(event):
 	if event is InputEventMouseButton and event.pressed:

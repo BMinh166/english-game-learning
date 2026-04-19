@@ -22,8 +22,10 @@ var result_score = 0
 var target_score = 500
 var turn = 5
 var max_turn = 5
+var is_scoring = false
 
 signal update_state_ui(state)
+signal update_score_counting(state)
 
 func _ready():
 	word_db = WordDB
@@ -51,50 +53,89 @@ func draw_hand():
 
 #
 func play_selected(indices):
-	if indices.is_empty():
+	if indices.is_empty() or is_scoring:
 		return
 	
-	var total_score = 0
-	var total_point = 0
-	var total_mult = 0
+	print("INDICES START:", indices)
+	await get_tree().create_timer(0.1).timeout
+	print("INDICES AFTER WAIT:", indices)
 	
-	# ===== CALCULATE =====
+	is_scoring = true
+
+	result_score = 0
+
 	for i in indices:
 		if i < 0 or i >= hand.size():
 			continue
 		
 		var word = hand[i]
-		
 		var relations = relation.check_relation(current_word, word)
-		var result = score_system.calculate(relations, word.level)
+		var steps = score_system.build_steps(relations, word.level)
+
+		# chạy pipeline riêng cho từng word
+		var count_step = 0
+		for step in steps:
+			count_step+= 1
+			print("STEP " + str(count_step) + ": " + str(step.word))
+		var score_one = await process_single_word(steps)
+
+		result_score += score_one
 		
-		total_score += result.score
-		total_point += result.point
-		total_mult += result.mult
-	
+		mult = 0
+		point = 0
+		emit_signal("update_score_counting", get_state())
+		await get_tree().create_timer(0.3).timeout
+
 	# ===== APPLY =====
-	point = total_point
-	mult = total_mult
-	result_score = total_score
-	
-	score += total_score
+	score += result_score
 	turn -= 1
 	discard_left = max_discard
-	
-	# ===== ROUND / GAME OVER =====
+
 	if score >= target_score:
 		next_round()
 	elif turn <= 0:
 		end_game()
 		return
-	
-	# ===== NEXT TURN =====
+
 	current_word = word_db.get_random_word_exclude(current_word)
 	draw_hand()
-	
-	
-	# ===== UPDATE UI =====
+
 	emit_signal("update_state_ui", get_state())
+	is_scoring = false
+	
+func process_single_word(steps: Array) -> int:
+	
+	point = 0
+	mult = 1
+
+	for step in steps:
+		apply_step(step)
+
+		emit_signal("update_score_counting", get_state())
+
+		await get_tree().create_timer(0.3).timeout
+
+	var score_one = point * mult
+
+	return score_one
+	
+func apply_step(step: Dictionary):
+	match step.type:
+		"set_base":
+			point = step.point
+			mult = step.mult
+
+		"add_point":
+			point += step.value
+			print("UPDATE SCORE: Add point")
+
+		"add_mult":
+			mult += step.value
+			print("UPDATE SCORE: Add mult")
+
+		"mul_mult":
+			mult *= step.value
+			print("UPDATE SCORE: Mul mult")
 	
 func next_round():
 	round += 1

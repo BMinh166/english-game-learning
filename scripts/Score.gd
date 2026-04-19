@@ -1,14 +1,13 @@
 extends Node
 class_name Score
 
-func calculate(relations, level):
-	if relations.is_empty():
-		return {
-			"point": 0,
-			"mult": 0,
-			"score": 0
-		}
+func build_steps(relations, level) -> Array:
+	var steps = []
 
+	if relations.is_empty():
+		return steps
+
+	# 1. Tìm best relation
 	var best = relations[0]
 
 	for r in relations:
@@ -18,25 +17,51 @@ func calculate(relations, level):
 		if current_score > best_score:
 			best = r
 
-	var point = best.point
-	var mult = best.mult
+	# 2. Base step (rất quan trọng)
+	steps.append({
+		"type": "set_base",
+		"point": best.point,
+		"mult": best.mult,
+		"desc": "Best hand",
+		"word": best.word
+	})
 
+	# 3. Level bonus -> convert thành step
 	match level:
 		"A1", "A2":
-			point += 10
+			steps.append({
+				"type": "add_point",
+				"value": 10,
+				"desc": "Level bonus +10",
+				"word": best.word
+			})
 		"B1":
-			point += 15
+			steps.append({
+				"type": "add_point",
+				"value": 15,
+				"desc": "Level bonus +15",
+				"word": best.word
+			})
 		"B2":
-			point += 20
+			steps.append({
+				"type": "add_point",
+				"value": 20,
+				"desc": "Level bonus +20",
+				"word": best.word
+			})
 		"C1":
-			mult += 2
+			steps.append({
+				"type": "add_mult",
+				"value": 2,
+				"desc": "Level bonus +2 mult",
+				"word": best.word
+			})
 		"C2":
-			mult += 3
+			steps.append({
+				"type": "add_mult",
+				"value": 3,
+				"desc": "Level bonus +3 mult",
+				"word": best.word
+			})
 
-	var total = point * mult
-
-	return {
-		"point": point,
-		"mult": mult,
-		"score": total
-	}
+	return steps

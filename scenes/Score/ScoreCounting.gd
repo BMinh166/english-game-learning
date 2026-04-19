@@ -5,18 +5,17 @@ extends Control
 @onready var mult = $VBoxContainer/HBoxContainer/Mult
 @onready var X = $VBoxContainer/HBoxContainer/X
 
-func set_score(value):
+func set_score(value, p_value, m_value):
 	if value == 0 :
-		score.text = ""
+		score.text = "0"
 	else:
 		score.text = str(value)
-
-func set_pm_value(p_value, m_value):
 	if p_value == 0 && m_value == 0 :
-		point.text = ""
-		mult.text = ""
-		X.text = ""
+		point.text = "0"
+		mult.text = "0"
+		X.text = "x"
 	else:
 		point.text = str(p_value)
 		mult.text = str(m_value)
 		X.text = "x"
+	
