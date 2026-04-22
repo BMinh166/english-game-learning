@@ -14,6 +14,7 @@ var current_word
 var hand_size = 5
 var bag_size = 20
 var hand = []
+var center_area = []
 var bag = []
 var mult = 0
 var point = 0
@@ -26,6 +27,8 @@ var is_scoring = false
 
 signal update_state_ui(state)
 signal update_score_counting(state)
+signal play_cards(indices)
+signal clear_center_cards()
 
 func _ready():
 	word_db = WordDB
@@ -51,6 +54,11 @@ func draw_hand():
 	bag = result.bag
 	emit_signal("update_state_ui", get_state())
 
+func refill_hand():
+	while hand.size() < hand_size and bag.size() > 0:
+		var rand_index = randi() % bag.size()
+		hand.append(bag[rand_index])
+		bag.remove_at(rand_index)
 #
 func play_selected(indices):
 	if indices.is_empty() or is_scoring:
@@ -61,14 +69,23 @@ func play_selected(indices):
 	print("INDICES AFTER WAIT:", indices)
 	
 	is_scoring = true
+	
+	var selected_words = []
+
+	for i in indices:
+		if i >= 0 and i < hand.size():
+			selected_words.append(hand[i])
+	
+	# 👉 báo UI: đưa card ra giữa
+	emit_signal("play_cards", indices)
+	
+
+	# 👉 chờ animation (UI xử lý)
+	await get_tree().create_timer(0.5).timeout
 
 	result_score = 0
 
-	for i in indices:
-		if i < 0 or i >= hand.size():
-			continue
-		
-		var word = hand[i]
+	for word in selected_words:
 		var relations = relation.check_relation(current_word, word)
 		var steps = score_system.build_steps(relations, word.level)
 
@@ -96,11 +113,11 @@ func play_selected(indices):
 	elif turn <= 0:
 		end_game()
 		return
+	emit_signal("clear_center_cards")
 
 	current_word = word_db.get_random_word_exclude(current_word)
 	draw_hand()
 
-	emit_signal("update_state_ui", get_state())
 	is_scoring = false
 	
 func process_single_word(steps: Array) -> int:

@@ -65,6 +65,12 @@ layout_mode = 2
 text = "Word"
 label_settings = SubResource("LabelSettings_elqb8")
 
+[node name="CenterPlayArea" type="Control" parent="UI/MarginContainer/Main/Body/CenterArea"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+size_flags_stretch_ratio = 0.7
+
 [node name="CardContainer" parent="UI/MarginContainer/Main/Body/CenterArea" instance=ExtResource("3_0bbpv")]
 layout_mode = 2
 size_flags_vertical = 10

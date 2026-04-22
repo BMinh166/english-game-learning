@@ -9,6 +9,7 @@ extends Control
 @onready var hand_scene = $MarginContainer/Main/Body/CenterArea/CardContainer
 @onready var play_button = $MarginContainer/Main/Body/RightContainer/PlayButtonContainer/PlayButton
 @onready var discard_button = $MarginContainer/Main/Body/RightContainer/PlayButtonContainer/DiscardButton
+@onready var center_area = $MarginContainer/Main/Body/CenterArea/CenterPlayArea
 
 var selected_indices = []
 var max_select = 5
@@ -17,6 +18,8 @@ var current_state
 func _ready():
 	GameManager.connect("update_state_ui", update_state_ui)
 	GameManager.connect("update_score_counting", update_score_couting)
+	GameManager.connect("play_cards", _on_play_cards)
+	GameManager.connect("clear_center_cards", _on_clear_center)
 	hand_scene.connect("card_selected", _on_card_selected)
 
 	update_state_ui(GameManager.get_state())
@@ -55,9 +58,65 @@ func _on_card_selected(index):
 	
 func update_hand_selection():
 	for card in hand_scene.cards:
+		if !is_instance_valid(card):
+			continue
+			
 		card.set_selected(card.index in selected_indices)
-	print("CARDS: ", hand_scene.cards.size())
+
 	update_buttons()
+
+func _on_play_cards(indices):
+	var cards = hand_scene.cards
+	
+	var selected_cards = []
+
+	for i in indices:
+		if i >= 0 and i < cards.size():
+			selected_cards.append(cards[i])
+
+	var count = selected_cards.size()
+	if count == 0:
+		return
+
+	var center_pos = center_area.global_position + center_area.size / 2
+	var spacing = 160.0
+
+	var total_width = (count - 1) * spacing
+	var start_x = center_pos.x - total_width / 2
+
+	for i in range(count):
+		var card = selected_cards[i]
+		
+		var start_pos = card.global_position
+		
+		card.get_parent().remove_child(card)
+		center_area.add_child(card)
+
+		# ✅ reset scale trước
+		card.scale = Vector2.ONE
+		
+		card.global_position = start_pos
+		
+		var target = Vector2(
+			start_x + i * spacing,
+			center_pos.y
+		)
+		
+		var tween = create_tween()
+		tween.tween_property(card, "global_position", target, 0.3)
+		tween.tween_property(card, "scale", Vector2(1.2,1.2), 0.15)
+		tween.tween_property(card, "scale", Vector2(1,1), 0.1) # 👈 bounce về lại
+		
+		play_button.disabled = true
+		discard_button.disabled = true
+		
+		await get_tree().create_timer(0.08).timeout
+		
+func _on_clear_center():
+	for child in center_area.get_children():
+		child.get_parent().remove_child(child)
+		hand_scene.container.add_child(child)  # trả về hand
+
 
 
 func _on_play_button_pressed() -> void:
