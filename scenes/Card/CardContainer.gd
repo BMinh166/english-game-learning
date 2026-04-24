@@ -13,6 +13,9 @@ func setup(hand_data):
 	for i in range(cards.size()):
 		var card = cards[i]
 		
+		if !is_instance_valid(card):
+			continue
+		
 		if i < hand_data.size():
 			card.visible = true
 			card.setup(hand_data[i], i)
@@ -24,3 +27,5 @@ func setup(hand_data):
 
 func _on_card_clicked(index):
 	emit_signal("card_selected", index)
+	
+		
