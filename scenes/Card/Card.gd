@@ -9,6 +9,8 @@ var index = -1
 
 func _ready():
 	mouse_filter = Control.MOUSE_FILTER_STOP  # 🔥 đảm bảo nhận input
+	await get_tree().process_frame
+	pivot_offset = size / 2
 
 func setup(word, i):
 	data = word

@@ -78,7 +78,7 @@ func _on_play_cards(indices):
 	if count == 0:
 		return
 
-	var center_pos = center_area.global_position + center_area.size / 2
+	var center_pos = get_viewport_rect().size / 2
 	var spacing = 160.0
 
 	var total_width = (count - 1) * spacing
@@ -100,7 +100,7 @@ func _on_play_cards(indices):
 		var target = Vector2(
 			start_x + i * spacing,
 			center_pos.y
-		)
+		) - card.size / 2
 		
 		var tween = create_tween()
 		tween.tween_property(card, "global_position", target, 0.3)
@@ -109,6 +109,19 @@ func _on_play_cards(indices):
 		
 		play_button.disabled = true
 		discard_button.disabled = true
+		
+		#DEBUG
+		#var debug_dot = ColorRect.new()
+		#debug_dot.color = Color.RED
+		#debug_dot.size = Vector2(10,10)
+		#debug_dot.global_position = center_pos
+		#add_child(debug_dot)
+		#card.modulate = Color(1,0.5,0.5)
+		#print("CENTER:", center_area.global_position)
+		#print("SIZE:", center_area.size)
+		#print("CARD POS:", card.global_position)
+		#print("CARD SIZE:", card.size)
+		#print("PIVOT:", card.pivot_offset)
 		
 		await get_tree().create_timer(0.08).timeout
 		
