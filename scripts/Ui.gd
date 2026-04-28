@@ -14,12 +14,14 @@ extends Control
 var selected_indices = []
 var max_select = 5
 var current_state
+var floating_scene = preload("res://scenes/Card/FloatingText.tscn")
 
 func _ready():
 	GameManager.connect("update_state_ui", update_state_ui)
 	GameManager.connect("update_score_counting", update_score_couting)
 	GameManager.connect("play_cards", _on_play_cards)
 	GameManager.connect("clear_center_cards", _on_clear_center)
+	GameManager.connect("show_floating_text", _on_show_floating_text)
 	hand_scene.connect("card_selected", _on_card_selected)
 
 	update_state_ui(GameManager.get_state())
@@ -65,14 +67,8 @@ func update_hand_selection():
 
 	update_buttons()
 
-func _on_play_cards(indices):
-	var cards = hand_scene.cards
-	
-	var selected_cards = []
-
-	for i in indices:
-		if i >= 0 and i < cards.size():
-			selected_cards.append(cards[i])
+func _on_play_cards(cards):
+	var selected_cards = cards
 
 	var count = selected_cards.size()
 	if count == 0:
@@ -92,9 +88,7 @@ func _on_play_cards(indices):
 		card.get_parent().remove_child(card)
 		center_area.add_child(card)
 
-		# ✅ reset scale trước
 		card.scale = Vector2.ONE
-		
 		card.global_position = start_pos
 		
 		var target = Vector2(
@@ -105,25 +99,43 @@ func _on_play_cards(indices):
 		var tween = create_tween()
 		tween.tween_property(card, "global_position", target, 0.3)
 		tween.tween_property(card, "scale", Vector2(1.2,1.2), 0.15)
-		tween.tween_property(card, "scale", Vector2(1,1), 0.1) # 👈 bounce về lại
+		tween.tween_property(card, "scale", Vector2(1,1), 0.1)
 		
 		play_button.disabled = true
 		discard_button.disabled = true
 		
-		#DEBUG
-		#var debug_dot = ColorRect.new()
-		#debug_dot.color = Color.RED
-		#debug_dot.size = Vector2(10,10)
-		#debug_dot.global_position = center_pos
-		#add_child(debug_dot)
-		#card.modulate = Color(1,0.5,0.5)
-		#print("CENTER:", center_area.global_position)
-		#print("SIZE:", center_area.size)
-		#print("CARD POS:", card.global_position)
-		#print("CARD SIZE:", card.size)
-		#print("PIVOT:", card.pivot_offset)
-		
 		await get_tree().create_timer(0.08).timeout
+		
+func _on_show_floating_text(card, data):
+	if !is_instance_valid(card):
+		return
+	print("FT_---- SPAWN ----")
+	print("FT_CARD SIZE:", card.size)
+	print("FT_TEXT:", data.text)
+	var ft = floating_scene.instantiate()
+	card.add_child(ft)
+
+	# 🎨 màu
+	match data.type:
+		"add_point":
+			ft.modulate = Color.GREEN
+		"add_mult", "mul_mult":
+			ft.modulate = Color.CYAN
+		_:
+			ft.modulate = Color.YELLOW
+
+	print("FT_TEXT SIZE BEFORE PLAY:", ft.size)
+
+	# 👇 đặt center (KHÔNG trừ size ở đây nữa)
+	ft.position = Vector2(
+		card.size.x / 2,
+		card.size.y + 10
+	)
+	
+	print("FT_POS BEFORE PLAY:", ft.position)
+
+	ft.play(data.text)
+
 		
 func _on_clear_center():
 	for child in center_area.get_children():
@@ -136,7 +148,12 @@ func _on_play_button_pressed() -> void:
 	if selected_indices.is_empty():
 		return
 	
-	GameManager.play_selected(selected_indices.duplicate())
+	var selected_cards = []
+
+	for i in selected_indices:
+		selected_cards.append(hand_scene.cards[i])
+
+	GameManager.play_selected(selected_cards)
 	selected_indices.clear()
 	update_hand_selection()
 
