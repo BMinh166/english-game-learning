@@ -25,10 +25,12 @@ var turn = 5
 var max_turn = 5
 var is_scoring = false
 
+#SIGNALS
 signal update_state_ui(state)
 signal update_score_counting(state)
-signal play_cards(indices)
+signal play_cards(cards)
 signal clear_center_cards()
+signal show_floating_text(card_ref, data)
 
 func _ready():
 	word_db = WordDB
@@ -60,41 +62,37 @@ func refill_hand():
 		hand.append(bag[rand_index])
 		bag.remove_at(rand_index)
 #
-func play_selected(indices):
-	if indices.is_empty() or is_scoring:
+func play_selected(cards):
+	if cards.is_empty() or is_scoring:
 		return
 	
-	print("INDICES START:", indices)
+	print("CARDS START:", cards)
 	await get_tree().create_timer(0.1).timeout
-	print("INDICES AFTER WAIT:", indices)
+	print("CARDS AFTER WAIT:", cards)
 	
 	is_scoring = true
 	
 	var selected_words = []
 
-	for i in indices:
-		if i >= 0 and i < hand.size():
-			selected_words.append(hand[i])
+	for card in cards:
+		selected_words.append(card.data)
 	
 	# 👉 báo UI: đưa card ra giữa
-	emit_signal("play_cards", indices)
-	
+	emit_signal("play_cards", cards)
 
-	# 👉 chờ animation (UI xử lý)
+	# 👉 chờ animation
 	await get_tree().create_timer(0.5).timeout
 
 	result_score = 0
 
-	for word in selected_words:
+	for i in range(cards.size()):
+		var card = cards[i]
+		var word = selected_words[i]
+
 		var relations = relation.check_relation(current_word, word)
 		var steps = score_system.build_steps(relations, word.level)
 
-		# chạy pipeline riêng cho từng word
-		var count_step = 0
-		for step in steps:
-			count_step+= 1
-			print("STEP " + str(count_step) + ": " + str(step.word))
-		var score_one = await process_single_word(steps)
+		var score_one = await process_single_word(steps, card)
 
 		result_score += score_one
 		
@@ -113,6 +111,7 @@ func play_selected(indices):
 	elif turn <= 0:
 		end_game()
 		return
+
 	emit_signal("clear_center_cards")
 
 	current_word = word_db.get_random_word_exclude(current_word)
@@ -120,13 +119,18 @@ func play_selected(indices):
 
 	is_scoring = false
 	
-func process_single_word(steps: Array) -> int:
+func process_single_word(steps: Array, card) -> int:
 	
 	point = 0
 	mult = 1
 
 	for step in steps:
 		apply_step(step)
+
+		emit_signal("show_floating_text", card, {
+			"text": get_text_from_step(step),
+			"type": step.type
+		})
 
 		emit_signal("update_score_counting", get_state())
 
@@ -135,6 +139,17 @@ func process_single_word(steps: Array) -> int:
 	var score_one = point * mult
 
 	return score_one
+	
+func get_text_from_step(step):
+	match step.type:
+		"add_point":
+			return "+" + str(step.value)
+		"add_mult":
+			return "x" + str(step.value)
+		"mul_mult":
+			return "x" + str(step.value)
+		_:
+			return step.type
 	
 func apply_step(step: Dictionary):
 	match step.type:
