@@ -20,6 +20,6 @@ func check_relation(word_a, word_b):
 		relations.append({"type": "family", "point": 30, "mult": 1, "word" : word_b.text})
 
 	if has_common(word_a.groups.type, word_b.groups.type):
-		relations.append({"type": "type", "point": 25, "mult": 1, "word" : word_b.text})
+		relations.append({"type": "pos", "point": 25, "mult": 1, "word" : word_b.text})
 
 	return relations

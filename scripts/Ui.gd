@@ -109,6 +109,10 @@ func _on_play_cards(cards):
 func _on_show_floating_text(card, data):
 	if !is_instance_valid(card):
 		return
+	# 🔥 highlight card đang được tính
+	if card.has_method("set_selected"):
+		card.set_selected(true)	
+	
 	print("FT_---- SPAWN ----")
 	print("FT_CARD SIZE:", card.size)
 	print("FT_TEXT:", data.text)
@@ -134,7 +138,11 @@ func _on_show_floating_text(card, data):
 	
 	print("FT_POS BEFORE PLAY:", ft.position)
 
-	ft.play(data.text)
+	await ft.play(data.text)
+	await get_tree().create_timer(0.2).timeout
+	# 🔻 bỏ highlight sau khi xong
+	if is_instance_valid(card) and card.has_method("set_selected"):
+		card.set_selected(false)
 
 		
 func _on_clear_center():
