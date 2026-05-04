@@ -9,38 +9,59 @@
 	  "family": ["big_family"],
 	  "type": ["adj"]
 	},
-	"tracking": {
-	  "seen": 0,
-	  "correct": 0,
-	  "wrong": 0,
-	  "streak": 0,
-	  "last_seen": null,
-	  "mastery": 0,
-	  "status": "new"
-	}
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
   },
   {
 	"id": 1,
+	"text": "large",
+	"level": "A1",
+	"groups": {
+	  "synonym": ["size_big"],
+	  "degree": ["size_general"],
+	  "family": [],
+	  "type": ["adj"]
+	},
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
+  },
+  {
+	"id": 2,
 	"text": "huge",
 	"level": "A2",
 	"groups": {
 	  "synonym": ["size_big"],
 	  "degree": ["size_general"],
-	  "family": ["huge_family"],
+	  "family": [],
 	  "type": ["adj"]
 	},
-	"tracking": {
-	  "seen": 0,
-	  "correct": 0,
-	  "wrong": 0,
-	  "streak": 0,
-	  "last_seen": null,
-	  "mastery": 0,
-	  "status": "new"
-	}
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
   },
   {
-	"id": 2,
+	"id": 3,
+	"text": "gigantic",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["size_big"],
+	  "degree": ["size_general"],
+	  "family": [],
+	  "type": ["adj"]
+	},
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
+  },
+  {
+	"id": 4,
+	"text": "enormous",
+	"level": "B2",
+	"groups": {
+	  "synonym": ["size_big"],
+	  "degree": ["size_general"],
+	  "family": [],
+	  "type": ["adj"]
+	},
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
+  },
+
+  {
+	"id": 5,
 	"text": "small",
 	"level": "A1",
 	"groups": {
@@ -49,95 +70,19 @@
 	  "family": ["small_family"],
 	  "type": ["adj"]
 	},
-	"tracking": {
-	  "seen": 0,
-	  "correct": 0,
-	  "wrong": 0,
-	  "streak": 0,
-	  "last_seen": null,
-	  "mastery": 0,
-	  "status": "new"
-	}
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
   },
   {
-	"id": 3,
+	"id": 6,
 	"text": "tiny",
 	"level": "A2",
 	"groups": {
 	  "synonym": ["size_small"],
 	  "degree": ["size_general"],
-	  "family": ["tiny_family"],
+	  "family": [],
 	  "type": ["adj"]
 	},
-	"tracking": { 
-		"seen": 0, 
-		"correct": 0, 
-		"wrong": 0, 
-		"streak": 0, 
-		"last_seen": null, 
-		"mastery": 0, 
-		"status": "new" 
-	}
-  },
-  {
-	"id": 4,
-	"text": "large",
-	"level": "A1",
-	"groups": {
-	  "synonym": ["size_big"],
-	  "degree": ["size_general"],
-	  "family": ["large_family"],
-	  "type": ["adj"]
-	},
-	"tracking": { 
-		"seen": 0, 
-		"correct": 0, 
-		"wrong": 0, 
-		"streak": 0, 
-		"last_seen": null, 
-		"mastery": 0, 
-		"status": "new" 
-	}
-  },
-  {
-	"id": 5,
-	"text": "gigantic",
-	"level": "B1",
-	"groups": {
-	  "synonym": ["size_big"],
-	  "degree": ["size_general"],
-	  "family": ["gigantic_family"],
-	  "type": ["adj"]
-	},
-	"tracking": { 
-		"seen": 0, 
-		"correct": 0, 
-		"wrong": 0, 
-		"streak": 0, 
-		"last_seen": null, 
-		"mastery": 0, 
-		"status": "new" 
-	}
-  },
-  {
-	"id": 6,
-	"text": "massive",
-	"level": "B1",
-	"groups": {
-	  "synonym": ["size_big"],
-	  "degree": ["size_general"],
-	  "family": ["massive_family"],
-	  "type": ["adj"]
-	},
-	"tracking": { 
-		"seen": 0, 
-		"correct": 0, 
-		"wrong": 0, 
-		"streak": 0, 
-		"last_seen": null, 
-		"mastery": 0, 
-		"status": "new" 
-	}
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
   },
   {
 	"id": 7,
@@ -146,18 +91,10 @@
 	"groups": {
 	  "synonym": ["size_small"],
 	  "degree": ["size_general"],
-	  "family": ["little_family"],
+	  "family": [],
 	  "type": ["adj"]
 	},
-	"tracking": { 
-		"seen": 0, 
-		"correct": 0, 
-		"wrong": 0, 
-		"streak": 0, 
-		"last_seen": null, 
-		"mastery": 0, 
-		"status": "new" 
-	}
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
   },
   {
 	"id": 8,
@@ -166,200 +103,127 @@
 	"groups": {
 	  "synonym": ["size_small"],
 	  "degree": ["size_general"],
-	  "family": ["mini_family"],
+	  "family": [],
 	  "type": ["adj"]
 	},
-	"tracking": { 
-		"seen": 0, 
-		"correct": 0, 
-		"wrong": 0, 
-		"streak": 0, 
-		"last_seen": null, 
-		"mastery": 0, 
-		"status": "new" 
-	}
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
   },
+
   {
 	"id": 9,
-	"text": "enormous",
+	"text": "medium",
+	"level": "A2",
+	"groups": {
+	  "synonym": ["size_medium"],
+	  "degree": ["size_general"],
+	  "family": [],
+	  "type": ["adj"]
+	},
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
+  },
+  {
+	"id": 10,
+	"text": "average",
+	"level": "A2",
+	"groups": {
+	  "synonym": ["size_medium"],
+	  "degree": ["size_general"],
+	  "family": [],
+	  "type": ["adj"]
+	},
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
+  },
+  {
+	"id": 11,
+	"text": "moderate",
+	"level": "B1",
+	"groups": {
+	  "synonym": ["size_medium"],
+	  "degree": ["size_general"],
+	  "family": [],
+	  "type": ["adj"]
+	},
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
+  },
+
+  {
+	"id": 12,
+	"text": "massive",
 	"level": "B1",
 	"groups": {
 	  "synonym": ["size_big"],
 	  "degree": ["size_general"],
-	  "family": ["enormous_family"],
+	  "family": [],
 	  "type": ["adj"]
 	},
-	"tracking": { 
-		"seen": 0, 
-		"correct": 0, 
-		"wrong": 0, 
-		"streak": 0, 
-		"last_seen": null, 
-		"mastery": 0, 
-		"status": "new" 
-	}
-  },
-  {
-	"id": 10,
-	"text": "compact",
-	"level": "B1",
-	"groups": {
-	  "synonym": ["size_small", "density_dense"],
-	  "degree": ["size_general", "density"],
-	  "family": ["compact_family"],
-	  "type": ["adj"]
-	},
-	"tracking": { 
-		"seen": 0, 
-		"correct": 0, 
-		"wrong": 0, 
-		"streak": 0, 
-		"last_seen": null, 
-		"mastery": 0, 
-		"status": "new" 
-	}
-  },
-  {
-	"id": 11,
-	"text": "wide",
-	"level": "A2",
-	"groups": {
-	  "synonym": ["width_large"],
-	  "degree": ["width"],
-	  "family": ["wide_family"],
-	  "type": ["adj"]
-	},
-	"tracking": { 
-		"seen": 0, 
-		"correct": 0, 
-		"wrong": 0, 
-		"streak": 0, 
-		"last_seen": null, 
-		"mastery": 0, 
-		"status": "new" 
-	}
-  },
-  {
-	"id": 12,
-	"text": "narrow",
-	"level": "A2",
-	"groups": {
-	  "synonym": ["width_small"],
-	  "degree": ["width"],
-	  "family": ["narrow_family"],
-	  "type": ["adj"]
-	},
-	"tracking": { 
-		"seen": 0, 
-		"correct": 0, 
-		"wrong": 0, 
-		"streak": 0, 
-		"last_seen": null, 
-		"mastery": 0, 
-		"status": "new" 
-	}
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
   },
   {
 	"id": 13,
-	"text": "thick",
+	"text": "giant",
 	"level": "A2",
 	"groups": {
-	  "synonym": ["thickness_large"],
-	  "degree": ["thickness"],
-	  "family": ["thick_family"],
+	  "synonym": ["size_big"],
+	  "degree": ["size_general"],
+	  "family": ["giant_family"],
 	  "type": ["adj"]
 	},
-	"tracking": { 
-		"seen": 0, 
-		"correct": 0, 
-		"wrong": 0, 
-		"streak": 0, 
-		"last_seen": null, 
-		"mastery": 0, 
-		"status": "new" 
-	}
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
   },
+
   {
 	"id": 14,
-	"text": "thin",
-	"level": "A2",
+	"text": "compact",
+	"level": "B1",
 	"groups": {
-	  "synonym": ["thickness_small"],
-	  "degree": ["thickness"],
-	  "family": ["thin_family"],
+	  "synonym": ["size_small"],
+	  "degree": ["size_general"],
+	  "family": [],
 	  "type": ["adj"]
 	},
-	"tracking": { 
-		"seen": 0, 
-		"correct": 0, 
-		"wrong": 0, 
-		"streak": 0, 
-		"last_seen": null, 
-		"mastery": 0, 
-		"status": "new" 
-	}
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
   },
   {
 	"id": 15,
-	"text": "tall",
-	"level": "A1",
+	"text": "slight",
+	"level": "B1",
 	"groups": {
-	  "synonym": ["height_large"],
-	  "degree": ["heigt"],
-	  "family": ["tall_family"],
+	  "synonym": ["size_small"],
+	  "degree": ["size_general"],
+	  "family": [],
 	  "type": ["adj"]
 	},
-	"tracking": { 
-		"seen": 0, 
-		"correct": 0, 
-		"wrong": 0, 
-		"streak": 0, 
-		"last_seen": null, 
-		"mastery": 0, 
-		"status": "new" 
-	}
-   },
-{
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
+  },
+
+  {
 	"id": 16,
-	"text": "short",
+	"text": "size",
 	"level": "A1",
 	"groups": {
-	  "synonym": ["height_small"],
-	  "degree": ["height"],
-	  "family": ["short_family"],
-	  "type": ["adj"]
+	  "synonym": ["size_misc"],
+	  "degree": ["size_general"],
+	  "family": ["size_family"],
+	  "type": ["noun"]
 	},
-	"tracking": {
-	  "seen": 0,
-	  "correct": 0,
-	  "wrong": 0,
-	  "streak": 0,
-	  "last_seen": null,
-	  "mastery": 0,
-	  "status": "new"
-	}
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
   },
-{
+  {
 	"id": 17,
-	"text": "high",
-	"level": "A1",
+	"text": "sized",
+	"level": "B1",
 	"groups": {
-	  "synonym": ["height_large"],
-	  "degree": ["height"],
-	  "family": ["high_family"],
+	  "synonym": ["size_misc"],
+	  "degree": ["size_general"],
+	  "family": ["size_family"],
 	  "type": ["adj"]
 	},
-	"tracking": {
-	  "seen": 0,
-	  "correct": 0,
-	  "wrong": 0,
-	  "streak": 0,
-	  "last_seen": null,
-	  "mastery": 0,
-	  "status": "new"
-	}
+	"tracking": {"seen":0,"correct":0,"wrong":0,"streak":0,"last_seen":null,"mastery":0,"status":"new"}
   },
-{
+
+
+
+  {
 	"id": 18,
 	"text": "low",
 	"level": "A1",
