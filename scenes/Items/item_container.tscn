@@ -1,5 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dfacalig5kwqo"]
+[gd_scene load_steps=3 format=3 uid="uid://dfacalig5kwqo"]
 
+[ext_resource type="Script" uid="uid://bunmy5haabq1n" path="res://scenes/Items/ItemContainer.gd" id="1_1781g"]
 [ext_resource type="PackedScene" uid="uid://dibgjlfac13mo" path="res://scenes/Items/item.tscn" id="1_e1fji"]
 
 [node name="ItemContainer" type="Control"]
@@ -8,6 +9,8 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 170.0
 offset_bottom = 536.0
+size_flags_vertical = 3
+script = ExtResource("1_1781g")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0

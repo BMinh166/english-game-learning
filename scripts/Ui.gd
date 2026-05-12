@@ -10,11 +10,14 @@ extends Control
 @onready var play_button = $MarginContainer/Main/Body/RightContainer/PlayButtonContainer/PlayButton
 @onready var discard_button = $MarginContainer/Main/Body/RightContainer/PlayButtonContainer/DiscardButton
 @onready var center_area = $MarginContainer/Main/Body/CenterArea/CenterPlayArea
+@onready var item_container = $MarginContainer/Main/Body/ItemContainer/MarginContainer/VBoxContainer
 
 var selected_indices = []
+var item_slots = {}
 var max_select = 5
 var current_state
 var floating_scene = preload("res://scenes/Card/FloatingText.tscn")
+var item_scene = preload("res://scenes/Items/item.tscn")
 
 func _ready():
 	GameManager.connect("update_state_ui", update_state_ui)
@@ -22,9 +25,13 @@ func _ready():
 	GameManager.connect("play_cards", _on_play_cards)
 	GameManager.connect("clear_center_cards", _on_clear_center)
 	GameManager.connect("show_floating_text", _on_show_floating_text)
+	GameManager.connect("set_card_highlight", _on_set_card_highlight)
+	GameManager.connect("update_item_ui", update_item_ui)
+	GameManager.connect("activate_item_slot",_on_activate_item_slot)
 	hand_scene.connect("card_selected", _on_card_selected)
 
 	update_state_ui(GameManager.get_state())
+	update_item_ui()
 
 func update_state_ui(state):
 	current_state = state
@@ -66,6 +73,35 @@ func update_hand_selection():
 		card.set_selected(card.index in selected_indices)
 
 	update_buttons()
+	
+func update_item_ui():
+
+	item_slots.clear()
+
+	# clear cũ
+	for child in item_container.get_children():
+		child.queue_free()
+
+	await get_tree().process_frame
+
+	# lấy item player đang giữ
+	var items = GameManager.item_manager.get_items()
+
+	for item_id in items:
+
+		var data = ItemDB.ITEMS[item_id]
+
+		var slot = item_scene.instantiate()
+
+		item_container.add_child(slot)
+		
+		slot.reset_size()
+		slot.setup(data)
+		
+		print("ITEM SIZE:", slot.size)
+		print("ITEM MIN SIZE:", slot.custom_minimum_size)
+
+		item_slots[item_id] = slot
 
 func _on_play_cards(cards):
 	var selected_cards = cards
@@ -110,8 +146,6 @@ func _on_show_floating_text(card, data):
 	if !is_instance_valid(card):
 		return
 	# 🔥 highlight card đang được tính
-	if card.has_method("set_selected"):
-		card.set_selected(true)	
 	
 	print("FT_---- SPAWN ----")
 	print("FT_CARD SIZE:", card.size)
@@ -120,13 +154,22 @@ func _on_show_floating_text(card, data):
 	card.add_child(ft)
 
 	# 🎨 màu
+	var color = Color.YELLOW
 	match data.type:
 		"add_point":
-			ft.modulate = Color.GREEN
+			color = Color.GREEN
+
 		"add_mult", "mul_mult":
-			ft.modulate = Color.CYAN
-		_:
-			ft.modulate = Color.YELLOW
+			color = Color.CYAN
+
+		"fail":
+			color = Color.RED
+			
+		"chain":
+			color = Color.ORANGE
+			
+		"item":
+			color = Color.GOLD
 
 	print("FT_TEXT SIZE BEFORE PLAY:", ft.size)
 
@@ -138,12 +181,19 @@ func _on_show_floating_text(card, data):
 	
 	print("FT_POS BEFORE PLAY:", ft.position)
 
-	await ft.play(data.text)
-	await get_tree().create_timer(0.2).timeout
-	# 🔻 bỏ highlight sau khi xong
-	if is_instance_valid(card) and card.has_method("set_selected"):
-		card.set_selected(false)
+	await ft.play(data.text, color)
+	#await get_tree().create_timer(0.6).timeout
+		
+func _on_set_card_highlight(card, state, type):
+	if !is_instance_valid(card):
+		return
 
+	if type == "fail":
+		if card.has_method("set_fail"):
+			card.set_fail(state)
+	else:
+		if card.has_method("set_selected"):
+			card.set_selected(state)
 		
 func _on_clear_center():
 	for child in center_area.get_children():
@@ -173,3 +223,21 @@ func _on_discard_button_pressed() -> void:
 	GameManager.discard_selected(selected_indices)
 	selected_indices.clear()
 	update_hand_selection()
+	
+func _on_activate_item_slot(item_id):
+
+	if !item_slots.has(item_id):
+		return
+
+	var slot = item_slots[item_id]
+
+	if slot.has_method("activate"):
+		slot.activate()
+	
+func _input(event):
+
+	if event.is_action_pressed("ui_accept"):
+		GameManager.debug_add_item("synonym_book")
+
+	if event.is_action_pressed("ui_cancel"):
+		GameManager.debug_add_item("lucky_pen")

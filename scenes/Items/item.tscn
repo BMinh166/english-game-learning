@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://dibgjlfac13mo"]
+[gd_scene load_steps=3 format=3 uid="uid://dibgjlfac13mo"]
+
+[ext_resource type="Script" uid="uid://l0t6vtj51psr" path="res://scenes/Items/Item.gd" id="1_ibweg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vx682"]
 font_size = 20
@@ -9,6 +11,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+script = ExtResource("1_ibweg")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1

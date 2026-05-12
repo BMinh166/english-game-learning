@@ -5,15 +5,16 @@ var relation
 var score_system
 var generate_words
 var chain_system
+var item_manager
 
-var max_discard = 3
-var discard_left = 3
+var max_discard = 5
+var discard_left = 5
 @warning_ignore("shadowed_global_identifier")
 var round = 1
 var max_select = 5
 var current_word
 var hand_size = 5
-var bag_size = 20
+var bag_size = 40
 var hand = []
 var center_area = []
 var bag = []
@@ -33,6 +34,9 @@ signal update_score_counting(state)
 signal play_cards(cards)
 signal clear_center_cards()
 signal show_floating_text(card_ref, data)
+signal set_card_highlight(card, state, type)
+signal update_item_ui()
+signal activate_item_slot(item_id)
 
 func _ready():
 	word_db = WordDB
@@ -40,6 +44,7 @@ func _ready():
 	score_system = Score.new()
 	generate_words = GenerateWords.new()
 	chain_system = ChainSystem.new()
+	item_manager = ItemManager.new()
 #
 	start_game()
 		#
@@ -153,8 +158,19 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	point = 0
 	mult = 1
 
+	# 🔥 bật highlight 1 lần duy nhất
+	emit_signal(
+		"set_card_highlight",
+		card,
+		true,
+		"success" if is_valid else "fail"
+	)
+	
 	# ===== BASE STEPS =====
 	for step in steps:
+
+		# ITEM MODIFY
+		step = item_manager.modify_step(step)
 		apply_step(step)
 
 		emit_signal("show_floating_text", card, {
@@ -167,6 +183,13 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 
 	print("[BASE RESULT]")
 	print("point:", point, " mult:", mult)
+	
+	# ❌ FAIL
+	if !is_valid:
+		emit_signal("show_floating_text", card, {
+			"text": "Fail",
+			"type": "fail"
+		})
 
 	# ===== CHAIN APPLY =====
 	var chain_data = chain_system.apply_chain(is_valid)
@@ -196,11 +219,43 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 			"text": text,
 			"type": "chain"
 		})
-
+		await wait_step()
 		#await get_tree().create_timer(0.3).timeout
 
 	# 👉 áp dụng mult cuối (ROUND TẠI ĐÂY)
 	mult = int(final_mult)
+	
+	# =====================
+	# FINAL ITEM MODIFY
+	# =====================
+
+	var relation_type = ""
+
+	if !steps.is_empty():
+		relation_type = steps[0].get("relation_type", "")
+
+	var final_data = item_manager.modify_final(
+		point,
+		mult,
+		{
+			"is_valid": is_valid,
+			"card": card,
+			"relation_type": relation_type
+		}
+	)
+
+	point = final_data.point
+	mult = final_data.mult
+	
+	for effect in final_data.effects:
+
+		emit_signal("show_floating_text", card, {
+			"text": get_item_effect_text(effect),
+			"type": effect.type
+		})
+
+		emit_signal("activate_item_slot", effect.item_id)
+		await wait_step()
 
 	#mult *= mult
 	#mult *= mult
@@ -214,8 +269,25 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	var score_one = point * mult
 
 	print("FINAL SCORE:", score_one)
+	
+	emit_signal("set_card_highlight", card, false, "")
 
 	return score_one
+	
+func get_item_effect_text(effect):
+
+	match effect.type:
+
+		"add_point":
+			return "+" + str(effect.value) + " Point"
+
+		"add_mult":
+			return "+" + str(effect.value) + " Mult"
+
+		"mul_score":
+			return "x" + str(effect.value) + " Score"
+
+	return effect.type
 	
 func format_float(value: float) -> String:
 	var s = str(value)
@@ -301,11 +373,14 @@ func next_round():
 	
 func end_game():
 	print("Game Over - Final Score:", score)
-	#reset lại state 
+
+	is_scoring = false
+
+	emit_signal("clear_center_cards")
+
 	reset_state()
-	# start lại game
+
 	start_game()
-	#update_ui()
 	
 func reset_state():
 		# reset state
@@ -346,6 +421,16 @@ func discard_selected(indices):
 		bag.remove_at(rand_index)
 	
 	emit_signal("update_state_ui", get_state())
+	
+func debug_add_item(item_id: String):
+
+	if item_manager.get_items().size() >= 5:
+		print("ITEM INVENTORY FULL")
+		return
+
+	item_manager.add_item(item_id)
+
+	emit_signal("update_item_ui")
 	
 func get_state():
 	return {
