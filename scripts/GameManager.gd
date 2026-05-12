@@ -6,14 +6,14 @@ var score_system
 var generate_words
 var chain_system
 
-var max_discard = 3
-var discard_left = 3
+var max_discard = 5
+var discard_left = 5
 @warning_ignore("shadowed_global_identifier")
 var round = 1
 var max_select = 5
 var current_word
 var hand_size = 5
-var bag_size = 20
+var bag_size = 40
 var hand = []
 var center_area = []
 var bag = []
@@ -301,11 +301,14 @@ func next_round():
 	
 func end_game():
 	print("Game Over - Final Score:", score)
-	#reset lại state 
+
+	is_scoring = false
+
+	emit_signal("clear_center_cards")
+
 	reset_state()
-	# start lại game
+
 	start_game()
-	#update_ui()
 	
 func reset_state():
 		# reset state

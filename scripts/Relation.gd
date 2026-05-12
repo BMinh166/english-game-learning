@@ -3,7 +3,31 @@ class_name Relation
 
 var ANTONYM_GROUPS = {
 	"size_big": "size_small",
-	"speed_fast": "speed_slow"
+	"speed_fast": "speed_slow",
+	"temperature_hot": "temperature_cold",
+	"quantity_many": "quantity_few",
+	"weight_heavy": "weight_light",
+	"strength_strong": "strength_weak",
+	"length_long": "length_short",
+	"width_wide": "width_narrow",
+	"hardness_hard": "hardness_soft",
+	"cleanliness_clean": "cleanliness_dirty",
+	"fullness_full": "fullness_empty",
+	"moisture_wet": "moisture_dry",
+	"flexibility_rigid": "flexibility_flexible",
+	"safety_safe": "safety_danger",
+	"sound_loud": "sound_quiet",
+	"light_bright": "light_dark",
+	"density_dense": "density_sparse",
+	"height_tall": "height_short",
+	"depth_deep": "depth_shallow",
+	"age_new": "age_old",
+	"frequency_frequent": "frequency_rare",
+	"complexity_complex": "complexity_simple",
+	"quality_good": "quality_poor",
+	"emotion_positive": "emotion_negative",
+	"intelligence_high": "intelligence_low",
+	"intensity_high": "intensity_low"
 }
 
 func has_common(arr1, arr2):
