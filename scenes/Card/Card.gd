@@ -8,7 +8,7 @@ var data
 var index = -1
 
 func _ready():
-	mouse_filter = Control.MOUSE_FILTER_STOP  # 🔥 đảm bảo nhận input
+	mouse_filter = Control.MOUSE_FILTER_STOP
 	await get_tree().process_frame
 	pivot_offset = size / 2
 
@@ -16,17 +16,21 @@ func setup(word, i):
 	data = word
 	index = i
 	label.text = word.text
-	
-	#print("SETUP CARD: ", index," ", label.text)  # debug
 
 func _gui_input(event):
 	if event is InputEventMouseButton and event.pressed:
 		if event.button_index == MOUSE_BUTTON_LEFT:
-			print("CLICK CARD:", index, label.text)  # 🔥 debug
+			print("CLICK CARD:", index, label.text)
 			emit_signal("card_clicked", index)
 
 func set_selected(is_selected):
 	if is_selected:
 		modulate = Color(0.7, 1, 0.7)
+	else:
+		modulate = Color.WHITE
+
+func set_fail(is_fail):
+	if is_fail:
+		modulate = Color(1, 0.5, 0.5)
 	else:
 		modulate = Color.WHITE

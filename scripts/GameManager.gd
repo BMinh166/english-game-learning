@@ -33,6 +33,7 @@ signal update_score_counting(state)
 signal play_cards(cards)
 signal clear_center_cards()
 signal show_floating_text(card_ref, data)
+signal set_card_highlight(card, state, type)
 
 func _ready():
 	word_db = WordDB
@@ -153,6 +154,14 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	point = 0
 	mult = 1
 
+	# 🔥 bật highlight 1 lần duy nhất
+	emit_signal(
+		"set_card_highlight",
+		card,
+		true,
+		"success" if is_valid else "fail"
+	)
+	
 	# ===== BASE STEPS =====
 	for step in steps:
 		apply_step(step)
@@ -167,6 +176,13 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 
 	print("[BASE RESULT]")
 	print("point:", point, " mult:", mult)
+	
+	# ❌ FAIL
+	if !is_valid:
+		emit_signal("show_floating_text", card, {
+			"text": "Fail",
+			"type": "fail"
+		})
 
 	# ===== CHAIN APPLY =====
 	var chain_data = chain_system.apply_chain(is_valid)
@@ -214,6 +230,8 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	var score_one = point * mult
 
 	print("FINAL SCORE:", score_one)
+	
+	emit_signal("set_card_highlight", card, false, "")
 
 	return score_one
 	

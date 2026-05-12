@@ -22,6 +22,7 @@ func _ready():
 	GameManager.connect("play_cards", _on_play_cards)
 	GameManager.connect("clear_center_cards", _on_clear_center)
 	GameManager.connect("show_floating_text", _on_show_floating_text)
+	GameManager.connect("set_card_highlight", _on_set_card_highlight)
 	hand_scene.connect("card_selected", _on_card_selected)
 
 	update_state_ui(GameManager.get_state())
@@ -110,8 +111,6 @@ func _on_show_floating_text(card, data):
 	if !is_instance_valid(card):
 		return
 	# 🔥 highlight card đang được tính
-	if card.has_method("set_selected"):
-		card.set_selected(true)	
 	
 	print("FT_---- SPAWN ----")
 	print("FT_CARD SIZE:", card.size)
@@ -120,13 +119,16 @@ func _on_show_floating_text(card, data):
 	card.add_child(ft)
 
 	# 🎨 màu
+	var color = Color.YELLOW
 	match data.type:
 		"add_point":
-			ft.modulate = Color.GREEN
+			color = Color.GREEN
+
 		"add_mult", "mul_mult":
-			ft.modulate = Color.CYAN
-		_:
-			ft.modulate = Color.YELLOW
+			color = Color.CYAN
+
+		"fail":
+			color = Color.RED
 
 	print("FT_TEXT SIZE BEFORE PLAY:", ft.size)
 
@@ -138,12 +140,19 @@ func _on_show_floating_text(card, data):
 	
 	print("FT_POS BEFORE PLAY:", ft.position)
 
-	await ft.play(data.text)
-	await get_tree().create_timer(0.2).timeout
-	# 🔻 bỏ highlight sau khi xong
-	if is_instance_valid(card) and card.has_method("set_selected"):
-		card.set_selected(false)
+	await ft.play(data.text, color)
+	#await get_tree().create_timer(0.1).timeout
+		
+func _on_set_card_highlight(card, state, type):
+	if !is_instance_valid(card):
+		return
 
+	if type == "fail":
+		if card.has_method("set_fail"):
+			card.set_fail(state)
+	else:
+		if card.has_method("set_selected"):
+			card.set_selected(state)
 		
 func _on_clear_center():
 	for child in center_area.get_children():
