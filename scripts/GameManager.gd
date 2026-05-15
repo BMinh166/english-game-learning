@@ -49,6 +49,9 @@ func _ready():
 	start_game()
 		#
 func start_game():
+	
+	item_manager.start_round()
+	
 	current_word = word_db.get_random_word_exclude(current_word)
 	discard_left = max_discard
 	draw_hand()
@@ -73,6 +76,7 @@ func refill_hand():
 func play_selected(cards):
 	if cards.is_empty() or is_scoring:
 		return
+	item_manager.start_turn()
 	
 	print("CARDS START:", cards)
 	await get_tree().create_timer(0.1).timeout
@@ -132,6 +136,7 @@ func play_selected(cards):
 	while score >= target_score:
 		score -= target_score
 		round += 1
+		item_manager.start_round()
 		target_score = int(target_score * 1.5)
 		round_passed += 1
 
@@ -156,7 +161,7 @@ func play_selected(cards):
 	
 func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	point = 0
-	mult = 1
+	mult = 0
 
 	# 🔥 bật highlight 1 lần duy nhất
 	emit_signal(
@@ -201,17 +206,54 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	print("delta_mult:", chain_data.delta_mult)
 
 	# 👉 tính mult cuối (CHỈ 1 LẦN)
-	var final_mult = mult * chain_data.chain_mult
+	var chain_mult_value = chain_data.chain_mult
+
+	# =====================
+	# HANDY SHORTCUT
+	# =====================
+
+	if item_manager.has_item("handy_shortcut"):
+
+		if !item_manager.handy_shortcut_used:
+
+			if chain_data.chain_count == 1:
+
+				item_manager.handy_shortcut_used = true
+
+				print("\n⚡ HANDY SHORTCUT ACTIVATED")
+				print("CHAIN BEFORE:", chain_mult_value)
+
+				emit_signal("activate_item_slot", "handy_shortcut")
+
+				# 👇 skip chain 0
+				chain_data.chain_count += 1
+
+				chain_mult_value = pow(
+					1.5,
+					chain_data.chain_count - 1
+				)
+
+				chain_data.chain_mult = chain_mult_value
+
+				# 👇 QUAN TRỌNG
+				chain_system.chain_count += 1
+				chain_system.chain_mult = chain_mult_value
+
+				print("CHAIN AFTER:", chain_mult_value)
+
+	var final_mult = mult * chain_mult_value
 
 	print("[FINAL CALC]")
 	print("base_mult:", mult)
-	print("chain_mult:", chain_data.chain_mult)
+	print("chain_mult:", chain_mult_value)
 	print("final_mult(before round):", final_mult)
 
 	# 👇 floating text cho chain (x1.5)
-	if chain_data.applied:
-		var chain_level = chain_data.chain_count - 1  # vì chain 1 = base
-		var chain_mult_str = format_float(chain_data.chain_mult)
+	if chain_mult_value > 1.0:
+
+		var chain_level = chain_data.chain_count - 1
+
+		var chain_mult_str = format_float(chain_mult_value)
 
 		var text = "Chain " + str(chain_level) + " (x" + chain_mult_str + " Mult)"
 
@@ -223,7 +265,7 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 		#await get_tree().create_timer(0.3).timeout
 
 	# 👉 áp dụng mult cuối (ROUND TẠI ĐÂY)
-	mult = int(final_mult)
+	mult = round(final_mult)
 	
 	# =====================
 	# FINAL ITEM MODIFY
@@ -240,7 +282,8 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 		{
 			"is_valid": is_valid,
 			"card": card,
-			"relation_type": relation_type
+			"relation_type": relation_type,
+			"word_level": card.data.level
 		}
 	)
 
@@ -363,6 +406,7 @@ func wait_step():
 	
 func next_round():
 	round += 1
+	item_manager.start_round()
 	score -= target_score
 	target_score = int(target_score * 1.5)
 	
