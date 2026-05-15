@@ -1,7 +1,7 @@
 class_name ChainSystem
 
 var chain_count: int = 0
-var max_chain: int = 4
+var max_chain: int = 9999
 
 # 👇 thêm biến này
 var chain_mult: float = 1.0
@@ -11,6 +11,7 @@ func reset():
 	chain_mult = 1.0
 
 func apply_chain(is_valid: bool) -> Dictionary:
+
 	var result = {
 		"applied": false,
 		"chain_count": chain_count,
@@ -19,15 +20,20 @@ func apply_chain(is_valid: bool) -> Dictionary:
 	}
 
 	if is_valid:
-		chain_count += 1
-		chain_count = min(chain_count, max_chain)
 
-		if chain_count > 1:
+		# 👇 chỉ từ valid THỨ 2 mới bắt đầu chain
+		if chain_count >= 1:
+
 			var delta = 1.5
+
 			chain_mult *= delta
 
 			result.applied = true
 			result.delta_mult = delta
+
+		chain_count += 1
+		chain_count = min(chain_count, max_chain)
+
 	else:
 		reset()
 

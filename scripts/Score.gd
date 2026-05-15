@@ -25,6 +25,7 @@ func build_steps(relations, level) -> Array:
 
 		"relation_type": best.type,
 		"relation_label": get_relation_label(best.type),
+		"word_level": level,
 
 		"word": best.word
 	})
