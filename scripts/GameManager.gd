@@ -7,14 +7,14 @@ var generate_words
 var chain_system
 var item_manager
 
-var max_discard = 5
-var discard_left = 5
+var max_discard = 150
+var discard_left = 150
 @warning_ignore("shadowed_global_identifier")
 var round = 1
 var max_select = 5
 var current_word
 var hand_size = 5
-var bag_size = 40
+var bag_size = 400
 var hand = []
 var center_area = []
 var bag = []
@@ -162,7 +162,12 @@ func play_selected(cards):
 func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	point = 0
 	mult = 0
-
+	
+	# =====================
+	# FULL COMBO TRACK
+	# =====================
+	item_manager.played_word_count +=1
+	
 	# 🔥 bật highlight 1 lần duy nhất
 	emit_signal(
 		"set_card_highlight",
@@ -189,6 +194,13 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	print("[BASE RESULT]")
 	print("point:", point, " mult:", mult)
 	
+	# =====================
+	# FULL COMBO TRACK
+	# =====================
+	
+	if is_valid:
+		item_manager.valid_word_count += 1
+	
 	# ❌ FAIL
 	if !is_valid:
 		emit_signal("show_floating_text", card, {
@@ -197,7 +209,45 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 		})
 
 	# ===== CHAIN APPLY =====
-	var chain_data = chain_system.apply_chain(is_valid)
+	# =====================
+	# PHANTOM HAND
+	# =====================
+
+	var chain_data
+
+	if !is_valid:
+
+		if chain_system.chain_count > 0:
+
+			if item_manager.has_item("phantom_hand"):
+
+				if !item_manager.phantom_hand_used:
+
+					item_manager.phantom_hand_used = true
+
+					print("\n👻 PHANTOM HAND ACTIVATED")
+					print("FIRST FAIL DOES NOT RESET CHAIN")
+
+					emit_signal("activate_item_slot", "phantom_hand")
+
+					chain_data = {
+						"applied": false,
+						"chain_count": chain_system.chain_count,
+						"chain_mult": chain_system.chain_mult,
+						"delta_mult": 1.0
+					}
+
+				else:
+					chain_data = chain_system.apply_chain(false)
+
+			else:
+				chain_data = chain_system.apply_chain(false)
+
+		else:
+			chain_data = chain_system.apply_chain(false)
+
+	else:
+		chain_data = chain_system.apply_chain(true)
 
 	print("[CHAIN DATA]")
 	print("is_valid:", is_valid)
@@ -249,7 +299,7 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	print("final_mult(before round):", final_mult)
 
 	# 👇 floating text cho chain (x1.5)
-	if chain_mult_value > 1.0:
+	if chain_mult_value > 1.0 and is_valid:
 
 		var chain_level = chain_data.chain_count - 1
 
@@ -264,8 +314,10 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 		await wait_step()
 		#await get_tree().create_timer(0.3).timeout
 
+	var original_base_mult = mult
+
 	# 👉 áp dụng mult cuối (ROUND TẠI ĐÂY)
-	mult = round(final_mult)
+	mult = int(round(final_mult))
 	
 	# =====================
 	# FINAL ITEM MODIFY
@@ -276,6 +328,9 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	if !steps.is_empty():
 		relation_type = steps[0].get("relation_type", "")
 
+	item_manager.lone_word_valid = is_valid
+	item_manager.lone_word_relation = relation_type
+
 	var final_data = item_manager.modify_final(
 		point,
 		mult,
@@ -283,7 +338,9 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 			"is_valid": is_valid,
 			"card": card,
 			"relation_type": relation_type,
-			"word_level": card.data.level
+			"word_level": card.data.level,
+			"is_synonym_glitch": false,
+			"discard_used": max_discard - discard_left,
 		}
 	)
 
@@ -312,6 +369,106 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	var score_one = point * mult
 
 	print("FINAL SCORE:", score_one)
+
+	# =====================
+	# FULL COMBO
+	# =====================
+
+	if (
+		item_manager.has_item("full_combo")
+		and item_manager.played_word_count == 5
+		and item_manager.valid_word_count == 5
+		and is_valid
+	):
+
+		print("\n✅ FULL COMBO ACTIVATED")
+
+		for i in range(2):
+
+			var extra_chain = chain_system.apply_chain(true)
+
+			var extra_chain_mult = extra_chain.chain_mult
+
+			var extra_final_mult = original_base_mult * extra_chain_mult
+
+			var extra_mult = int(round(extra_final_mult))
+
+			var extra_score = point * extra_mult
+
+			print("\n🔥 FULL COMBO EXTRA HIT")
+			print("CHAIN:", extra_chain.chain_count)
+			print("MULT:", extra_chain_mult)
+			print("EXTRA SCORE:", extra_score)
+
+			emit_signal("show_floating_text", card, {
+				"text": "Chain " + str(extra_chain.chain_count - 1)
+					+ " (x" + format_float(extra_chain_mult) + " Mult)",
+				"type": "chain"
+			})
+
+			emit_signal("activate_item_slot", "full_combo")
+
+			await wait_step()
+
+			result_score += extra_score
+
+			emit_signal("update_score_counting", get_state())
+
+			await wait_step()
+
+	# =====================
+	# MAGNETIC FORCE TRACK
+	# =====================
+
+	if is_valid:
+		item_manager.last_relation_type = relation_type
+	else:
+		item_manager.last_relation_type = ""
+
+	# =====================
+	# GOLDEN RATIO
+	# =====================
+
+	if is_valid:
+
+		if item_manager.has_item("golden_ratio"):
+
+			item_manager.golden_ratio_bonus += 2
+
+			print("\n⭐ GOLDEN RATIO STACK")
+			print("NEW BONUS:", item_manager.golden_ratio_bonus)
+
+			#emit_signal("activate_item_slot", "golden_ratio")
+			
+	# =====================
+	# LONE WORD
+	# =====================
+
+	if (
+		item_manager.has_item("lone_word")
+		and item_manager.played_word_count == 1
+		and is_valid
+		and 
+		(
+			relation_type == "synonym"
+			or 
+			item_manager.treated_as_synonym
+		)
+	):
+
+		print("\n✅ LONE WORD ACTIVATED")
+		print("TURN REFUNDED")
+
+		turn += 1
+
+		emit_signal("show_floating_text", card, {
+			"text": "Turn Refund",
+			"type": "special"
+		})
+
+		emit_signal("activate_item_slot", "lone_word")
+
+		await wait_step()
 	
 	emit_signal("set_card_highlight", card, false, "")
 

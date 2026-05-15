@@ -237,7 +237,7 @@ func _on_activate_item_slot(item_id):
 func _input(event):
 
 	if event.is_action_pressed("ui_accept"):
-		GameManager.debug_add_item("extra_caffeine")
+		GameManager.debug_add_item("lone_word")
 
 	if event.is_action_pressed("ui_cancel"):
-		GameManager.debug_add_item("handy_shortcut")
+		GameManager.debug_add_item("language_glitch")
