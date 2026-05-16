@@ -1,6 +1,24 @@
 extends Node
 class_name ItemDB
 
+
+static func get_rarity_value(rarity):
+
+	match rarity:
+		"common":
+			return 1
+
+		"uncommon":
+			return 2
+
+		"rare":
+			return 5
+
+		"legendary":
+			return 10
+
+	return 0
+
 static var ITEMS = {
 
 	# =====================
@@ -117,5 +135,19 @@ static var ITEMS = {
 		"name": "Lone Word",
 		"rarity": "rare",
 		"description": "Playing only 1 Synonym word costs no Turn"
+	},
+	
+	"blueprint": {
+		"id": "blueprint",
+		"name": "Blueprint",
+		"rarity": "rare",
+		"description": "Click this item, then choose another item to copy its effect"
+	},
+	
+	"yojigen_pocket": {
+		"id": "yojigen_pocket",
+		"name": "Yojigen Pocket",
+		"rarity": "rare",
+		"description": "Gain bonus Turns each round equal to half total rarity value of your other items"
 	},
 }

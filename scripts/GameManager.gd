@@ -134,10 +134,50 @@ func play_selected(cards):
 	var round_passed = 0
 
 	while score >= target_score:
+
 		score -= target_score
 		round += 1
+
 		item_manager.start_round()
+
+		# =====================
+		# YOJIGEN POCKET
+		# =====================
+
+		for item in item_manager.runtime_items:
+
+			var item_id = item.get("id", "")
+
+			if item_id != "yojigen_pocket":
+				continue
+
+			var rarity_total = item_manager.get_total_rarity_value_except(
+				item.get("persistent", item)
+			)
+
+			var bonus_turn = int(
+				floor(rarity_total / 2.0)
+			)
+
+			if bonus_turn <= 0:
+				continue
+
+			max_turn += bonus_turn
+
+			print("\n🌀 YOJIGEN POCKET ACTIVATED")
+			print("RARITY TOTAL:", rarity_total)
+			print("BONUS TURN:", bonus_turn)
+
+			emit_signal(
+				"activate_item_slot",
+
+				"blueprint"
+				if item.get("is_blueprint_copy", false)
+				else "yojigen_pocket"
+			)
+
 		target_score = int(target_score * 1.5)
+
 		round_passed += 1
 
 		print("=== NEXT ROUND ===", "Round:", round, "Score left:", score)
@@ -331,6 +371,19 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	item_manager.lone_word_valid = is_valid
 	item_manager.lone_word_relation = relation_type
 
+	# =====================
+	# GOLDEN RATIO STACK FIRST
+	# =====================
+
+	if is_valid:
+
+		if item_manager.has_item("golden_ratio"):
+
+			item_manager.golden_ratio_bonus += 2
+
+			print("\n⭐ GOLDEN RATIO STACK")
+			print("NEW BONUS:", item_manager.golden_ratio_bonus)
+
 	var final_data = item_manager.modify_final(
 		point,
 		mult,
@@ -354,7 +407,17 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 			"type": effect.type
 		})
 
-		emit_signal("activate_item_slot", effect.item_id)
+		var activate_id = effect.item_id
+
+		# 👇 nếu là blueprint copy
+		if effect.get("is_blueprint_copy", false):
+
+			activate_id = "blueprint"
+
+		emit_signal(
+			"activate_item_slot",
+			activate_id
+		)
 		await wait_step()
 
 	#mult *= mult
@@ -424,21 +487,6 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 		item_manager.last_relation_type = relation_type
 	else:
 		item_manager.last_relation_type = ""
-
-	# =====================
-	# GOLDEN RATIO
-	# =====================
-
-	if is_valid:
-
-		if item_manager.has_item("golden_ratio"):
-
-			item_manager.golden_ratio_bonus += 2
-
-			print("\n⭐ GOLDEN RATIO STACK")
-			print("NEW BONUS:", item_manager.golden_ratio_bonus)
-
-			#emit_signal("activate_item_slot", "golden_ratio")
 			
 	# =====================
 	# LONE WORD
@@ -462,7 +510,7 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 		turn += 1
 
 		emit_signal("show_floating_text", card, {
-			"text": "Turn Refund",
+			"text": "Refunded",
 			"type": "special"
 		})
 

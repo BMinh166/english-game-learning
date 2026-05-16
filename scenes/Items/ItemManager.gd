@@ -2,28 +2,45 @@ extends Node
 class_name ItemManager
 
 var items = []
-var intensifier_used = false
-var extra_caffeine_used = false
-var handy_shortcut_used = false
-var phantom_hand_used = false
+var runtime_items = []
+
+#var intensifier_used = false
+#var extra_caffeine_used = false
+#var handy_shortcut_used = false
+#var phantom_hand_used = false
 var golden_ratio_bonus = 0
 var last_relation_type = ""
-var future_debt_used = false
+#var future_debt_used = false
 var valid_word_count = 0
 var played_word_count = 0
 var lone_word_valid = false
 var lone_word_relation = ""
 var treated_as_synonym = false
+#var blueprint_select_mode = false
+#var blueprint_item = null
 
 # =====================
 # ADD ITEM
 # =====================
 
 func add_item(item_id: String):
-	if item_id in items:
+
+	if has_item(item_id):
 		return
 
-	items.append(item_id)
+	if item_id == "blueprint":
+
+		items.append({
+			"id": "blueprint",
+			"copied_item": "",
+			"locked_copy": "",
+		})
+
+	else:
+
+		items.append({
+			"id": item_id,
+		})
 
 	print("ADD ITEM:", item_id)
 
@@ -32,14 +49,137 @@ func add_item(item_id: String):
 # =====================
 
 func remove_item(item_id: String):
-	items.erase(item_id)
+
+	for item in items:
+		if item.get("id", "") == item_id:
+			items.erase(item)
+			return
+			
+func sell_item(item_instance) -> int:
+
+	var item_id = item_instance.get("id", "")
+
+	var data = ItemDB.ITEMS[item_id]
+
+	var rarity = data.get("rarity", "common")
+
+	var value = ItemDB.get_rarity_value(rarity)
+
+	items.erase(item_instance)
+
+	print("\n💰 ITEM SOLD")
+	print("ITEM:", item_id)
+	print("RARITY:", rarity)
+	print("TURN GAIN:", value)
+
+	return value
 
 # =====================
 # CHECK ITEM
 # =====================
 
 func has_item(item_id: String) -> bool:
-	return item_id in items
+
+	for item in items:
+		if item.get("id", "") == item_id:
+			return true
+
+	return false
+
+func build_runtime_items() -> Array:
+
+	var result = []
+
+	for inventory_item in items:
+
+		var item_id = inventory_item.get(
+			"id",
+			""
+		)
+
+		# =====================
+		# NORMAL ITEM
+		# =====================
+
+		result.append({
+			"id": item_id,
+			"source_id": item_id,
+
+			"turn_used": false,
+			"round_used": false,
+
+			"persistent": inventory_item
+		})
+
+		# =====================
+		# BLUEPRINT
+		# =====================
+
+		if item_id == "blueprint":
+
+			var copied = inventory_item.get(
+				"locked_copy",
+				""
+			)
+
+			if copied != "":
+
+				var copied_item = find_item_instance(copied)
+
+				result.append({
+					"id": copied,
+					"source_id": "blueprint",
+
+					"turn_used": false,
+					"round_used": false,
+
+					"is_blueprint_copy": true,
+
+					"persistent": copied_item
+				})
+
+	return result
+	
+func get_total_rarity_value_except(
+	exclude_item
+) -> int:
+
+	var total = 0
+
+	for item in items:
+
+		if item == exclude_item:
+			continue
+
+		var item_id = item.get(
+			"id",
+			""
+		)
+
+		var data = ItemDB.ITEMS.get(
+			item_id,
+			{}
+		)
+
+		var rarity = data.get(
+			"rarity",
+			"common"
+		)
+
+		total += ItemDB.get_rarity_value(
+			rarity
+		)
+
+	return total
+
+func find_item_instance(item_id):
+
+	for item in items:
+
+		if item.get("id", "") == item_id:
+			return item
+
+	return null
 
 # =====================
 # GET PLAYER ITEMS
@@ -59,29 +199,62 @@ func modify_step(step: Dictionary) -> Dictionary:
 	print("\n===== ITEM MODIFY START =====")
 	print("ORIGINAL STEP:", result)
 
-	for item in items:
+	for item in runtime_items:
 
-		print("\nCHECK ITEM:", item)
+		var item_id = item.get("id", "")
 
-		#match item:
+		#match item_id:
+
+		print("\nCHECK ITEM:", item_id)
 
 	return result
 	
 func start_turn():
-	intensifier_used = false
-	handy_shortcut_used = false
-	extra_caffeine_used = false
-	phantom_hand_used = false
-	future_debt_used = false
+
 	last_relation_type = ""
 	valid_word_count = 0
 	played_word_count = 0
 	lone_word_valid = false
 	lone_word_relation = ""
 	treated_as_synonym = false
+
+	# =====================
+	# LOCK BLUEPRINT
+	# =====================
+
+	for item in items:
+
+		if item.get("id", "") == "blueprint":
+
+			item["locked_copy"] = item.get(
+				"copied_item",
+				""
+			)
+
+	# =====================
+	# BUILD RUNTIME
+	# =====================
+
+	runtime_items = build_runtime_items()
+
+	# =====================
+	# RESET TURN STATE
+	# =====================
+
+	for item in runtime_items:
+
+		item["turn_used"] = false
 	
 func start_round():
-	pass
+	
+	
+
+	runtime_items = build_runtime_items()
+
+	for item in runtime_items:
+
+		item["round_used"] = false
+		item["turn_used"] = false
 
 func modify_final(point, mult, data) -> Dictionary:
 
@@ -105,15 +278,17 @@ func modify_final(point, mult, data) -> Dictionary:
 		print("ANTONYM TREATED AS SYNONYM")
 		
 		effects.append({
-			"type": "GLITCHED",
+			"type": "Glitched",
 			"item_id": "language_glitch"
 		})
 		
 		treated_as_synonym = true
 
-	for item in items:
+	for item in runtime_items:
 
-		match item:
+		var item_id = item.get("id", "")
+
+		match item_id:
 			
 			# =====================
 			# SYNONYM CODEX
@@ -134,7 +309,9 @@ func modify_final(point, mult, data) -> Dictionary:
 					effects.append({
 						"type": "add_point",
 						"value": 10,
-						"item_id": "synonym_codex"
+						"item_id": "synonym_codex",
+						"is_blueprint_copy":
+							item.get("is_blueprint_copy", false)
 					})
 
 			# =====================
@@ -149,7 +326,9 @@ func modify_final(point, mult, data) -> Dictionary:
 				effects.append({
 					"type": "add_mult",
 					"value": 1,
-					"item_id": "wildcard"
+					"item_id": "wildcard",
+						"is_blueprint_copy":
+							item.get("is_blueprint_copy", false)
 				})
 				
 			# =====================
@@ -175,7 +354,9 @@ func modify_final(point, mult, data) -> Dictionary:
 					effects.append({
 						"type": "add_point",
 						"value": 15,
-						"item_id": "cappuccino"
+						"item_id": "cappuccino",
+						"is_blueprint_copy":
+							item.get("is_blueprint_copy", false)
 					})
 					
 			# =====================
@@ -187,12 +368,12 @@ func modify_final(point, mult, data) -> Dictionary:
 				if !data.is_valid:
 					continue
 
-				if intensifier_used:
+				if item.get("turn_used", false):
 					continue
 
 				if data.get("relation_type", "") == "degree":
 
-					intensifier_used = true
+					item["turn_used"] = true
 
 					print("✅ INTENSIFIER ACTIVATED")
 					print("RELATION:", data.get("relation_type", ""))
@@ -204,7 +385,9 @@ func modify_final(point, mult, data) -> Dictionary:
 					effects.append({
 						"type": "add_mult",
 						"value": 3,
-						"item_id": "intensifier"
+						"item_id": "intensifier",
+						"is_blueprint_copy":
+							item.get("is_blueprint_copy", false)
 					})
 					
 			# =====================
@@ -216,7 +399,7 @@ func modify_final(point, mult, data) -> Dictionary:
 				if !data.is_valid:
 					continue
 
-				if extra_caffeine_used:
+				if item.get("turn_used", false):
 					continue
 
 				print("\n☕ EXTRA CAFFEINE ACTIVATED")
@@ -224,7 +407,7 @@ func modify_final(point, mult, data) -> Dictionary:
 				print("POINT BEFORE:", result.point)
 				print("ADD: +25 POINT")
 
-				extra_caffeine_used = true
+				item["turn_used"] = true
 
 				result.point += 25
 
@@ -233,7 +416,9 @@ func modify_final(point, mult, data) -> Dictionary:
 				effects.append({
 					"type": "add_point",
 					"value": 25,
-					"item_id": "extra_caffeine"
+					"item_id": "extra_caffeine",
+						"is_blueprint_copy":
+							item.get("is_blueprint_copy", false)
 				})
 				
 			# =====================
@@ -259,7 +444,9 @@ func modify_final(point, mult, data) -> Dictionary:
 					effects.append({
 						"type": "add_point",
 						"value": 20,
-						"item_id": "family_guide"
+						"item_id": "family_guide",
+						"is_blueprint_copy":
+							item.get("is_blueprint_copy", false)
 					})
 					
 			# =====================
@@ -281,7 +468,9 @@ func modify_final(point, mult, data) -> Dictionary:
 				effects.append({
 					"type": "add_point",
 					"value": golden_ratio_bonus,
-					"item_id": "golden_ratio"
+					"item_id": "golden_ratio",
+						"is_blueprint_copy":
+							item.get("is_blueprint_copy", false)
 				})
 				
 			# =====================
@@ -309,7 +498,9 @@ func modify_final(point, mult, data) -> Dictionary:
 					effects.append({
 						"type": "add_mult",
 						"value": 2,
-						"item_id": "scholars_thesis"
+						"item_id": "scholars_thesis",
+						"is_blueprint_copy":
+							item.get("is_blueprint_copy", false)
 					})
 					
 			# =====================
@@ -335,7 +526,9 @@ func modify_final(point, mult, data) -> Dictionary:
 					effects.append({
 						"type": "add_mult",
 						"value": 3,
-						"item_id": "yin_yang"
+						"item_id": "yin_yang",
+						"is_blueprint_copy":
+							item.get("is_blueprint_copy", false)
 					})
 					
 			# =====================
@@ -367,7 +560,9 @@ func modify_final(point, mult, data) -> Dictionary:
 					effects.append({
 						"type": "add_point",
 						"value": 40,
-						"item_id": "magnetic_force"
+						"item_id": "magnetic_force",
+						"is_blueprint_copy":
+							item.get("is_blueprint_copy", false)
 					})
 					
 			# =====================
@@ -379,7 +574,7 @@ func modify_final(point, mult, data) -> Dictionary:
 				if !data.is_valid:
 					continue
 
-				if future_debt_used:
+				if item.get("turn_used", false):
 					continue
 
 				var discard_used = data.get("discard_used", 0)
@@ -398,12 +593,14 @@ func modify_final(point, mult, data) -> Dictionary:
 
 				print("POINT AFTER:", result.point)
 
-				future_debt_used = true
+				item["turn_used"] = true
 
 				effects.append({
 					"type": "add_point",
 					"value": bonus,
-					"item_id": "future_debt"
+					"item_id": "future_debt",
+					"is_blueprint_copy":
+						item.get("is_blueprint_copy", false)
 				})
 
 	result["effects"] = effects
