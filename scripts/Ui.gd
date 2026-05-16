@@ -16,6 +16,8 @@ var selected_indices = []
 var item_slots = {}
 var max_select = 5
 var current_state
+var blueprint_select_mode = false
+var blueprint_item = null
 var floating_scene = preload("res://scenes/Card/FloatingText.tscn")
 var item_scene = preload("res://scenes/Items/item.tscn")
 
@@ -87,21 +89,102 @@ func update_item_ui():
 	# lấy item player đang giữ
 	var items = GameManager.item_manager.get_items()
 
-	for item_id in items:
-
-		var data = ItemDB.ITEMS[item_id]
+	for item_instance in items:
 
 		var slot = item_scene.instantiate()
 
 		item_container.add_child(slot)
-		
+
 		slot.reset_size()
-		slot.setup(data)
-		
+		slot.setup(item_instance)
+		slot.connect(
+			"sell_pressed",
+			_on_sell_item_pressed
+		)
+		slot.connect(
+			"use_pressed",
+			_on_use_item_pressed
+		)
+		slot.connect(
+			"item_clicked",
+			_on_item_clicked
+		)
+
 		print("ITEM SIZE:", slot.size)
 		print("ITEM MIN SIZE:", slot.custom_minimum_size)
 
-		item_slots[item_id] = slot
+		item_slots[
+			item_instance.get("id", "")
+		] = slot
+		
+func _on_item_clicked(clicked_item):
+
+	# 👇 nhớ trạng thái cũ
+	var was_selected = clicked_item.selected
+
+	# close all
+	for slot in item_container.get_children():
+
+		if slot.has_method("close_buttons"):
+			slot.close_buttons()
+
+	# =====================
+	# BLUEPRINT COPY MODE
+	# =====================
+
+	if blueprint_select_mode:
+
+		if clicked_item.item_instance.get("id", "") == "blueprint":
+			return
+
+		var target_id = clicked_item.item_instance.get(
+			"id",
+			""
+		)
+
+		blueprint_item["copied_item"] = target_id
+
+		print("BLUEPRINT COPIED:", target_id)
+
+		update_item_ui()
+
+		blueprint_select_mode = false
+		blueprint_item = null
+
+		return
+
+	# 👇 nếu trước đó chưa mở thì mở lại
+	if !was_selected:
+
+		clicked_item.selected = true
+		clicked_item.update_buttons()
+		
+func _on_use_item_pressed(item_ref):
+
+	var item = item_ref.item_instance
+
+	if item.get("id", "") == "blueprint":
+
+		blueprint_select_mode = true
+
+		blueprint_item = item
+
+		print("SELECT ITEM TO COPY")
+		
+func _on_sell_item_pressed(item_ref):
+
+	var item_instance = item_ref.item_instance
+
+	var gain = GameManager.item_manager.sell_item(
+		item_instance
+	)
+
+	GameManager.turn += gain
+
+	print("GAIN TURN:", gain)
+
+	update_item_ui()
+	update_state_ui(GameManager.get_state())
 
 func _on_play_cards(cards):
 	var selected_cards = cards
@@ -237,7 +320,7 @@ func _on_activate_item_slot(item_id):
 func _input(event):
 
 	if event.is_action_pressed("ui_accept"):
-		GameManager.debug_add_item("extra_caffeine")
+		GameManager.debug_add_item("blueprint")
 
 	if event.is_action_pressed("ui_cancel"):
-		GameManager.debug_add_item("handy_shortcut")
+		GameManager.debug_add_item("yojigen_pocket")
