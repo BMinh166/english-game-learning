@@ -120,7 +120,7 @@ static var ITEMS = {
 		"id": "future_debt",
 		"name": "Future Debt",
 		"rarity": "uncommon",
-		"description": "Your first valid word each round gains +15 Point for each Discard used"
+		"description": "Your first valid word each turn gains +15 Point for each Discard used"
 	},
 	
 	"full_combo": {
@@ -149,5 +149,19 @@ static var ITEMS = {
 		"name": "Yojigen Pocket",
 		"rarity": "rare",
 		"description": "Gain bonus Turns each round equal to half total rarity value of your other items"
+	},
+	
+	"over_heaven": {
+		"id": "over_heaven",
+		"name": "Over Heaven",
+		"rarity": "legendary",
+		"description": "Gain x2 Final Mult. Each Synonym permanently increases it by +0.5"
+	},
+	
+	"infinite_paradox": {
+		"id": "infinite_paradox",
+		"name": "Infinite Paradox",
+		"rarity": "legendary",
+		"description": "Chain never ends unless you fail"
 	},
 }

@@ -38,9 +38,15 @@ func add_item(item_id: String):
 
 	else:
 
-		items.append({
+		var item = {
 			"id": item_id,
-		})
+		}
+
+		if item_id == "over_heaven":
+
+			item["bonus_mult"] = 2.0
+
+		items.append(item)
 
 	print("ADD ITEM:", item_id)
 
@@ -171,6 +177,15 @@ func get_total_rarity_value_except(
 		)
 
 	return total
+
+func has_effective_item(item_id: String) -> bool:
+
+	for item in runtime_items:
+
+		if item.get("id", "") == item_id:
+			return true
+
+	return false
 
 func find_item_instance(item_id):
 
@@ -599,6 +614,44 @@ func modify_final(point, mult, data) -> Dictionary:
 					"type": "add_point",
 					"value": bonus,
 					"item_id": "future_debt",
+					"is_blueprint_copy":
+						item.get("is_blueprint_copy", false)
+				})
+				
+			# =====================
+			# OVER HEAVEN
+			# =====================
+
+			"over_heaven":
+
+				if !data.is_valid:
+					continue
+
+				if !treated_as_synonym:
+					continue
+
+				var persistent = item.get(
+					"persistent",
+					null
+				)
+
+				if persistent == null:
+					continue
+
+				var bonus_mult = persistent.get(
+					"bonus_mult",
+					2.0
+				)
+
+				print("\n🌌 OVER HEAVEN ACTIVATED")
+				print("BONUS MULT:", bonus_mult)
+
+				result.mult *= bonus_mult
+
+				effects.append({
+					"type": "mul_mult",
+					"value": bonus_mult,
+					"item_id": "over_heaven",
 					"is_blueprint_copy":
 						item.get("is_blueprint_copy", false)
 				})

@@ -10,7 +10,9 @@ func reset():
 	chain_count = 0
 	chain_mult = 1.0
 
-func apply_chain(is_valid: bool) -> Dictionary:
+func apply_chain(
+		is_valid: bool
+	):
 
 	var result = {
 		"applied": false,
@@ -35,6 +37,7 @@ func apply_chain(is_valid: bool) -> Dictionary:
 		chain_count = min(chain_count, max_chain)
 
 	else:
+
 		reset()
 
 	result.chain_count = chain_count

@@ -317,10 +317,20 @@ func _on_activate_item_slot(item_id):
 	if slot.has_method("activate"):
 		slot.activate()
 	
+func format_number(n):
+
+	if n >= 1e12:
+		return "%.2e" % n
+
+	if n >= 1e9:
+		return str(snapped(n / 1e9, 0.01)) + "B"
+
+	return str(n)
+	
 func _input(event):
 
 	if event.is_action_pressed("ui_accept"):
-		GameManager.debug_add_item("blueprint")
+		GameManager.debug_add_item("over_heaven")
 
 	if event.is_action_pressed("ui_cancel"):
-		GameManager.debug_add_item("yojigen_pocket")
+		GameManager.debug_add_item("infinite_paradox")

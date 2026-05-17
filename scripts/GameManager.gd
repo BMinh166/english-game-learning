@@ -85,7 +85,19 @@ func play_selected(cards):
 	is_scoring = true
 	
 	var selected_words = []
-	chain_system.reset()
+	if !item_manager.has_effective_item(
+		"infinite_paradox"
+	):
+		chain_system.reset()
+
+	else:
+
+		print("\n♾️ INFINITE PARADOX")
+		print("CHAIN PERSISTED")
+		print(
+			"CHAIN:",
+			chain_system.chain_count
+		)
 
 	for card in cards:
 		selected_words.append(card.data)
@@ -287,6 +299,19 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 			chain_data = chain_system.apply_chain(false)
 
 	else:
+
+		if item_manager.has_effective_item(
+			"infinite_paradox"
+		):
+
+			print("\n♾️ INFINITE PARADOX ACTIVATED")
+			print("CHAIN DOES NOT RESET")
+
+			emit_signal(
+				"activate_item_slot",
+				"infinite_paradox"
+			)
+
 		chain_data = chain_system.apply_chain(true)
 
 	print("[CHAIN DATA]")
@@ -358,7 +383,6 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 
 	# 👉 áp dụng mult cuối (ROUND TẠI ĐÂY)
 	mult = int(round(final_mult))
-	
 	# =====================
 	# FINAL ITEM MODIFY
 	# =====================
@@ -419,6 +443,28 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 			activate_id
 		)
 		await wait_step()
+		
+	# =====================
+	# OVER HEAVEN STACK
+	# =====================
+
+	if is_valid and item_manager.treated_as_synonym:
+
+		for inventory_item in item_manager.items:
+
+			if inventory_item.get(
+				"id",
+				""
+			) != "over_heaven":
+				continue
+
+			inventory_item["bonus_mult"] += 0.5
+
+			print("\n🌌 OVER HEAVEN STACK")
+			print(
+				"NEW BONUS:",
+				inventory_item["bonus_mult"]
+			)
 
 	#mult *= mult
 	#mult *= mult
@@ -532,8 +578,8 @@ func get_item_effect_text(effect):
 		"add_mult":
 			return "+" + str(effect.value) + " Mult"
 
-		"mul_score":
-			return "x" + str(effect.value) + " Score"
+		"mul_mult":
+			return "x" + str(effect.value) + " Mult"
 
 	return effect.type
 	

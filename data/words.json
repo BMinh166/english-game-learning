@@ -4480,7 +4480,7 @@
         "fit_family"
 	  ],
 	  "type": [
-        "verb"
+		"verb","adj","noun"
 	  ]
 	},
 	"tracking": {
