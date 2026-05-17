@@ -1,7 +1,7 @@
 extends Node
 class_name Relation
 
-var ANTONYM_GROUPS = {
+static var ANTONYM_GROUPS = {
 	"size_big": "size_small",
 	"speed_fast": "speed_slow",
 	"temperature_hot": "temperature_cold",
@@ -30,13 +30,13 @@ var ANTONYM_GROUPS = {
 	"intensity_high": "intensity_low"
 }
 
-func has_common(arr1, arr2):
+static func has_common(arr1, arr2):
 	for a in arr1:
 		if a in arr2:
 			return true
 	return false
 
-func check_relation(word_a, word_b):
+static func check_relation(word_a, word_b):
 	var relations = []
 
 	if has_common(word_a.groups.synonym, word_b.groups.synonym):
@@ -61,7 +61,7 @@ func check_relation(word_a, word_b):
 
 	return relations
 	
-func is_antonym(word_a, word_b) -> bool:
+static func is_antonym(word_a, word_b) -> bool:
 	for group_a in word_a.groups.synonym:
 		if group_a in ANTONYM_GROUPS:
 			var opposite = ANTONYM_GROUPS[group_a]
@@ -74,3 +74,19 @@ func is_antonym(word_a, word_b) -> bool:
 				return true
 
 	return false
+	
+static func get_relation_words(current_word, relation_type, pool):
+
+	var result = []
+
+	for word in pool:
+
+		var relations = check_relation(current_word, word)
+
+		for r in relations:
+
+			if r["type"] == relation_type:
+				result.append(word)
+				break
+
+	return result

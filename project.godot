@@ -19,3 +19,4 @@ config/icon="res://icon.svg"
 
 WordDB="*res://scripts/WordDB.gd"
 GameManager="*res://scripts/GameManager.gd"
+SaveManager="*res://autoload/SaveManager.gd"

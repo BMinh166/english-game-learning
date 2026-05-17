@@ -7,14 +7,14 @@ var generate_words
 var chain_system
 var item_manager
 
-var max_discard = 150
-var discard_left = 150
+var max_discard = 5
+var discard_left = 5
 @warning_ignore("shadowed_global_identifier")
 var round = 1
 var max_select = 5
 var current_word
 var hand_size = 5
-var bag_size = 400
+var bag_size = 40
 var hand = []
 var center_area = []
 var bag = []
@@ -46,6 +46,8 @@ func _ready():
 	chain_system = ChainSystem.new()
 	item_manager = ItemManager.new()
 #
+	SaveManager.init_save()
+
 	start_game()
 		#
 func start_game():
@@ -57,9 +59,18 @@ func start_game():
 	draw_hand()
 	print("Game start")
 	print("Word:", current_word.text)
+	
+	SaveManager.save_data["statistics"]["total_runs"] += 1
+	SaveManager.save_game()
 #
 func draw_hand():
-	var result = generate_words.generate(word_db, current_word, hand_size, bag_size)
+	var result = generate_words.generate(
+		word_db,
+		current_word,
+		hand_size,
+		bag_size,
+		"normal"
+	)
 	
 	hand = result.hand
 	print("Hand size: " + str(hand_size))
@@ -149,6 +160,7 @@ func play_selected(cards):
 
 		score -= target_score
 		round += 1
+		SaveManager.save_game()
 
 		item_manager.start_round()
 
@@ -252,7 +264,22 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	
 	if is_valid:
 		item_manager.valid_word_count += 1
+		
+	SaveManager.save_data["statistics"]["total_words_played"] += 1
 	
+	# =====================
+	# WORD TRACKING
+	# =====================
+	
+	var word_data = SaveManager.get_word_data(card.data.text)
+
+	word_data.seen += 1
+
+	if is_valid:
+		word_data.correct += 1
+	else:
+		word_data.wrong += 1
+		
 	# ❌ FAIL
 	if !is_valid:
 		emit_signal("show_floating_text", card, {
@@ -667,7 +694,14 @@ func next_round():
 	print("=== NEXT ROUND ===")
 	
 func end_game():
+
 	print("Game Over - Final Score:", score)
+
+	if score > SaveManager.save_data["statistics"]["highest_score"]:
+
+		SaveManager.save_data["statistics"]["highest_score"] = score
+		
+	SaveManager.save_game()
 
 	is_scoring = false
 
