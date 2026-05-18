@@ -1,0 +1,73 @@
+[gd_scene load_steps=3 format=3 uid="uid://drk3tcduhh8hh"]
+
+[ext_resource type="Script" uid="uid://battppjmlyi0e" path="res://scenes/Items/ItemRewardPopup.gd" id="1_6o87u"]
+[ext_resource type="PackedScene" uid="uid://cy8paeecnov47" path="res://scenes/Items/reward_slot.tscn" id="1_m3o6i"]
+
+[node name="ItemRewardPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+mouse_filter = 2
+script = ExtResource("1_6o87u")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ColorRect2" type="ColorRect" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+color = Color(0.5254902, 0.5254902, 0.5254902, 0)
+
+[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_stretch_ratio = 0.0
+mouse_filter = 0
+
+[node name="ColorRect2" type="ColorRect" parent="HBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(750, 500)
+layout_mode = 2
+color = Color(0.3665946, 0.3665946, 0.36659458, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/CenterContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 4
+theme_override_constants/margin_left = 50
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 50
+theme_override_constants/margin_bottom = 100
+
+[node name="RewardContainer" type="HBoxContainer" parent="HBoxContainer/CenterContainer/MarginContainer"]
+custom_minimum_size = Vector2(650, 0)
+layout_mode = 2
+
+[node name="RewardSlot" parent="HBoxContainer/CenterContainer/MarginContainer/RewardContainer" instance=ExtResource("1_m3o6i")]
+layout_mode = 2
+size_flags_horizontal = 2
+
+[node name="RewardSlot2" parent="HBoxContainer/CenterContainer/MarginContainer/RewardContainer" instance=ExtResource("1_m3o6i")]
+layout_mode = 2
+size_flags_horizontal = 6
+
+[node name="RewardSlot3" parent="HBoxContainer/CenterContainer/MarginContainer/RewardContainer" instance=ExtResource("1_m3o6i")]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="ColorRect" type="ColorRect" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(1, 1, 1, 0)

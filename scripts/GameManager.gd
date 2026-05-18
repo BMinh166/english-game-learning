@@ -26,6 +26,8 @@ var target_score = 500
 var turn = 5
 var max_turn = 5
 var is_scoring = false
+var reward_popup_open := false
+var pending_turn_bonus := 0
 var step_delay: float = 0.2
 
 #SIGNALS
@@ -45,17 +47,17 @@ func _ready():
 	generate_words = GenerateWords.new()
 	chain_system = ChainSystem.new()
 	item_manager = ItemManager.new()
-#
+	randomize()
 	SaveManager.init_save()
 
 	start_game()
 		#
 func start_game():
-	
-	item_manager.start_round()
-	
+	setup_round()
 	current_word = word_db.get_random_word_exclude(current_word)
-	discard_left = max_discard
+	
+	#discard_left = max_discard
+	
 	draw_hand()
 	print("Game start")
 	print("Word:", current_word.text)
@@ -150,75 +152,44 @@ func play_selected(cards):
 	# ===== APPLY =====
 	score += result_score
 	turn -= 1
+
+	# clamp turn
+	turn = max(turn, 0)
+
 	discard_left = max_discard
 
-	print("Final Total Score: ", score)
-	# 👉 FIX: loop qua nhiều round nếu đủ điểm
-	var round_passed = 0
+	emit_signal("update_state_ui", get_state())
 
-	while score >= target_score:
+	# =====================
+	# ROUND CLEAR
+	# =====================
 
-		score -= target_score
-		round += 1
-		SaveManager.save_game()
+	if score >= target_score:
 
-		item_manager.start_round()
+		emit_signal("clear_center_cards")
 
-		# =====================
-		# YOJIGEN POCKET
-		# =====================
+		show_reward_popup()
 
-		for item in item_manager.runtime_items:
-
-			var item_id = item.get("id", "")
-
-			if item_id != "yojigen_pocket":
-				continue
-
-			var rarity_total = item_manager.get_total_rarity_value_except(
-				item.get("persistent", item)
-			)
-
-			var bonus_turn = int(
-				floor(rarity_total / 2.0)
-			)
-
-			if bonus_turn <= 0:
-				continue
-
-			max_turn += bonus_turn
-
-			print("\n🌀 YOJIGEN POCKET ACTIVATED")
-			print("RARITY TOTAL:", rarity_total)
-			print("BONUS TURN:", bonus_turn)
-
-			emit_signal(
-				"activate_item_slot",
-
-				"blueprint"
-				if item.get("is_blueprint_copy", false)
-				else "yojigen_pocket"
-			)
-
-		target_score = int(target_score * 1.5)
-
-		round_passed += 1
-
-		print("=== NEXT ROUND ===", "Round:", round, "Score left:", score)
-
-	# 👉 reset turn nếu có qua ít nhất 1 round
-	if round_passed > 0:
-		turn = max_turn
-		discard_left = max_discard
-
-	# 👉 nếu không qua round nào thì check game over
-	elif turn <= 0:
-		end_game()
 		return
+
+	# =====================
+	# GAME OVER
+	# =====================
+
+	if turn <= 0:
+
+		end_game()
+
+		return
+
+	# =====================
+	# CONTINUE
+	# =====================
 
 	emit_signal("clear_center_cards")
 
 	current_word = word_db.get_random_word_exclude(current_word)
+
 	draw_hand()
 
 	is_scoring = false
@@ -410,6 +381,9 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 
 	# 👉 áp dụng mult cuối (ROUND TẠI ĐÂY)
 	mult = int(round(final_mult))
+	
+	#mult *= int(round(final_mult))
+	#mult *= int(round(final_mult))
 	# =====================
 	# FINAL ITEM MODIFY
 	# =====================
@@ -580,7 +554,7 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 		print("\n✅ LONE WORD ACTIVATED")
 		print("TURN REFUNDED")
 
-		turn += 1
+		add_turn(1)
 
 		emit_signal("show_floating_text", card, {
 			"text": "Refunded",
@@ -682,16 +656,135 @@ func apply_step(step: Dictionary):
 func wait_step():
 	return get_tree().create_timer(step_delay).timeout
 	
-func next_round():
-	round += 1
+func add_turn(value: int):
+
+	if reward_popup_open:
+
+		pending_turn_bonus += value
+
+		print(
+			"[PENDING TURN BONUS]",
+			pending_turn_bonus
+		)
+
+	else:
+
+		turn += value
+
+		print(
+			"[INSTANT TURN BONUS]",
+			turn
+		)
+
+	emit_signal("update_state_ui", get_state())	
+
+func setup_round():
+
 	item_manager.start_round()
-	score -= target_score
-	target_score = int(target_score * 1.5)
-	
-	turn = max_turn
+
+	turn = max_turn + item_manager.get_round_turn_bonus()
+
+	if pending_turn_bonus > 0:
+
+		print(
+			"\n[APPLY PENDING TURN BONUS]",
+			pending_turn_bonus
+		)
+
+		turn += pending_turn_bonus
+
+		pending_turn_bonus = 0
+
+	print("\n🎯 FINAL TURN:", turn)
+
 	discard_left = max_discard
 	
+func next_round():
+	round += 1
+	score -= target_score
+	target_score = int(target_score * 1.5)
+	setup_round()
+	
 	print("=== NEXT ROUND ===")
+	
+func continue_next_round():
+
+	is_scoring = false
+
+	result_score = 0
+
+	score -= target_score
+
+	round += 1
+
+	SaveManager.save_game()
+
+	target_score = int(target_score * 1.5)
+	setup_round()
+
+	print("=== NEXT ROUND ===")
+
+	emit_signal("clear_center_cards")
+
+	current_word = word_db.get_random_word_exclude(current_word)
+
+	draw_hand()
+	
+
+	
+func show_reward_popup():
+	reward_popup_open = true
+	is_scoring = true
+
+	var popup_scene = preload("res://scenes/Items/item_reward_popup.tscn")
+	var popup = popup_scene.instantiate()
+
+	var ui = get_tree().current_scene.get_node_or_null("UI")
+	if ui == null:
+		ui = get_tree().current_scene
+
+	ui.add_child(popup)
+
+	var owned_ids := []
+	for item in item_manager.get_items():
+		owned_ids.append(item.get("id", ""))
+
+	var rewards = ItemDB.get_random_rewards(3, owned_ids)
+	popup.setup(rewards)
+	popup.reward_selected.connect(_on_reward_selected)
+	
+func _on_reward_selected(item_data):
+
+	reward_popup_open = false
+
+	if item_manager.get_items().size() < 5:
+		item_manager.add_item(item_data["id"])
+		emit_signal("update_item_ui")
+	else:
+		print("ITEM INVENTORY FULL - reward skipped")
+
+	consume_reward_round()
+	
+func consume_reward_round():
+
+	score -= target_score
+	round += 1
+
+	SaveManager.save_game()
+
+	target_score = int(target_score * 1.5)
+	setup_round()
+
+	emit_signal("update_state_ui", get_state())
+
+	if score >= target_score:
+		show_reward_popup()
+		return
+
+	current_word = word_db.get_random_word_exclude(current_word)
+	draw_hand()
+
+	is_scoring = false
 	
 func end_game():
 

@@ -6,8 +6,8 @@ var runtime_items = []
 
 #var intensifier_used = false
 #var extra_caffeine_used = false
-#var handy_shortcut_used = false
-#var phantom_hand_used = false
+var handy_shortcut_used = false
+var phantom_hand_used = false
 var golden_ratio_bonus = 0
 var last_relation_type = ""
 #var future_debt_used = false
@@ -16,6 +16,7 @@ var played_word_count = 0
 var lone_word_valid = false
 var lone_word_relation = ""
 var treated_as_synonym = false
+var round_turn_bonus := 0
 #var blueprint_select_mode = false
 #var blueprint_item = null
 
@@ -232,6 +233,8 @@ func start_turn():
 	lone_word_valid = false
 	lone_word_relation = ""
 	treated_as_synonym = false
+	handy_shortcut_used = false
+	phantom_hand_used = false
 
 	# =====================
 	# LOCK BLUEPRINT
@@ -261,15 +264,68 @@ func start_turn():
 		item["turn_used"] = false
 	
 func start_round():
-	
-	
+
+	print("\n==============================")
+	print("🎒 START ROUND")
+	print("==============================")
 
 	runtime_items = build_runtime_items()
 
-	for item in runtime_items:
+	round_turn_bonus = 0
 
+	for item in runtime_items:
 		item["round_used"] = false
 		item["turn_used"] = false
+
+	print("\nPLAYER ITEMS:")
+
+	for item in items:
+
+		var item_id = item.get("id", "")
+
+		var data = ItemDB.ITEMS.get(item_id, {})
+
+		var rarity = data.get("rarity", "common")
+
+		var rarity_value = ItemDB.get_rarity_value(rarity)
+
+		print(
+			"-",
+			item_id,
+			"| rarity:",
+			rarity,
+			"| value:",
+			rarity_value
+		)
+
+	if has_item("yojigen_pocket"):
+
+		print("\n🌀 YOJIGEN POCKET DETECTED")
+
+		var pocket_instance = find_item_instance(
+			"yojigen_pocket"
+		)
+
+		var total_rarity = get_total_rarity_value_except(
+			pocket_instance
+		)
+
+		print("TOTAL OTHER RARITY VALUE:", total_rarity)
+
+		@warning_ignore("integer_division")
+		round_turn_bonus = int(total_rarity / 2)
+
+		print("BONUS TURN:", round_turn_bonus)
+
+	else:
+
+		print("\n❌ NO YOJIGEN POCKET")
+
+	print("\nFINAL ROUND TURN BONUS:", round_turn_bonus)
+
+func get_round_turn_bonus() -> int:
+	return round_turn_bonus
+	
 
 func modify_final(point, mult, data) -> Dictionary:
 
@@ -597,7 +653,7 @@ func modify_final(point, mult, data) -> Dictionary:
 				if discard_used <= 0:
 					continue
 
-				var bonus = discard_used * 15
+				var bonus = discard_used * 45
 
 				print("✅ FUTURE DEBT ACTIVATED")
 				print("DISCARD USED:", discard_used)

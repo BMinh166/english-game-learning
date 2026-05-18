@@ -179,7 +179,7 @@ func _on_sell_item_pressed(item_ref):
 		item_instance
 	)
 
-	GameManager.turn += gain
+	GameManager.add_turn(gain)
 
 	print("GAIN TURN:", gain)
 
@@ -330,7 +330,7 @@ func format_number(n):
 func _input(event):
 
 	if event.is_action_pressed("ui_accept"):
-		GameManager.debug_add_item("over_heaven")
+		GameManager.debug_add_item("yojigen_pocket")
 
 	if event.is_action_pressed("ui_cancel"):
 		GameManager.debug_add_item("infinite_paradox")

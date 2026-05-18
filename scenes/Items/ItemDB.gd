@@ -1,7 +1,6 @@
 extends Node
 class_name ItemDB
 
-
 static func get_rarity_value(rarity):
 
 	match rarity:
@@ -18,6 +17,13 @@ static func get_rarity_value(rarity):
 			return 10
 
 	return 0
+	
+static var REWARD_RARITY_WEIGHTS := {
+	"common": 62,
+	"uncommon": 28,
+	"rare": 8,
+	"legendary": 2,
+}
 
 static var ITEMS = {
 
@@ -120,7 +126,7 @@ static var ITEMS = {
 		"id": "future_debt",
 		"name": "Future Debt",
 		"rarity": "uncommon",
-		"description": "Your first valid word each turn gains +15 Point for each Discard used"
+		"description": "Your first valid word each turn gains +45 Point for each Discard used"
 	},
 	
 	"full_combo": {
@@ -165,3 +171,84 @@ static var ITEMS = {
 		"description": "Chain never ends unless you fail"
 	},
 }
+
+static func get_random_reward(excluded_ids: Array = []) -> Dictionary:
+
+	var pools = {
+		"common": [],
+		"uncommon": [],
+		"rare": [],
+		"legendary": []
+	}
+
+	for item in ITEMS.values():
+
+		var id = item.get("id", "")
+
+		if id == "":
+			continue
+
+		if id in excluded_ids:
+			continue
+
+		var rarity = item.get("rarity", "common")
+
+		if pools.has(rarity):
+			pools[rarity].append(item)
+
+	var available_rarities = []
+	var total_weight = 0
+
+	for rarity in ["common", "uncommon", "rare", "legendary"]:
+
+		if pools[rarity].size() <= 0:
+			continue
+
+		available_rarities.append(rarity)
+		total_weight += int(REWARD_RARITY_WEIGHTS[rarity])
+
+	if total_weight <= 0:
+		return {}
+
+	var roll = randi() % total_weight
+
+	var acc = 0
+	var chosen_rarity = ""
+
+	for rarity in available_rarities:
+
+		acc += int(REWARD_RARITY_WEIGHTS[rarity])
+
+		if roll < acc:
+			chosen_rarity = rarity
+			break
+
+	if chosen_rarity == "":
+		return {}
+
+	var candidates = pools[chosen_rarity]
+
+	if candidates.size() <= 0:
+		return {}
+
+	return candidates[randi() % candidates.size()]
+
+
+static func get_random_rewards(count := 3, excluded_ids: Array = []) -> Array:
+
+	var result = []
+
+	var used_ids = excluded_ids.duplicate()
+
+	for i in range(count):
+
+		var reward = get_random_reward(used_ids)
+
+		if reward.is_empty():
+			break
+
+		result.append(reward)
+
+		used_ids.append(reward.get("id", ""))
+
+	return result

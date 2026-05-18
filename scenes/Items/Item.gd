@@ -7,6 +7,7 @@ extends Control
 
 var item_instance
 var selected = false
+var can_click := true
 
 signal sell_pressed(item_ref)
 signal use_pressed(item_ref)
@@ -102,4 +103,8 @@ func _on_use_button_pressed() -> void:
 
 
 func _on_click_area_pressed() -> void:
+	
+	if not can_click:
+		return
+	
 	emit_signal("item_clicked", self)
