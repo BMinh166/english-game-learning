@@ -389,10 +389,10 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	# 👉 áp dụng mult cuối (ROUND TẠI ĐÂY)
 	mult = int(round(final_mult))
 	
-	mult *= int(round(final_mult))
-	mult *= int(round(final_mult))
-	mult *= int(round(final_mult))
-	mult *= int(round(final_mult))
+	#mult *= int(round(final_mult))
+	#mult *= int(round(final_mult))
+	#mult *= int(round(final_mult))
+	#mult *= int(round(final_mult))
 	# =====================
 	# FINAL ITEM MODIFY
 	# =====================
@@ -884,15 +884,19 @@ func end_game():
 		
 	SaveManager.save_game()
 
-	is_scoring = false
-
-	emit_signal("clear_center_cards")
-
-	reset_state()
+	#is_scoring = false
+#
+	#emit_signal("clear_center_cards")
+#
+	#reset_state()
 
 	emit_signal("update_item_ui")
-
+	
 	start_game()
+
+	get_tree().change_scene_to_file(
+			"res://scenes/Screen/game_over.tscn"
+		)
 	
 func reset_state():
 		# reset state
