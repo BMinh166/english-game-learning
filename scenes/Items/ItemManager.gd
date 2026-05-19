@@ -73,6 +73,18 @@ func sell_item(item_instance) -> int:
 	var value = ItemDB.get_rarity_value(rarity)
 
 	items.erase(item_instance)
+	
+	# =====================
+	# RESET PERSISTENT STATE
+	# =====================
+
+	if item_id == "golden_ratio":
+
+		if !has_item("golden_ratio"):
+
+			print("RESET GOLDEN RATIO BONUS")
+
+			golden_ratio_bonus = 0
 
 	print("\n💰 ITEM SOLD")
 	print("ITEM:", item_id)
@@ -224,6 +236,32 @@ func modify_step(step: Dictionary) -> Dictionary:
 		print("\nCHECK ITEM:", item_id)
 
 	return result
+
+func reset_items():
+
+	items.clear()
+
+	runtime_items.clear()
+
+	golden_ratio_bonus = 0
+
+	round_turn_bonus = 0
+
+	last_relation_type = ""
+
+	valid_word_count = 0
+
+	played_word_count = 0
+
+	lone_word_valid = false
+
+	lone_word_relation = ""
+
+	treated_as_synonym = false
+
+	handy_shortcut_used = false
+
+	phantom_hand_used = false
 	
 func start_turn():
 
@@ -298,30 +336,32 @@ func start_round():
 			rarity_value
 		)
 
-	if has_item("yojigen_pocket"):
+	var total_pocket_bonus := 0
+
+	for item in runtime_items:
+
+		if item.get("id", "") != "yojigen_pocket":
+			continue
 
 		print("\n🌀 YOJIGEN POCKET DETECTED")
 
-		var pocket_instance = find_item_instance(
-			"yojigen_pocket"
-		)
+		var persistent = item.get("persistent", null)
 
 		var total_rarity = get_total_rarity_value_except(
-			pocket_instance
+			persistent
 		)
 
 		print("TOTAL OTHER RARITY VALUE:", total_rarity)
 
 		@warning_ignore("integer_division")
-		round_turn_bonus = int(total_rarity / 2)
 
-		print("BONUS TURN:", round_turn_bonus)
+		var bonus = int(total_rarity / 2)
 
-	else:
+		print("POCKET BONUS:", bonus)
 
-		print("\n❌ NO YOJIGEN POCKET")
+		total_pocket_bonus += bonus
 
-	print("\nFINAL ROUND TURN BONUS:", round_turn_bonus)
+	round_turn_bonus = total_pocket_bonus
 
 func get_round_turn_bonus() -> int:
 	return round_turn_bonus

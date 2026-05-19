@@ -21,10 +21,33 @@ func set_score(value, p_value, m_value):
 	
 func format_number(n):
 
+	if n >= GameManager.MAX_SCORE:
+		return "Naneinf"
+
 	if n >= 1e12:
-		return "%.2e" % n
+
+		var exponent = int(
+			floor(
+				log(n) / log(10)
+			)
+		)
+
+		var mantissa = n / pow(
+			10,
+			exponent
+		)
+
+		return (
+			str(snapped(mantissa, 0.01))
+			+ "e"
+			+ str(exponent)
+		)
 
 	if n >= 1e9:
-		return str(snapped(n / 1e9, 0.01)) + "B"
 
-	return str(n)
+		return (
+			str(snapped(n / 1e9, 0.01))
+			+ "B"
+		)
+
+	return str(int(n))

@@ -20,9 +20,9 @@ static func get_rarity_value(rarity):
 	
 static var REWARD_RARITY_WEIGHTS := {
 	"common": 62,
-	"uncommon": 28,
+	"uncommon": 29,
 	"rare": 8,
-	"legendary": 2,
+	"legendary": 1,
 }
 
 static var ITEMS = {

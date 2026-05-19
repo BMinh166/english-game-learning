@@ -319,18 +319,41 @@ func _on_activate_item_slot(item_id):
 	
 func format_number(n):
 
+	if n >= GameManager.MAX_SCORE:
+		return "Naneinf"
+
 	if n >= 1e12:
-		return "%.2e" % n
+
+		var exponent = int(
+			floor(
+				log(n) / log(10)
+			)
+		)
+
+		var mantissa = n / pow(
+			10,
+			exponent
+		)
+
+		return (
+			str(snapped(mantissa, 0.01))
+			+ "e"
+			+ str(exponent)
+		)
 
 	if n >= 1e9:
-		return str(snapped(n / 1e9, 0.01)) + "B"
 
-	return str(n)
+		return (
+			str(snapped(n / 1e9, 0.01))
+			+ "B"
+		)
+
+	return str(int(n))
 	
 func _input(event):
 
 	if event.is_action_pressed("ui_accept"):
-		GameManager.debug_add_item("yojigen_pocket")
+		GameManager.debug_add_item("infinite_paradox")
 
 	if event.is_action_pressed("ui_cancel"):
-		GameManager.debug_add_item("infinite_paradox")
+		GameManager.debug_add_item("blueprint")

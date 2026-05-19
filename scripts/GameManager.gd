@@ -28,6 +28,10 @@ var max_turn = 5
 var is_scoring = false
 var reward_popup_open := false
 var pending_turn_bonus := 0
+var max_reward_reroll := 5
+var reward_reroll_left := 5
+const MAX_SCORE = 1e15
+
 var step_delay: float = 0.2
 
 #SIGNALS
@@ -141,6 +145,7 @@ func play_selected(cards):
 		var score_one = await process_single_word(steps, card, is_valid)
 
 		result_score += score_one
+		result_score = min(result_score, MAX_SCORE)
 		
 		mult = 0
 		point = 0
@@ -151,6 +156,8 @@ func play_selected(cards):
 
 	# ===== APPLY =====
 	score += result_score
+	score = min(score, MAX_SCORE)
+	
 	turn -= 1
 
 	# clamp turn
@@ -382,8 +389,10 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	# 👉 áp dụng mult cuối (ROUND TẠI ĐÂY)
 	mult = int(round(final_mult))
 	
-	#mult *= int(round(final_mult))
-	#mult *= int(round(final_mult))
+	mult *= int(round(final_mult))
+	mult *= int(round(final_mult))
+	mult *= int(round(final_mult))
+	mult *= int(round(final_mult))
 	# =====================
 	# FINAL ITEM MODIFY
 	# =====================
@@ -476,7 +485,10 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 
 	await wait_step()
 
-	var score_one = point * mult
+	var score_one = min(
+		point * mult,
+		MAX_SCORE
+	)
 
 	print("FINAL SCORE:", score_one)
 
@@ -503,7 +515,10 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 
 			var extra_mult = int(round(extra_final_mult))
 
-			var extra_score = point * extra_mult
+			var extra_score = min(
+				point * extra_mult,
+				MAX_SCORE
+			)
 
 			print("\n🔥 FULL COMBO EXTRA HIT")
 			print("CHAIN:", extra_chain.chain_count)
@@ -733,25 +748,90 @@ func continue_next_round():
 
 	
 func show_reward_popup():
+
 	reward_popup_open = true
 	is_scoring = true
 
-	var popup_scene = preload("res://scenes/Items/item_reward_popup.tscn")
+	var popup_scene = preload(
+		"res://scenes/Items/item_reward_popup.tscn"
+	)
+
 	var popup = popup_scene.instantiate()
 
 	var ui = get_tree().current_scene.get_node_or_null("UI")
+
 	if ui == null:
 		ui = get_tree().current_scene
 
 	ui.add_child(popup)
 
 	var owned_ids := []
-	for item in item_manager.get_items():
-		owned_ids.append(item.get("id", ""))
 
-	var rewards = ItemDB.get_random_rewards(3, owned_ids)
-	popup.setup(rewards)
-	popup.reward_selected.connect(_on_reward_selected)
+	for item in item_manager.get_items():
+
+		owned_ids.append(
+			item.get("id", "")
+		)
+
+	var rewards = ItemDB.get_random_rewards(
+		3,
+		owned_ids
+	)
+
+	popup.setup(
+		rewards,
+		reward_reroll_left,
+	)
+
+	popup.reward_selected.connect(
+		_on_reward_selected
+	)
+
+	popup.reward_skipped.connect(
+		_on_reward_skipped
+	)
+
+	popup.reward_rerolled.connect(
+		func():
+
+			if reward_reroll_left <= 0:
+				return
+
+			reward_reroll_left -= 1
+
+			print("\n🔄 REROLL USED")
+			print("LEFT:", reward_reroll_left)
+
+			# =====================
+			# BUILD EXCLUDED
+			# =====================
+
+			var excluded = owned_ids.duplicate()
+
+			for item in popup.current_rewards:
+
+				excluded.append(
+					item.get("id", "")
+				)
+
+			# =====================
+			# NEW REWARDS
+			# =====================
+
+			var new_rewards = ItemDB.get_random_rewards(
+				3,
+				excluded
+			)
+
+			# =====================
+			# REFRESH POPUP
+			# =====================
+
+			popup.setup(
+				new_rewards,
+				reward_reroll_left
+			)
+	)
 	
 func _on_reward_selected(item_data):
 
@@ -762,6 +842,14 @@ func _on_reward_selected(item_data):
 		emit_signal("update_item_ui")
 	else:
 		print("ITEM INVENTORY FULL - reward skipped")
+
+	consume_reward_round()
+	
+func _on_reward_skipped():
+
+	print("\n⏭️ REWARD SKIPPED")
+
+	reward_popup_open = false
 
 	consume_reward_round()
 	
@@ -802,6 +890,8 @@ func end_game():
 
 	reset_state()
 
+	emit_signal("update_item_ui")
+
 	start_game()
 	
 func reset_state():
@@ -816,6 +906,8 @@ func reset_state():
 	result_score = 0
 	current_word = null
 	discard_left = max_discard
+	reward_reroll_left = max_reward_reroll
+	item_manager.reset_items()
 	hand.clear()
 	bag.clear()
 	
