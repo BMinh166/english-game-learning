@@ -14,9 +14,23 @@ func create_default_save():
 		"version": 1,
 
 		"statistics": {
+
 			"highest_score": 0,
+			"highest_round": 0,
+			"highest_chain": 0,
+
 			"total_runs": 0,
-			"total_words_played": 0
+			"total_play_time": 0,
+
+			"total_words_played": 0,
+			"total_correct": 0,
+			"total_wrong": 0,
+
+			"most_used_item": "",
+			"most_used_relation": "",
+			"most_correct_word": "",
+			"most_wrong_word": "",
+			"most_seen_word": ""
 		},
 
 		"settings": {
@@ -158,3 +172,7 @@ func clear_current_run():
 	}
 
 	save_game()
+	
+func get_statistics():
+
+	return save_data["statistics"]

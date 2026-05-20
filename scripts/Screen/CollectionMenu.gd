@@ -1,8 +1,9 @@
 extends Control
 
 @onready var word_button = $CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/WordButton
-
 @onready var items_button = $CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/ItemsButton
+@onready var stats_button = $CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/StatsButton
+@onready var deleta_data = $CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/DeleteDataButton
 
 @onready var back_button = $CenterContainer/MarginContainer/MenuContainer/BackButton
 
@@ -83,4 +84,10 @@ func _on_back_button_pressed():
 
 	get_tree().change_scene_to_file(
 		"res://scenes/Screen/main_menu.tscn"
+	)
+
+
+func _on_stats_button_pressed() -> void:
+	get_tree().change_scene_to_file(
+		"res://scenes/Screen/stats_menu.tscn"
 	)

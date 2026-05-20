@@ -267,8 +267,10 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 
 	if is_valid:
 		word_data["correct"] += 1
+		SaveManager.save_data["statistics"]["total_correct"] += 1
 	else:
 		word_data["wrong"] += 1
+		SaveManager.save_data["statistics"]["total_wrong"] += 1
 		
 	# ❌ FAIL
 	if !is_valid:
@@ -336,6 +338,10 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	print("chain_count:", chain_data.chain_count)
 	print("chain_mult:", chain_data.chain_mult)
 	print("delta_mult:", chain_data.delta_mult)
+	
+	if chain_data["chain_count"] > SaveManager.save_data["statistics"]["highest_chain"]:
+
+		SaveManager.save_data["statistics"]["highest_chain"] = chain_data["chain_count"]
 
 	# 👉 tính mult cuối (CHỈ 1 LẦN)
 	var chain_mult_value = chain_data.chain_mult
@@ -905,6 +911,10 @@ func end_game():
 	if score > SaveManager.save_data["statistics"]["highest_score"]:
 
 		SaveManager.save_data["statistics"]["highest_score"] = score
+		
+	if round > SaveManager.save_data["statistics"]["highest_round"]:
+
+		SaveManager.save_data["statistics"]["highest_round"] = round
 		
 	SaveManager.save_game()
 	

@@ -67,10 +67,10 @@ custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 text = "Relations Info"
 
-[node name="StatesButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer"]
+[node name="StatsButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
-text = "States"
+text = "Stats"
 
 [node name="DeleteDataButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer"]
 layout_mode = 2
@@ -81,3 +81,5 @@ layout_mode = 2
 size_flags_vertical = 8
 text = "Back
 "
+
+[connection signal="pressed" from="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/StatsButton" to="." method="_on_stats_button_pressed"]
