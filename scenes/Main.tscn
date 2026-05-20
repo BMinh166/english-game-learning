@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b5of4wmqava30"]
+[gd_scene load_steps=11 format=3 uid="uid://b5of4wmqava30"]
 
 [ext_resource type="Script" uid="uid://dnq84hekjhund" path="res://scripts/Game.gd" id="1_elqb8"]
 [ext_resource type="PackedScene" uid="uid://dfacalig5kwqo" path="res://scenes/Items/item_container.tscn" id="2_rvslj"]
@@ -7,6 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://bra1jlyfk5mrd" path="res://scenes/Score/score_bar.tscn" id="3_c01mt"]
 [ext_resource type="PackedScene" uid="uid://bsr3ijj7bu30h" path="res://scenes/Bag/bag.tscn" id="4_rarhs"]
 [ext_resource type="PackedScene" uid="uid://rds78cqmw0tj" path="res://scenes/Score/score_counting.tscn" id="5_nxtc6"]
+[ext_resource type="PackedScene" uid="uid://bfjcm2grg5k60" path="res://scenes/Items/item_tooltip.tscn" id="8_jlsqs"]
+[ext_resource type="PackedScene" uid="uid://dh2a8ebswuupw" path="res://scenes/Screen/pause_game.tscn" id="9_q8u5g"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_elqb8"]
 font_size = 46
@@ -116,6 +118,15 @@ text = "Discard left: 3"
 
 [node name="Bag" parent="UI/MarginContainer/Main/Body/RightContainer" instance=ExtResource("4_rarhs")]
 layout_mode = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="UI"]
+
+[node name="ItemTooltip" parent="UI/CanvasLayer" instance=ExtResource("8_jlsqs")]
+visible = false
+
+[node name="PauseGame" parent="." instance=ExtResource("9_q8u5g")]
+visible = false
+z_index = 999
 
 [connection signal="pressed" from="UI/MarginContainer/Main/Body/RightContainer/PlayButtonContainer/PlayButton" to="UI" method="_on_play_button_pressed"]
 [connection signal="pressed" from="UI/MarginContainer/Main/Body/RightContainer/PlayButtonContainer/DiscardButton" to="UI" method="_on_discard_button_pressed"]

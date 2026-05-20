@@ -11,6 +11,7 @@ extends Control
 @onready var discard_button = $MarginContainer/Main/Body/RightContainer/PlayButtonContainer/DiscardButton
 @onready var center_area = $MarginContainer/Main/Body/CenterArea/CenterPlayArea
 @onready var item_container = $MarginContainer/Main/Body/ItemContainer/MarginContainer/VBoxContainer
+@onready var item_tooltip = $CanvasLayer/ItemTooltip
 
 var selected_indices = []
 var item_slots = {}
@@ -22,6 +23,8 @@ var floating_scene = preload("res://scenes/Card/FloatingText.tscn")
 var item_scene = preload("res://scenes/Items/item.tscn")
 
 func _ready():
+	add_to_group("ui")
+	
 	GameManager.connect("update_state_ui", update_state_ui)
 	GameManager.connect("update_score_counting", update_score_couting)
 	GameManager.connect("play_cards", _on_play_cards)
@@ -32,22 +35,45 @@ func _ready():
 	GameManager.connect("activate_item_slot",_on_activate_item_slot)
 	hand_scene.connect("card_selected", _on_card_selected)
 
-	update_state_ui(GameManager.get_state())
-	update_item_ui()
+	#GameManager.update_item_ui.emit()
 
 func update_state_ui(state):
+	if get_tree().paused:
+		return
+
+	if state.current_word == null:
+		return
+
 	current_state = state
+
 	word_label.text = state.current_word.text
+
 	turn_label.text = "Turn: " + str(state["turn"])
+
 	round_label.text = "Round: " + str(state["round"])
-	discard_left.text = "Discard left: " + str(state["discard_left"])
+
+	discard_left.text = (
+		"Discard left: "
+		+ str(state["discard_left"])
+	)
+
 	update_score_couting(state)
-	score_bar.set_progress_bar(state["score"], state["target_score"])
+
+	score_bar.set_progress_bar(
+		state["score"],
+		state["target_score"]
+	)
+
 	var hand = GameManager.hand
+
 	hand_scene.setup(hand)
+
 	selected_indices.clear()
+
 	update_hand_selection()
+
 	update_buttons()
+
 	print("Update UI")
 	
 func update_score_couting(state):
@@ -55,10 +81,21 @@ func update_score_couting(state):
 	print("UPDATE SCORE")
 	
 func update_buttons():
+
+	if current_state == null:
+		return
+
 	play_button.disabled = selected_indices.is_empty()
-	discard_button.disabled = selected_indices.is_empty() or current_state["discard_left"] <= 0
+
+	discard_button.disabled = (
+		selected_indices.is_empty()
+		or current_state["discard_left"] <= 0
+	)
 	
 func _on_card_selected(index):
+	if get_tree().paused:
+		return
+	
 	if index in selected_indices:
 		selected_indices.erase(index)
 	else:
@@ -78,6 +115,9 @@ func update_hand_selection():
 	
 func update_item_ui():
 
+	if !is_inside_tree():
+		return
+
 	item_slots.clear()
 
 	# clear cũ
@@ -85,6 +125,9 @@ func update_item_ui():
 		child.queue_free()
 
 	await get_tree().process_frame
+
+	if !is_inside_tree():
+		return
 
 	# lấy item player đang giữ
 	var items = GameManager.item_manager.get_items()
@@ -109,6 +152,15 @@ func update_item_ui():
 			"item_clicked",
 			_on_item_clicked
 		)
+		slot.connect(
+			"hover_started",
+			_on_item_hover_started
+		)
+
+		slot.connect(
+			"hover_ended",
+			_on_item_hover_ended
+		)
 
 		print("ITEM SIZE:", slot.size)
 		print("ITEM MIN SIZE:", slot.custom_minimum_size)
@@ -118,6 +170,8 @@ func update_item_ui():
 		] = slot
 		
 func _on_item_clicked(clicked_item):
+	if get_tree().paused:
+		return
 
 	# 👇 nhớ trạng thái cũ
 	var was_selected = clicked_item.selected
@@ -160,6 +214,8 @@ func _on_item_clicked(clicked_item):
 		clicked_item.update_buttons()
 		
 func _on_use_item_pressed(item_ref):
+	if get_tree().paused:
+		return
 
 	var item = item_ref.item_instance
 
@@ -172,6 +228,8 @@ func _on_use_item_pressed(item_ref):
 		print("SELECT ITEM TO COPY")
 		
 func _on_sell_item_pressed(item_ref):
+	if get_tree().paused:
+		return
 
 	var item_instance = item_ref.item_instance
 
@@ -179,12 +237,53 @@ func _on_sell_item_pressed(item_ref):
 		item_instance
 	)
 
-	GameManager.turn += gain
+	GameManager.add_turn(gain)
 
 	print("GAIN TURN:", gain)
 
 	update_item_ui()
 	update_state_ui(GameManager.get_state())
+
+func _on_item_hover_started(item_ref):
+	print("TOOLTIP START")
+
+	var item_instance = item_ref.item_instance
+
+	var item_id = item_instance.get("id", "")
+
+	print("ITEM:", item_id)
+
+	if !ItemDB.ITEMS.has(item_id):
+		return
+
+	var data = ItemDB.ITEMS[item_id]
+
+	var title = data.get("name", "")
+	var description = data.get("description", "")
+
+	var status = GameManager.item_manager.get_item_status_text(
+		item_instance
+	)
+	
+	print("STATUS:", status)
+
+	item_tooltip.setup(
+		title,
+		description,
+		status
+	)
+
+	item_tooltip.visible = true
+
+	item_tooltip.position = (
+		get_viewport().get_mouse_position()
+		+ Vector2(24, 24)
+	)
+	
+func _on_item_hover_ended():
+	print("TOOLTIP END")
+
+	item_tooltip.visible = false
 
 func _on_play_cards(cards):
 	var selected_cards = cards
@@ -216,6 +315,7 @@ func _on_play_cards(cards):
 		) - card.size / 2
 		
 		var tween = create_tween()
+		tween.set_pause_mode(Tween.TWEEN_PAUSE_STOP)
 		tween.tween_property(card, "global_position", target, 0.3)
 		tween.tween_property(card, "scale", Vector2(1.2,1.2), 0.15)
 		tween.tween_property(card, "scale", Vector2(1,1), 0.1)
@@ -226,6 +326,9 @@ func _on_play_cards(cards):
 		await get_tree().create_timer(0.08).timeout
 		
 func _on_show_floating_text(card, data):
+	if get_tree().paused:
+		return
+	
 	if !is_instance_valid(card):
 		return
 	# 🔥 highlight card đang được tính
@@ -286,6 +389,9 @@ func _on_clear_center():
 
 
 func _on_play_button_pressed() -> void:
+	if get_tree().paused:
+		return
+	
 	if selected_indices.is_empty():
 		return
 	
@@ -300,6 +406,9 @@ func _on_play_button_pressed() -> void:
 
 
 func _on_discard_button_pressed() -> void:
+	if get_tree().paused:
+		return
+	
 	if selected_indices.is_empty():
 		return
 	
@@ -317,10 +426,65 @@ func _on_activate_item_slot(item_id):
 	if slot.has_method("activate"):
 		slot.activate()
 	
+func format_number(n):
+
+	if n >= GameManager.MAX_SCORE:
+		return "Naneinf"
+
+	if n >= 1e12:
+
+		var exponent = int(
+			floor(
+				log(n) / log(10)
+			)
+		)
+
+		var mantissa = n / pow(
+			10,
+			exponent
+		)
+
+		return (
+			str(snapped(mantissa, 0.01))
+			+ "e"
+			+ str(exponent)
+		)
+
+	if n >= 1e9:
+
+		return (
+			str(snapped(n / 1e9, 0.01))
+			+ "B"
+		)
+
+	return str(int(n))
+	
+func show_tooltip(
+	title,
+	description,
+	status,
+	pos
+):
+
+	item_tooltip.setup(
+		title,
+		description,
+		status
+	)
+
+	item_tooltip.visible = true
+
+	item_tooltip.position = pos
+
+
+func hide_tooltip():
+
+	item_tooltip.visible = false
+	
 func _input(event):
-
-	if event.is_action_pressed("ui_accept"):
-		GameManager.debug_add_item("blueprint")
-
-	if event.is_action_pressed("ui_cancel"):
-		GameManager.debug_add_item("yojigen_pocket")
+	pass
+	#if event.is_action_pressed("ui_accept"):
+		#GameManager.debug_add_item("infinite_paradox")
+#
+	#if event.is_action_pressed("ui_cancel"):
+		#GameManager.debug_add_item("blueprint")

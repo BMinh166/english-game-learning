@@ -1,9 +1,32 @@
 extends Node
 
 @onready var ui = $UI
+@onready var pause_game = $PauseGame
+
+var pause_cooldown := false
 
 func _ready():
-	pass
+	GameManager.start_game()
+	
+	GameManager.emit_signal("update_item_ui")
+	
+func _unhandled_input(event):
+
+	if event.is_action_pressed("ui_cancel"):
+
+		if pause_cooldown:
+			return
+
+		pause_cooldown = true
+
+		await get_tree().create_timer(0.15).timeout
+
+		pause_cooldown = false
+
+		if pause_game.visible:
+			pause_game.close()
+		else:
+			pause_game.open()
 #func update_ui():
 	#word_label.text = current_word.text
 	#point_label.text = str(point)

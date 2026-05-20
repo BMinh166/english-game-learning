@@ -7,14 +7,14 @@ var generate_words
 var chain_system
 var item_manager
 
-var max_discard = 150
-var discard_left = 150
+var max_discard = 5
+var discard_left = 5
 @warning_ignore("shadowed_global_identifier")
 var round = 1
 var max_select = 5
 var current_word
 var hand_size = 5
-var bag_size = 400
+var bag_size = 40
 var hand = []
 var center_area = []
 var bag = []
@@ -26,7 +26,14 @@ var target_score = 500
 var turn = 5
 var max_turn = 5
 var is_scoring = false
+var reward_popup_open := false
+var pending_turn_bonus := 0
+var max_reward_reroll := 5
+var reward_reroll_left := 5
+const MAX_SCORE = 1e15
+
 var step_delay: float = 0.2
+var previous_scene_path = ""
 
 #SIGNALS
 signal update_state_ui(state)
@@ -45,21 +52,32 @@ func _ready():
 	generate_words = GenerateWords.new()
 	chain_system = ChainSystem.new()
 	item_manager = ItemManager.new()
-#
-	start_game()
+	randomize()
+	SaveManager.init_save()
+
+	#start_game()
 		#
 func start_game():
-	
-	item_manager.start_round()
-	
+	setup_round()
 	current_word = word_db.get_random_word_exclude(current_word)
-	discard_left = max_discard
+	
+	#discard_left = max_discard
+	
 	draw_hand()
 	print("Game start")
 	print("Word:", current_word.text)
+	
+	SaveManager.save_data["statistics"]["total_runs"] += 1
+	SaveManager.save_game()
 #
 func draw_hand():
-	var result = generate_words.generate(word_db, current_word, hand_size, bag_size)
+	var result = generate_words.generate(
+		word_db,
+		current_word,
+		hand_size,
+		bag_size,
+		"normal"
+	)
 	
 	hand = result.hand
 	print("Hand size: " + str(hand_size))
@@ -72,6 +90,12 @@ func refill_hand():
 		var rand_index = randi() % bag.size()
 		hand.append(bag[rand_index])
 		bag.remove_at(rand_index)
+		
+#func start_new_run():
+#
+	#reset_state()
+#
+	#start_game()
 #
 func play_selected(cards):
 	if cards.is_empty() or is_scoring:
@@ -85,7 +109,19 @@ func play_selected(cards):
 	is_scoring = true
 	
 	var selected_words = []
-	chain_system.reset()
+	if !item_manager.has_effective_item(
+		"infinite_paradox"
+	):
+		chain_system.reset()
+
+	else:
+
+		print("\n♾️ INFINITE PARADOX")
+		print("CHAIN PERSISTED")
+		print(
+			"CHAIN:",
+			chain_system.chain_count
+		)
 
 	for card in cards:
 		selected_words.append(card.data)
@@ -116,6 +152,7 @@ func play_selected(cards):
 		var score_one = await process_single_word(steps, card, is_valid)
 
 		result_score += score_one
+		result_score = min(result_score, MAX_SCORE)
 		
 		mult = 0
 		point = 0
@@ -126,75 +163,47 @@ func play_selected(cards):
 
 	# ===== APPLY =====
 	score += result_score
+	score = min(score, MAX_SCORE)
+	
 	turn -= 1
+
+	# clamp turn
+	turn = max(turn, 0)
+
 	discard_left = max_discard
 
-	print("Final Total Score: ", score)
-	# 👉 FIX: loop qua nhiều round nếu đủ điểm
-	var round_passed = 0
+	emit_signal("update_state_ui", get_state())
 
-	while score >= target_score:
+	# =====================
+	# ROUND CLEAR
+	# =====================
 
-		score -= target_score
-		round += 1
+	if score >= target_score:
 
-		item_manager.start_round()
+		emit_signal("clear_center_cards")
 
-		# =====================
-		# YOJIGEN POCKET
-		# =====================
+		show_reward_popup()
 
-		for item in item_manager.runtime_items:
-
-			var item_id = item.get("id", "")
-
-			if item_id != "yojigen_pocket":
-				continue
-
-			var rarity_total = item_manager.get_total_rarity_value_except(
-				item.get("persistent", item)
-			)
-
-			var bonus_turn = int(
-				floor(rarity_total / 2.0)
-			)
-
-			if bonus_turn <= 0:
-				continue
-
-			max_turn += bonus_turn
-
-			print("\n🌀 YOJIGEN POCKET ACTIVATED")
-			print("RARITY TOTAL:", rarity_total)
-			print("BONUS TURN:", bonus_turn)
-
-			emit_signal(
-				"activate_item_slot",
-
-				"blueprint"
-				if item.get("is_blueprint_copy", false)
-				else "yojigen_pocket"
-			)
-
-		target_score = int(target_score * 1.5)
-
-		round_passed += 1
-
-		print("=== NEXT ROUND ===", "Round:", round, "Score left:", score)
-
-	# 👉 reset turn nếu có qua ít nhất 1 round
-	if round_passed > 0:
-		turn = max_turn
-		discard_left = max_discard
-
-	# 👉 nếu không qua round nào thì check game over
-	elif turn <= 0:
-		end_game()
 		return
+
+	# =====================
+	# GAME OVER
+	# =====================
+
+	if turn <= 0:
+
+		end_game()
+
+		return
+
+	# =====================
+	# CONTINUE
+	# =====================
 
 	emit_signal("clear_center_cards")
 
 	current_word = word_db.get_random_word_exclude(current_word)
+
 	draw_hand()
 
 	is_scoring = false
@@ -240,7 +249,22 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	
 	if is_valid:
 		item_manager.valid_word_count += 1
+		
+	SaveManager.save_data["statistics"]["total_words_played"] += 1
 	
+	# =====================
+	# WORD TRACKING
+	# =====================
+	
+	var word_data = SaveManager.get_word_data(card.data.text)
+
+	word_data.seen += 1
+
+	if is_valid:
+		word_data.correct += 1
+	else:
+		word_data.wrong += 1
+		
 	# ❌ FAIL
 	if !is_valid:
 		emit_signal("show_floating_text", card, {
@@ -287,6 +311,19 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 			chain_data = chain_system.apply_chain(false)
 
 	else:
+
+		if item_manager.has_effective_item(
+			"infinite_paradox"
+		):
+
+			print("\n♾️ INFINITE PARADOX ACTIVATED")
+			print("CHAIN DOES NOT RESET")
+
+			emit_signal(
+				"activate_item_slot",
+				"infinite_paradox"
+			)
+
 		chain_data = chain_system.apply_chain(true)
 
 	print("[CHAIN DATA]")
@@ -359,6 +396,10 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	# 👉 áp dụng mult cuối (ROUND TẠI ĐÂY)
 	mult = int(round(final_mult))
 	
+	#mult *= int(round(final_mult))
+	#mult *= int(round(final_mult))
+	#mult *= int(round(final_mult))
+	#mult *= int(round(final_mult))
 	# =====================
 	# FINAL ITEM MODIFY
 	# =====================
@@ -419,6 +460,28 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 			activate_id
 		)
 		await wait_step()
+		
+	# =====================
+	# OVER HEAVEN STACK
+	# =====================
+
+	if is_valid and item_manager.treated_as_synonym:
+
+		for inventory_item in item_manager.items:
+
+			if inventory_item.get(
+				"id",
+				""
+			) != "over_heaven":
+				continue
+
+			inventory_item["bonus_mult"] += 0.5
+
+			print("\n🌌 OVER HEAVEN STACK")
+			print(
+				"NEW BONUS:",
+				inventory_item["bonus_mult"]
+			)
 
 	#mult *= mult
 	#mult *= mult
@@ -429,7 +492,10 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 
 	await wait_step()
 
-	var score_one = point * mult
+	var score_one = min(
+		point * mult,
+		MAX_SCORE
+	)
 
 	print("FINAL SCORE:", score_one)
 
@@ -456,7 +522,10 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 
 			var extra_mult = int(round(extra_final_mult))
 
-			var extra_score = point * extra_mult
+			var extra_score = min(
+				point * extra_mult,
+				MAX_SCORE
+			)
 
 			print("\n🔥 FULL COMBO EXTRA HIT")
 			print("CHAIN:", extra_chain.chain_count)
@@ -507,7 +576,7 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 		print("\n✅ LONE WORD ACTIVATED")
 		print("TURN REFUNDED")
 
-		turn += 1
+		add_turn(1)
 
 		emit_signal("show_floating_text", card, {
 			"text": "Refunded",
@@ -532,8 +601,8 @@ func get_item_effect_text(effect):
 		"add_mult":
 			return "+" + str(effect.value) + " Mult"
 
-		"mul_score":
-			return "x" + str(effect.value) + " Score"
+		"mul_mult":
+			return "x" + str(effect.value) + " Mult"
 
 	return effect.type
 	
@@ -609,30 +678,236 @@ func apply_step(step: Dictionary):
 func wait_step():
 	return get_tree().create_timer(step_delay).timeout
 	
+func add_turn(value: int):
+
+	if reward_popup_open:
+
+		pending_turn_bonus += value
+
+		print(
+			"[PENDING TURN BONUS]",
+			pending_turn_bonus
+		)
+
+	else:
+
+		turn += value
+
+		print(
+			"[INSTANT TURN BONUS]",
+			turn
+		)
+
+	emit_signal("update_state_ui", get_state())	
+
+func setup_round():
+
+	item_manager.start_round()
+
+	turn = max_turn + item_manager.get_round_turn_bonus()
+
+	if pending_turn_bonus > 0:
+
+		print(
+			"\n[APPLY PENDING TURN BONUS]",
+			pending_turn_bonus
+		)
+
+		turn += pending_turn_bonus
+
+		pending_turn_bonus = 0
+
+	print("\n🎯 FINAL TURN:", turn)
+
+	discard_left = max_discard
+	
 func next_round():
 	round += 1
-	item_manager.start_round()
 	score -= target_score
 	target_score = int(target_score * 1.5)
-	
-	turn = max_turn
-	discard_left = max_discard
+	setup_round()
 	
 	print("=== NEXT ROUND ===")
 	
-func end_game():
-	print("Game Over - Final Score:", score)
+func continue_next_round():
 
 	is_scoring = false
 
+	result_score = 0
+
+	score -= target_score
+
+	round += 1
+
+	SaveManager.save_game()
+
+	target_score = int(target_score * 1.5)
+	setup_round()
+
+	print("=== NEXT ROUND ===")
+
 	emit_signal("clear_center_cards")
 
+	current_word = word_db.get_random_word_exclude(current_word)
+
+	draw_hand()
+	
+
+	
+func show_reward_popup():
+
+	reward_popup_open = true
+	is_scoring = true
+
+	var popup_scene = preload(
+		"res://scenes/Items/item_reward_popup.tscn"
+	)
+
+	var popup = popup_scene.instantiate()
+
+	var ui = get_tree().current_scene.get_node_or_null("UI")
+
+	if ui == null:
+		ui = get_tree().current_scene
+
+	ui.add_child(popup)
+
+	var owned_ids := []
+
+	for item in item_manager.get_items():
+
+		owned_ids.append(
+			item.get("id", "")
+		)
+
+	var rewards = ItemDB.get_random_rewards(
+		3,
+		owned_ids
+	)
+
+	popup.setup(
+		rewards,
+		reward_reroll_left,
+	)
+
+	popup.reward_selected.connect(
+		_on_reward_selected
+	)
+
+	popup.reward_skipped.connect(
+		_on_reward_skipped
+	)
+
+	popup.reward_rerolled.connect(
+		func():
+
+			if reward_reroll_left <= 0:
+				return
+
+			reward_reroll_left -= 1
+
+			print("\n🔄 REROLL USED")
+			print("LEFT:", reward_reroll_left)
+
+			# =====================
+			# BUILD EXCLUDED
+			# =====================
+
+			var excluded = owned_ids.duplicate()
+
+			for item in popup.current_rewards:
+
+				excluded.append(
+					item.get("id", "")
+				)
+
+			# =====================
+			# NEW REWARDS
+			# =====================
+
+			var new_rewards = ItemDB.get_random_rewards(
+				3,
+				excluded
+			)
+
+			# =====================
+			# REFRESH POPUP
+			# =====================
+
+			popup.setup(
+				new_rewards,
+				reward_reroll_left
+			)
+	)
+	
+func _on_reward_selected(item_data):
+
+	reward_popup_open = false
+
+	if item_manager.get_items().size() < 5:
+		item_manager.add_item(item_data["id"])
+		emit_signal("update_item_ui")
+	else:
+		print("ITEM INVENTORY FULL - reward skipped")
+
+	consume_reward_round()
+	
+func _on_reward_skipped():
+
+	print("\n⏭️ REWARD SKIPPED")
+
+	reward_popup_open = false
+
+	consume_reward_round()
+	
+func consume_reward_round():
+
+	score -= target_score
+	round += 1
+
+	SaveManager.save_game()
+
+	target_score = int(target_score * 1.5)
+	setup_round()
+
+	emit_signal("update_state_ui", get_state())
+
+	if score >= target_score:
+		show_reward_popup()
+		return
+
+	current_word = word_db.get_random_word_exclude(current_word)
+	draw_hand()
+
+	is_scoring = false
+	
+func end_game():
+
+	print("Game Over - Final Score:", score)
+
+	if score > SaveManager.save_data["statistics"]["highest_score"]:
+
+		SaveManager.save_data["statistics"]["highest_score"] = score
+		
+	SaveManager.save_game()
+
+	#is_scoring = false
+#
+	#emit_signal("clear_center_cards")
+#
+	#reset_state()
+
+	#emit_signal("update_item_ui")
+	await get_tree().process_frame
+	
 	reset_state()
 
-	start_game()
+	get_tree().change_scene_to_file(
+			"res://scenes/Screen/game_over.tscn"
+		)
 	
 func reset_state():
-		# reset state
+
 	score = 0
 	round = 1
 	target_score = 500
@@ -641,8 +916,19 @@ func reset_state():
 	mult = 0
 	point = 0
 	result_score = 0
+
 	current_word = null
+
 	discard_left = max_discard
+
+	reward_reroll_left = max_reward_reroll
+
+	is_scoring = false
+	reward_popup_open = false
+	pending_turn_bonus = 0
+
+	item_manager.reset_items()
+
 	hand.clear()
 	bag.clear()
 	

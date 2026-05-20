@@ -6,8 +6,8 @@ var runtime_items = []
 
 #var intensifier_used = false
 #var extra_caffeine_used = false
-#var handy_shortcut_used = false
-#var phantom_hand_used = false
+var handy_shortcut_used = false
+var phantom_hand_used = false
 var golden_ratio_bonus = 0
 var last_relation_type = ""
 #var future_debt_used = false
@@ -16,6 +16,7 @@ var played_word_count = 0
 var lone_word_valid = false
 var lone_word_relation = ""
 var treated_as_synonym = false
+var round_turn_bonus := 0
 #var blueprint_select_mode = false
 #var blueprint_item = null
 
@@ -38,9 +39,15 @@ func add_item(item_id: String):
 
 	else:
 
-		items.append({
+		var item = {
 			"id": item_id,
-		})
+		}
+
+		if item_id == "over_heaven":
+
+			item["bonus_mult"] = 2.0
+
+		items.append(item)
 
 	print("ADD ITEM:", item_id)
 
@@ -66,6 +73,18 @@ func sell_item(item_instance) -> int:
 	var value = ItemDB.get_rarity_value(rarity)
 
 	items.erase(item_instance)
+	
+	# =====================
+	# RESET PERSISTENT STATE
+	# =====================
+
+	if item_id == "golden_ratio":
+
+		if !has_item("golden_ratio"):
+
+			print("RESET GOLDEN RATIO BONUS")
+
+			golden_ratio_bonus = 0
 
 	print("\n💰 ITEM SOLD")
 	print("ITEM:", item_id)
@@ -172,6 +191,15 @@ func get_total_rarity_value_except(
 
 	return total
 
+func has_effective_item(item_id: String) -> bool:
+
+	for item in runtime_items:
+
+		if item.get("id", "") == item_id:
+			return true
+
+	return false
+
 func find_item_instance(item_id):
 
 	for item in items:
@@ -209,6 +237,78 @@ func modify_step(step: Dictionary) -> Dictionary:
 
 	return result
 	
+func get_item_status_text(item_instance) -> String:
+
+	var item_id = item_instance.get("id", "")
+
+	match item_id:
+
+		"golden_ratio":
+
+			return (
+				"Current Bonus: +"
+				+ str(golden_ratio_bonus)
+				+ " Point"
+			)
+
+		"phantom_hand":
+
+			if phantom_hand_used:
+				return "Already activated this turn"
+
+			return "Ready"
+
+		"blueprint":
+
+			var copied = item_instance.get(
+				"copied_item",
+				""
+			)
+
+			if copied == "":
+				return "No copied item"
+
+			return (
+				"Copying: "
+				+ copied
+			)
+
+		"yojigen_pocket":
+
+			return (
+				"Round Bonus: +"
+				+ str(round_turn_bonus)
+				+ " Turn"
+			)
+
+	return ""
+
+func reset_items():
+
+	items.clear()
+
+	runtime_items.clear()
+
+	golden_ratio_bonus = 0
+
+	round_turn_bonus = 0
+
+	last_relation_type = ""
+
+	valid_word_count = 0
+
+	played_word_count = 0
+
+	lone_word_valid = false
+
+	lone_word_relation = ""
+
+	treated_as_synonym = false
+
+	handy_shortcut_used = false
+
+	phantom_hand_used = false
+	
 func start_turn():
 
 	last_relation_type = ""
@@ -217,6 +317,8 @@ func start_turn():
 	lone_word_valid = false
 	lone_word_relation = ""
 	treated_as_synonym = false
+	handy_shortcut_used = false
+	phantom_hand_used = false
 
 	# =====================
 	# LOCK BLUEPRINT
@@ -246,15 +348,70 @@ func start_turn():
 		item["turn_used"] = false
 	
 func start_round():
-	
-	
+
+	print("\n==============================")
+	print("🎒 START ROUND")
+	print("==============================")
 
 	runtime_items = build_runtime_items()
 
-	for item in runtime_items:
+	round_turn_bonus = 0
 
+	for item in runtime_items:
 		item["round_used"] = false
 		item["turn_used"] = false
+
+	print("\nPLAYER ITEMS:")
+
+	for item in items:
+
+		var item_id = item.get("id", "")
+
+		var data = ItemDB.ITEMS.get(item_id, {})
+
+		var rarity = data.get("rarity", "common")
+
+		var rarity_value = ItemDB.get_rarity_value(rarity)
+
+		print(
+			"-",
+			item_id,
+			"| rarity:",
+			rarity,
+			"| value:",
+			rarity_value
+		)
+
+	var total_pocket_bonus := 0
+
+	for item in runtime_items:
+
+		if item.get("id", "") != "yojigen_pocket":
+			continue
+
+		print("\n🌀 YOJIGEN POCKET DETECTED")
+
+		var persistent = item.get("persistent", null)
+
+		var total_rarity = get_total_rarity_value_except(
+			persistent
+		)
+
+		print("TOTAL OTHER RARITY VALUE:", total_rarity)
+
+		@warning_ignore("integer_division")
+
+		var bonus = int(total_rarity / 2)
+
+		print("POCKET BONUS:", bonus)
+
+		total_pocket_bonus += bonus
+
+	round_turn_bonus = total_pocket_bonus
+
+func get_round_turn_bonus() -> int:
+	return round_turn_bonus
+	
 
 func modify_final(point, mult, data) -> Dictionary:
 
@@ -582,7 +739,7 @@ func modify_final(point, mult, data) -> Dictionary:
 				if discard_used <= 0:
 					continue
 
-				var bonus = discard_used * 15
+				var bonus = discard_used * 45
 
 				print("✅ FUTURE DEBT ACTIVATED")
 				print("DISCARD USED:", discard_used)
@@ -599,6 +756,44 @@ func modify_final(point, mult, data) -> Dictionary:
 					"type": "add_point",
 					"value": bonus,
 					"item_id": "future_debt",
+					"is_blueprint_copy":
+						item.get("is_blueprint_copy", false)
+				})
+				
+			# =====================
+			# OVER HEAVEN
+			# =====================
+
+			"over_heaven":
+
+				if !data.is_valid:
+					continue
+
+				if !treated_as_synonym:
+					continue
+
+				var persistent = item.get(
+					"persistent",
+					null
+				)
+
+				if persistent == null:
+					continue
+
+				var bonus_mult = persistent.get(
+					"bonus_mult",
+					2.0
+				)
+
+				print("\n🌌 OVER HEAVEN ACTIVATED")
+				print("BONUS MULT:", bonus_mult)
+
+				result.mult *= bonus_mult
+
+				effects.append({
+					"type": "mul_mult",
+					"value": bonus_mult,
+					"item_id": "over_heaven",
 					"is_blueprint_copy":
 						item.get("is_blueprint_copy", false)
 				})

@@ -7,10 +7,13 @@ extends Control
 
 var item_instance
 var selected = false
+var can_click := true
 
 signal sell_pressed(item_ref)
 signal use_pressed(item_ref)
 signal item_clicked(item_ref)
+signal hover_started(item_ref)
+signal hover_ended()
 
 func _ready() -> void:
 	sell_button.visible = false
@@ -22,7 +25,15 @@ func setup(instance):
 
 	item_instance = instance
 
-	var data = ItemDB.ITEMS[instance.id]
+	var item_id = instance.get("id", "")
+
+	if item_id == "":
+		return
+
+	if !ItemDB.ITEMS.has(item_id):
+		return
+
+	var data = ItemDB.ITEMS[item_id]
 
 	label.text = data.name
 	if item_instance.get("id", "") == "blueprint":
@@ -54,7 +65,7 @@ func update_buttons():
 	
 func has_use_action() -> bool:
 
-	match item_instance.id:
+	match item_instance.get("id", ""):
 
 		"blueprint":
 			return true
@@ -102,4 +113,23 @@ func _on_use_button_pressed() -> void:
 
 
 func _on_click_area_pressed() -> void:
+	
+	if not can_click:
+		return
+	
 	emit_signal("item_clicked", self)
+
+
+func _on_click_area_mouse_entered() -> void:
+	print("HOVER ENTER:", item_instance)
+	emit_signal(
+		"hover_started",
+		self
+	)
+
+
+func _on_click_area_mouse_exited() -> void:
+	print("HOVER EXIT")
+	emit_signal(
+		"hover_ended"
+	)
