@@ -29,6 +29,11 @@ func create_default_save():
 		"collection": {
 			"items": [],
 			"words": []
+		},
+		
+		"current_run": {
+			"active": false,
+			"round_state": {}
 		}
 	}
 
@@ -70,6 +75,8 @@ func load_game():
 
 		save_data = json.data
 
+		validate_save()
+
 	else:
 
 		save_data = create_default_save()
@@ -77,10 +84,48 @@ func load_game():
 		
 	print("LOAD GAME CALLED")
 
+func validate_save():
+
+	if !save_data.has("current_run"):
+
+		save_data["current_run"] = {
+			"active": false,
+			"round_state": {}
+		}
+
+	if !save_data.has("collection"):
+
+		save_data["collection"] = {
+			"items": [],
+			"words": []
+		}
+
+	save_game()
+
 func reset_save():
 
 	save_data = create_default_save()
 	save_game()
+	
+func unlock_item(item_id):
+
+	var items = save_data["collection"]["items"]
+
+	if not items.has(item_id):
+
+		items.append(item_id)
+
+		save_game()
+		
+func unlock_word(word_id):
+
+	var words = save_data["collection"]["words"]
+
+	if not words.has(word_id):
+
+		words.append(word_id)
+
+		save_game()
 
 func get_word_data(word):
 
@@ -95,3 +140,21 @@ func get_word_data(word):
 		}
 
 	return tracking[word]
+	
+func save_current_run(state):
+
+	save_data["current_run"] = {
+		"active": true,
+		"round_state": state
+	}
+
+	save_game()
+	
+func clear_current_run():
+
+	save_data["current_run"] = {
+		"active": false,
+		"round_state": {}
+	}
+
+	save_game()

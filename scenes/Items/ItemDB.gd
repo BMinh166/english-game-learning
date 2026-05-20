@@ -32,6 +32,7 @@ static var ITEMS = {
 	# =====================
 
 	"synonym_codex": {
+		"num": 1,
 		"id": "synonym_codex",
 		"name": "Synonym Codex",
 		"rarity": "common",
@@ -39,6 +40,7 @@ static var ITEMS = {
 	},
 
 	"wildcard": {
+		"num": 2,
 		"id": "wildcard",
 		"name": "Wildcard",
 		"rarity": "common",
@@ -46,6 +48,7 @@ static var ITEMS = {
 	},
 	
 	"cappuccino": {
+		"num": 3,
 		"id": "cappuccino",
 		"name": "Cappuccino",
 		"rarity": "common",
@@ -53,6 +56,7 @@ static var ITEMS = {
 	},
 	
 	"intensifier": {
+		"num": 4,
 		"id": "intensifier",
 		"name": "Intensifier",
 		"rarity": "common",
@@ -60,6 +64,7 @@ static var ITEMS = {
 	},
 	
 	"extra_caffeine": {
+		"num": 5,
 		"id": "extra_caffeine",
 		"name": "Extra Caffeine",
 		"rarity": "common",
@@ -67,6 +72,7 @@ static var ITEMS = {
 	},
 	
 	"handy_shortcut": {
+		"num": 6,
 		"id": "handy_shortcut",
 		"name": "Handy Shortcut",
 		"rarity": "common",
@@ -74,6 +80,7 @@ static var ITEMS = {
 	},
 	
 	"family_guide": {
+		"num": 7,
 		"id": "family_guide",
 		"name": "Family Guide",
 		"rarity": "common",
@@ -81,6 +88,7 @@ static var ITEMS = {
 	},
 
 	"phantom_hand": {
+		"num": 8,
 		"id": "phantom_hand",
 		"name": "Phantom Hand",
 		"rarity": "common",
@@ -88,6 +96,7 @@ static var ITEMS = {
 	},
 	
 	"language_glitch": {
+		"num": 9,
 		"id": "language_glitch",
 		"name": "Language Glitch",
 		"rarity": "uncommon",
@@ -95,6 +104,7 @@ static var ITEMS = {
 	},
 
 	"golden_ratio": {
+		"num": 10,
 		"id": "golden_ratio",
 		"name": "Golden Ratio",
 		"rarity": "uncommon",
@@ -102,6 +112,7 @@ static var ITEMS = {
 	},
 	
 	"scholars_thesis": {
+		"num": 11,
 		"id": "scholars_thesis",
 		"name": "Scholar's Thesis",
 		"rarity": "uncommon",
@@ -109,6 +120,7 @@ static var ITEMS = {
 	},
 
 	"yin_yang": {
+		"num": 12,
 		"id": "yin_yang",
 		"name": "Yin and Yang",
 		"rarity": "uncommon",
@@ -116,6 +128,7 @@ static var ITEMS = {
 	},
 	
 	"magnetic_force": {
+		"num": 13,
 		"id": "magnetic_force",
 		"name": "Magnetic Force",
 		"rarity": "uncommon",
@@ -123,6 +136,7 @@ static var ITEMS = {
 	},
 
 	"future_debt": {
+		"num": 14,
 		"id": "future_debt",
 		"name": "Future Debt",
 		"rarity": "uncommon",
@@ -130,6 +144,7 @@ static var ITEMS = {
 	},
 	
 	"full_combo": {
+		"num": 15,
 		"id": "full_combo",
 		"name": "Full Combo",
 		"rarity": "rare",
@@ -137,6 +152,7 @@ static var ITEMS = {
 	},
 
 	"lone_word": {
+		"num": 16,
 		"id": "lone_word",
 		"name": "Lone Word",
 		"rarity": "rare",
@@ -144,6 +160,7 @@ static var ITEMS = {
 	},
 	
 	"blueprint": {
+		"num": 17,
 		"id": "blueprint",
 		"name": "Blueprint",
 		"rarity": "rare",
@@ -151,6 +168,7 @@ static var ITEMS = {
 	},
 	
 	"yojigen_pocket": {
+		"num": 18,
 		"id": "yojigen_pocket",
 		"name": "Yojigen Pocket",
 		"rarity": "rare",
@@ -158,6 +176,7 @@ static var ITEMS = {
 	},
 	
 	"over_heaven": {
+		"num": 19,
 		"id": "over_heaven",
 		"name": "Over Heaven",
 		"rarity": "legendary",
@@ -165,6 +184,7 @@ static var ITEMS = {
 	},
 	
 	"infinite_paradox": {
+		"num": 20,
 		"id": "infinite_paradox",
 		"name": "Infinite Paradox",
 		"rarity": "legendary",

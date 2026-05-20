@@ -78,6 +78,7 @@ func _on_reward_hover_started(item_ref):
 	var title = data.get("name", "")
 	var description = data.get("description", "")
 	var status = GameManager.item_manager.get_item_status_text(item_instance)
+	var rarity = data.get("rarity", "")
 
 	var ui = _get_ui()
 	if ui == null:
@@ -88,6 +89,7 @@ func _on_reward_hover_started(item_ref):
 		title,
 		description,
 		status,
+		rarity,
 		get_viewport().get_mouse_position() + Vector2(24, 24)
 	)
 

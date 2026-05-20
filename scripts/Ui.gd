@@ -245,9 +245,27 @@ func _on_sell_item_pressed(item_ref):
 	update_state_ui(GameManager.get_state())
 
 func _on_item_hover_started(item_ref):
+
 	print("TOOLTIP START")
 
 	var item_instance = item_ref.item_instance
+
+	# =====================
+	# UNDISCOVERED
+	# =====================
+
+	if item_instance == null:
+
+		show_tooltip(
+			"???",
+			"Undiscovered Item",
+			"",
+			"",
+			get_viewport().get_mouse_position()
+			+ Vector2(24, 24)
+		)
+
+		return
 
 	var item_id = item_instance.get("id", "")
 
@@ -264,18 +282,16 @@ func _on_item_hover_started(item_ref):
 	var status = GameManager.item_manager.get_item_status_text(
 		item_instance
 	)
-	
+
+	var rarity = data.get("rarity", "")
+
 	print("STATUS:", status)
 
-	item_tooltip.setup(
+	show_tooltip(
 		title,
 		description,
-		status
-	)
-
-	item_tooltip.visible = true
-
-	item_tooltip.position = (
+		status,
+		rarity,
 		get_viewport().get_mouse_position()
 		+ Vector2(24, 24)
 	)
@@ -463,13 +479,15 @@ func show_tooltip(
 	title,
 	description,
 	status,
+	rarity,
 	pos
 ):
 
 	item_tooltip.setup(
 		title,
 		description,
-		status
+		status,
+		rarity
 	)
 
 	item_tooltip.visible = true
@@ -480,6 +498,17 @@ func show_tooltip(
 func hide_tooltip():
 
 	item_tooltip.visible = false
+	
+func _process(_delta):
+
+	if item_tooltip.visible:
+
+		var pos = (
+			get_viewport().get_mouse_position()
+			+ Vector2(24, 24)
+		)
+
+		item_tooltip.position = pos
 	
 func _input(event):
 	pass

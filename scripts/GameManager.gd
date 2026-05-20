@@ -55,7 +55,8 @@ func _ready():
 	randomize()
 	SaveManager.init_save()
 
-	#start_game()
+	if !load_current_run():
+		start_game()
 		#
 func start_game():
 	setup_round()
@@ -64,8 +65,12 @@ func start_game():
 	#discard_left = max_discard
 	
 	draw_hand()
+	
+	SaveManager.save_current_run(
+		build_round_save()
+	)
 	print("Game start")
-	print("Word:", current_word.text)
+	print("Word:", current_word["text"])
 	
 	SaveManager.save_data["statistics"]["total_runs"] += 1
 	SaveManager.save_game()
@@ -81,7 +86,7 @@ func draw_hand():
 	
 	hand = result.hand
 	print("Hand size: " + str(hand_size))
-	print("First word: " + str(hand[0].text))
+	print("First word: " + str(hand[0]["text"]))
 	bag = result.bag
 	emit_signal("update_state_ui", get_state())
 
@@ -139,10 +144,10 @@ func play_selected(cards):
 		var word = selected_words[i]
 
 		var relations = relation.check_relation(current_word, word)
-		var steps = score_system.build_steps(relations, word.level)
+		var steps = score_system.build_steps(relations,	word["level"])
 		
 		print("\n=== NEW WORD ===")
-		print("WORD:", word.text)
+		print("WORD:", word["text"])
 		print("RELATIONS:", relations.size())
 		print("STEPS:", steps)
 
@@ -256,14 +261,14 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	# WORD TRACKING
 	# =====================
 	
-	var word_data = SaveManager.get_word_data(card.data.text)
+	var word_data = SaveManager.get_word_data(card.data["text"])
 
-	word_data.seen += 1
+	word_data["seen"] += 1
 
 	if is_valid:
-		word_data.correct += 1
+		word_data["correct"] += 1
 	else:
-		word_data.wrong += 1
+		word_data["wrong"] += 1
 		
 	# ❌ FAIL
 	if !is_valid:
@@ -432,7 +437,7 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 			"is_valid": is_valid,
 			"card": card,
 			"relation_type": relation_type,
-			"word_level": card.data.level,
+			"word_level": card.data["level"],
 			"is_synonym_glitch": false,
 			"discard_used": max_discard - discard_left,
 		}
@@ -635,7 +640,7 @@ func get_text_from_step(step):
 			var source = step.get("source", "")
 
 			if source == "level":
-				return step.level + " (+" + str(value) + " Point)"
+				return step["level"] + " (+" + str(value) + " Point)"
 			else:
 				return "+" + str(value) + " Point"
 
@@ -644,7 +649,7 @@ func get_text_from_step(step):
 			var source = step.get("source", "")
 
 			if source == "level":
-				return step.level + " (+" + str(value) + " Mult)"
+				return step["level"] + " (+" + str(value) + " Mult)"
 			else:
 				return "+" + str(value) + " Mult"
 
@@ -752,6 +757,10 @@ func continue_next_round():
 
 	draw_hand()
 	
+	SaveManager.save_current_run(
+		build_round_save()
+	)
+	
 
 	
 func show_reward_popup():
@@ -845,7 +854,11 @@ func _on_reward_selected(item_data):
 	reward_popup_open = false
 
 	if item_manager.get_items().size() < 5:
+
 		item_manager.add_item(item_data["id"])
+
+		SaveManager.unlock_item(item_data["id"])
+
 		emit_signal("update_item_ui")
 	else:
 		print("ITEM INVENTORY FULL - reward skipped")
@@ -878,6 +891,10 @@ func consume_reward_round():
 
 	current_word = word_db.get_random_word_exclude(current_word)
 	draw_hand()
+	
+	SaveManager.save_current_run(
+		build_round_save()
+	)
 
 	is_scoring = false
 	
@@ -890,6 +907,8 @@ func end_game():
 		SaveManager.save_data["statistics"]["highest_score"] = score
 		
 	SaveManager.save_game()
+	
+	SaveManager.clear_current_run()
 
 	#is_scoring = false
 #
@@ -956,6 +975,77 @@ func discard_selected(indices):
 		bag.remove_at(rand_index)
 	
 	emit_signal("update_state_ui", get_state())
+	
+func build_round_save():
+
+	var hand_words = []
+
+	for word in hand:
+		hand_words.append(word["text"])
+
+	var bag_words = []
+
+	for word in bag:
+		bag_words.append(word["text"])
+
+	var item_ids = []
+
+	for item in item_manager.get_items():
+		item_ids.append(item["id"])
+
+	return {
+		"round": round,
+		"score": score,
+		"target_score": target_score,
+		"turn": turn,
+		"current_word": current_word["text"],
+		"hand": hand_words,
+		"bag": bag_words,
+		"reward_reroll_left": reward_reroll_left,
+		"items": item_ids
+	}
+	
+func load_current_run():
+
+	var run = SaveManager.save_data["current_run"]
+
+	if !run["active"]:
+		return false
+
+	var data = run["round_state"]
+
+	round = data["round"]
+	score = data["score"]
+	target_score = data["target_score"]
+	turn = data["turn"]
+
+	current_word = WordDB.WORDS[data["current_word"]]
+
+	reward_reroll_left = data["reward_reroll_left"]
+
+	hand.clear()
+
+	for word_id in data["hand"]:
+		hand.append(
+			WordDB.WORDS[word_id]
+		)
+
+	bag.clear()
+
+	for word_id in data["bag"]:
+		bag.append(
+			WordDB.WORDS[word_id]
+		)
+
+	item_manager.reset_items()
+
+	for item_id in data["items"]:
+		item_manager.add_item(item_id)
+
+	emit_signal("update_item_ui")
+	emit_signal("update_state_ui", get_state())
+
+	return true
 	
 func debug_add_item(item_id: String):
 

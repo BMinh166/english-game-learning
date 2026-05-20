@@ -8,6 +8,7 @@ extends Control
 var item_instance
 var selected = false
 var can_click := true
+var inspect_only := false
 
 signal sell_pressed(item_ref)
 signal use_pressed(item_ref)
@@ -35,7 +36,7 @@ func setup(instance):
 
 	var data = ItemDB.ITEMS[item_id]
 
-	label.text = data.name
+	label.text = data["name"]
 	if item_instance.get("id", "") == "blueprint":
 
 		var copied = item_instance.get(
@@ -98,6 +99,10 @@ func activate():
 
 	modulate = Color.WHITE
 	
+func disable_interaction():
+
+	inspect_only = true
+	
 func close_buttons():
 
 	selected = false
@@ -113,6 +118,8 @@ func _on_use_button_pressed() -> void:
 
 
 func _on_click_area_pressed() -> void:
+	if inspect_only:
+		return
 	
 	if not can_click:
 		return
@@ -121,7 +128,9 @@ func _on_click_area_pressed() -> void:
 
 
 func _on_click_area_mouse_entered() -> void:
+
 	print("HOVER ENTER:", item_instance)
+
 	emit_signal(
 		"hover_started",
 		self

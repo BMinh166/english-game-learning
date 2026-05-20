@@ -20,3 +20,8 @@ config/icon="res://icon.svg"
 WordDB="*res://scripts/WordDB.gd"
 GameManager="*res://scripts/GameManager.gd"
 SaveManager="*res://autoload/SaveManager.gd"
+
+[display]
+
+window/size/mode=3
+window/stretch/mode="canvas_items"
