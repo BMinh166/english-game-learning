@@ -1,0 +1,56 @@
+[gd_scene load_steps=4 format=3 uid="uid://bfjcm2grg5k60"]
+
+[ext_resource type="Script" uid="uid://cbdfjkqaruv7g" path="res://scenes/Items/item_tooltip.gd" id="1_rf4pf"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_7puqk"]
+font_size = 21
+
+[sub_resource type="LabelSettings" id="LabelSettings_rf4pf"]
+font_size = 14
+
+[node name="ItemTooltip" type="PanelContainer"]
+custom_minimum_size = Vector2(200, 120)
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("1_rf4pf")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+
+[node name="MasterContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="MarginContainer/MasterContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+text = "Item Name"
+label_settings = SubResource("LabelSettings_7puqk")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DescriptionContainer" type="VBoxContainer" parent="MarginContainer/MasterContainer"]
+custom_minimum_size = Vector2(190, 50)
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="DescriptionLabel" type="Label" parent="MarginContainer/MasterContainer/DescriptionContainer"]
+custom_minimum_size = Vector2(190, 50)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Description "
+label_settings = SubResource("LabelSettings_rf4pf")
+horizontal_alignment = 1
+autowrap_mode = 3
+clip_text = true
+
+[node name="StatusLabel" type="Label" parent="MarginContainer/MasterContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Status"
+horizontal_alignment = 1
+vertical_alignment = 1

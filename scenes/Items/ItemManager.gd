@@ -236,6 +236,52 @@ func modify_step(step: Dictionary) -> Dictionary:
 		print("\nCHECK ITEM:", item_id)
 
 	return result
+	
+func get_item_status_text(item_instance) -> String:
+
+	var item_id = item_instance.get("id", "")
+
+	match item_id:
+
+		"golden_ratio":
+
+			return (
+				"Current Bonus: +"
+				+ str(golden_ratio_bonus)
+				+ " Point"
+			)
+
+		"phantom_hand":
+
+			if phantom_hand_used:
+				return "Already activated this turn"
+
+			return "Ready"
+
+		"blueprint":
+
+			var copied = item_instance.get(
+				"copied_item",
+				""
+			)
+
+			if copied == "":
+				return "No copied item"
+
+			return (
+				"Copying: "
+				+ copied
+			)
+
+		"yojigen_pocket":
+
+			return (
+				"Round Bonus: +"
+				+ str(round_turn_bonus)
+				+ " Turn"
+			)
+
+	return ""
 
 func reset_items():
 

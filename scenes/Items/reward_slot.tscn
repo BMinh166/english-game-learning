@@ -11,6 +11,8 @@ script = ExtResource("1_p57s8")
 
 [node name="Item" parent="." instance=ExtResource("1_42mv3")]
 layout_mode = 0
+offset_right = 150.0
+offset_bottom = 100.0
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 1
@@ -21,4 +23,6 @@ grow_horizontal = 2
 grow_vertical = 2
 flat = true
 
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

@@ -33,6 +33,7 @@ var reward_reroll_left := 5
 const MAX_SCORE = 1e15
 
 var step_delay: float = 0.2
+var previous_scene_path = ""
 
 #SIGNALS
 signal update_state_ui(state)
@@ -54,7 +55,7 @@ func _ready():
 	randomize()
 	SaveManager.init_save()
 
-	start_game()
+	#start_game()
 		#
 func start_game():
 	setup_round()
@@ -89,6 +90,12 @@ func refill_hand():
 		var rand_index = randi() % bag.size()
 		hand.append(bag[rand_index])
 		bag.remove_at(rand_index)
+		
+#func start_new_run():
+#
+	#reset_state()
+#
+	#start_game()
 #
 func play_selected(cards):
 	if cards.is_empty() or is_scoring:
@@ -890,16 +897,17 @@ func end_game():
 #
 	#reset_state()
 
-	emit_signal("update_item_ui")
+	#emit_signal("update_item_ui")
+	await get_tree().process_frame
 	
-	start_game()
+	reset_state()
 
 	get_tree().change_scene_to_file(
 			"res://scenes/Screen/game_over.tscn"
 		)
 	
 func reset_state():
-		# reset state
+
 	score = 0
 	round = 1
 	target_score = 500
@@ -908,10 +916,19 @@ func reset_state():
 	mult = 0
 	point = 0
 	result_score = 0
+
 	current_word = null
+
 	discard_left = max_discard
+
 	reward_reroll_left = max_reward_reroll
+
+	is_scoring = false
+	reward_popup_open = false
+	pending_turn_bonus = 0
+
 	item_manager.reset_items()
+
 	hand.clear()
 	bag.clear()
 	
