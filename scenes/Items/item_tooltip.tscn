@@ -6,6 +6,7 @@
 font_size = 21
 
 [sub_resource type="LabelSettings" id="LabelSettings_rf4pf"]
+line_spacing = 1.0
 font_size = 12
 
 [sub_resource type="LabelSettings" id="LabelSettings_0ljf3"]
@@ -49,10 +50,10 @@ layout_mode = 2
 size_flags_vertical = 6
 
 [node name="DescriptionLabel" type="Label" parent="MarginContainer/MasterContainer/DescriptionContainer"]
-custom_minimum_size = Vector2(190, 50)
+custom_minimum_size = Vector2(190, 60)
 layout_mode = 2
 size_flags_vertical = 3
-text = "Description "
+text = "Description"
 label_settings = SubResource("LabelSettings_rf4pf")
 horizontal_alignment = 1
 vertical_alignment = 1

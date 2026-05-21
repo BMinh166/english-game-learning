@@ -53,6 +53,33 @@ func update_buttons():
 
 	sell_button.visible = selected
 
+	# =====================
+	# SELL VALUE
+	# =====================
+
+	if item_instance != null:
+
+		var item_id = item_instance.get("id", "")
+
+		if ItemDB.ITEMS.has(item_id):
+
+			var data = ItemDB.ITEMS[item_id]
+
+			var rarity = data.get(
+				"rarity",
+				"common"
+			)
+
+			var sell_value = ItemDB.get_rarity_value(
+				rarity
+			)
+
+			sell_button.text = (
+				"Sell\n("
+				+ str(sell_value)
+				+ ")"
+			)
+
 	use_button.visible = (
 		selected
 		and has_use_action()

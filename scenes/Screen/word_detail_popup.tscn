@@ -108,6 +108,10 @@ layout_mode = 2
 text = "Part of speech Group:"
 autowrap_mode = 3
 
+[node name="LevelLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/Panel/MarginContainer/LabelContainer"]
+layout_mode = 2
+text = "Level:"
+
 [node name="SeenLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/ScrollContainer/Panel/MarginContainer/LabelContainer"]
 layout_mode = 2
 text = "Seen:"

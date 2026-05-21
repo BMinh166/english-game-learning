@@ -82,4 +82,6 @@ size_flags_vertical = 8
 text = "Back
 "
 
+[connection signal="pressed" from="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/RelationsButton" to="." method="_on_relations_button_pressed"]
 [connection signal="pressed" from="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/StatsButton" to="." method="_on_stats_button_pressed"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/DeleteDataButton" to="." method="_on_delete_data_button_pressed"]

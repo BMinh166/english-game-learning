@@ -3,6 +3,8 @@ extends Control
 @onready var grid = $CenterContainer/MarginContainer/VBoxContainer/MarginContainer/Panel/ScrollContainer/MarginContainer/GridContainer
 @onready var item_tooltip = $TooltipLayer/ItemTooltip
 
+@onready var back_button = $CenterContainer/MarginContainer/VBoxContainer/BackButton
+
 var item_scene = preload(
 	"res://scenes/Items/item.tscn"
 )
@@ -10,6 +12,7 @@ var item_scene = preload(
 
 func _ready():
 
+	update_language_ui()
 	load_items()
 
 
@@ -54,6 +57,12 @@ func load_items():
 			slot.label.text = "???"
 
 			slot.disable_interaction()
+			
+func update_language_ui():
+
+	back_button.text = Localization.tr_ui(
+		"back"
+	)
 
 func _on_item_hover_started(item_ref):
 
@@ -67,11 +76,12 @@ func _on_item_hover_started(item_ref):
 
 		item_tooltip.setup(
 			"???",
-			"Undiscovered Item",
+			Localization.tr_ui(
+				"undiscovered_item"
+			),
 			"",
 			""
 		)
-
 		item_tooltip.visible = true
 
 		item_tooltip.position = (
@@ -87,10 +97,14 @@ func _on_item_hover_started(item_ref):
 		return
 
 	var data = ItemDB.ITEMS[item_id]
+	
+	var description = Localization.tr_item(
+		item_id + "_desc"
+	)
 
 	item_tooltip.setup(
 		data.get("name", ""),
-		data.get("description", ""),
+		description,
 		"",
 		data.get("rarity", "")
 	)

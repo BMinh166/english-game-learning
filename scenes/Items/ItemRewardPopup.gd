@@ -76,7 +76,9 @@ func _on_reward_hover_started(item_ref):
 
 	var data = ItemDB.ITEMS[item_id]
 	var title = data.get("name", "")
-	var description = data.get("description", "")
+	var description = Localization.tr_item(
+		item_id + "_desc"
+	)
 	var status = GameManager.item_manager.get_item_status_text(item_instance)
 	var rarity = data.get("rarity", "")
 

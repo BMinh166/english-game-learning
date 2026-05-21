@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://dydp8jo5i8om2"]
+[gd_scene load_steps=3 format=3 uid="uid://dydp8jo5i8om2"]
 
 [ext_resource type="Script" uid="uid://bfpq7wk3pj5no" path="res://scripts/Screen/WordTab.gd" id="1_g6iyx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_g6iyx"]
 
 [node name="WordTab" type="Control"]
 layout_mode = 3
@@ -37,6 +39,7 @@ layout_mode = 2
 
 [node name="SearchBar" type="LineEdit" parent="CenterContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_g6iyx")
 
 [node name="Panel" type="Panel" parent="CenterContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

@@ -1,5 +1,33 @@
 extends Control
 
+@onready var play_button = $MainMenu/CenterContainer/VBoxContainer/MarginContainer/ButtonContainer/PlayButton
+@onready var setting_button = $MainMenu/CenterContainer/VBoxContainer/MarginContainer/ButtonContainer/SettingButton
+@onready var collection_button = $MainMenu/CenterContainer/VBoxContainer/MarginContainer/ButtonContainer/CollectionButton
+@onready var quit_button = $MainMenu/CenterContainer/VBoxContainer/MarginContainer/ButtonContainer/QuitButton
+
+func _ready():
+	update_language_ui()
+	
+	
+func update_language_ui():
+
+	play_button.text = Localization.tr_ui(
+		"play"
+	)
+
+	setting_button.text = Localization.tr_ui(
+		"settings"
+	)
+
+	collection_button.text = Localization.tr_ui(
+		"collection"
+	)
+
+	quit_button.text = Localization.tr_ui(
+		"quit"
+	)
+	
+	
 
 func _on_play_button_pressed() -> void:
 	GameManager.reset_state()

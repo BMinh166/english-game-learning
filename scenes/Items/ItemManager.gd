@@ -246,17 +246,17 @@ func get_item_status_text(item_instance) -> String:
 		"golden_ratio":
 
 			return (
-				"Current Bonus: +"
+				Localization.tr_status("bonus_point")
+				+ ": +"
 				+ str(golden_ratio_bonus)
-				+ " Point"
 			)
 
 		"phantom_hand":
 
 			if phantom_hand_used:
-				return "Already activated this turn"
+				return Localization.tr_status("used_turn")
 
-			return "Ready"
+			return Localization.tr_status("ready")
 
 		"blueprint":
 
@@ -266,19 +266,20 @@ func get_item_status_text(item_instance) -> String:
 			)
 
 			if copied == "":
-				return "No copied item"
+				return Localization.tr_status("no_copy")
 
 			return (
-				"Copying: "
+				Localization.tr_status("copying")
+				+ ": "
 				+ copied
 			)
 
 		"yojigen_pocket":
 
 			return (
-				"Round Bonus: +"
+				Localization.tr_status("bonus_turn")
+				+ ": +"
 				+ str(round_turn_bonus)
-				+ " Turn"
 			)
 
 	return ""

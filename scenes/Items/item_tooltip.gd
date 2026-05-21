@@ -20,4 +20,6 @@ func setup(title, description, status, rarity):
 	name_label.text = title
 	description_label.text = description
 	status_label.text = status
-	rarity_label.text = rarity
+	rarity_label.text = (
+		Localization.tr_rarity(rarity)
+	)

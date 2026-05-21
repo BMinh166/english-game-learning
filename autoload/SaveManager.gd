@@ -5,7 +5,20 @@ const SAVE_PATH = "user://save.json"
 var save_data = {}
 
 func init_save():
+
 	load_game()
+
+	# =====================
+	# LOAD LANGUAGE
+	# =====================
+
+	var lang = save_data["settings"].get(
+		"language",
+		"en"
+	)
+
+	Localization.set_language(lang)
+
 	print(save_data)
 
 func create_default_save():
@@ -34,21 +47,30 @@ func create_default_save():
 		},
 
 		"settings": {
+
+			"language": "en",
+
+			"master_volume": 100,
 			"music_volume": 100,
-			"sfx_volume": 100
+			"sfx_volume": 100,
+
+			"game_speed": 1 
 		},
 
 		"word_tracking": {},
 
 		"collection": {
-			"items": [],
-			"words": []
+			"items": []
 		},
 		
 		"current_run": {
 			"active": false,
 			"round_state": {}
-		}
+		},
+		
+		"relation_usage": {},
+		
+		"item_usage": {},
 	}
 
 func save_game():
@@ -110,15 +132,59 @@ func validate_save():
 	if !save_data.has("collection"):
 
 		save_data["collection"] = {
-			"items": [],
-			"words": []
+			"items": []
 		}
+		
+	if !save_data.has("relation_usage"):
+
+		save_data["relation_usage"] = {}
+
+	if !save_data.has("item_usage"):
+
+		save_data["item_usage"] = {}
+
+	# =====================
+	# STATISTICS VALIDATE
+	# =====================
+
+	if !save_data.has("statistics"):
+
+		save_data["statistics"] = {}
+
+	var default_stats = create_default_save()["statistics"]
+
+	for key in default_stats.keys():
+
+		if !save_data["statistics"].has(key):
+
+			save_data["statistics"][key] = default_stats[key]
+			
+	# =====================
+	# SETTINGS VALIDATE
+	# =====================
+
+	if !save_data.has("settings"):
+
+		save_data["settings"] = {}
+
+	var default_settings = create_default_save()["settings"]
+
+	for key in default_settings.keys():
+
+		if !save_data["settings"].has(key):
+
+			save_data["settings"][key] = default_settings[key]
 
 	save_game()
 
 func reset_save():
 
+	if FileAccess.file_exists(SAVE_PATH):
+
+		DirAccess.remove_absolute(SAVE_PATH)
+
 	save_data = create_default_save()
+
 	save_game()
 	
 func unlock_item(item_id):
@@ -128,16 +194,6 @@ func unlock_item(item_id):
 	if not items.has(item_id):
 
 		items.append(item_id)
-
-		save_game()
-		
-func unlock_word(word_id):
-
-	var words = save_data["collection"]["words"]
-
-	if not words.has(word_id):
-
-		words.append(word_id)
 
 		save_game()
 
@@ -176,3 +232,159 @@ func clear_current_run():
 func get_statistics():
 
 	return save_data["statistics"]
+	
+func get_most_seen_word():
+
+	var tracking = save_data["word_tracking"]
+
+	var best_word = ""
+	var best_value = 0
+
+	for word_id in tracking.keys():
+
+		var value = tracking[word_id].get("seen", 0)
+
+		if value > best_value:
+
+			best_value = value
+			best_word = word_id
+
+	if best_value <= 0:
+		return ""
+
+	return best_word
+
+
+func get_most_correct_word():
+
+	var tracking = save_data["word_tracking"]
+
+	var best_word = ""
+	var best_value = 0
+
+	for word_id in tracking.keys():
+
+		var value = tracking[word_id].get("correct", 0)
+
+		if value > best_value:
+
+			best_value = value
+			best_word = word_id
+
+	if best_value <= 0:
+		return ""
+
+	return best_word
+
+func track_relation(relation_type):
+
+	if !save_data.has("relation_usage"):
+
+		save_data["relation_usage"] = {}
+
+	var tracking = save_data["relation_usage"]
+
+	if !tracking.has(relation_type):
+
+		tracking[relation_type] = 0
+
+	tracking[relation_type] += 1
+
+	update_most_used_relation()
+
+
+func update_most_used_relation():
+
+	if !save_data.has("relation_usage"):
+		return
+
+	var tracking = save_data["relation_usage"]
+
+	var best_relation = ""
+	var best_value = -1
+
+	for relation_type in tracking.keys():
+
+		var value = tracking[relation_type]
+
+		if value > best_value:
+
+			best_value = value
+			best_relation = relation_type
+
+	save_data["statistics"]["most_used_relation"] = best_relation
+
+
+func track_item_use(item_id):
+
+	if !save_data.has("item_usage"):
+
+		save_data["item_usage"] = {}
+
+	var tracking = save_data["item_usage"]
+
+	if !tracking.has(item_id):
+
+		tracking[item_id] = 0
+
+	tracking[item_id] += 1
+
+	update_most_used_item()
+
+
+func update_most_used_item():
+
+	if !save_data.has("item_usage"):
+		return
+
+	var tracking = save_data["item_usage"]
+
+	var best_item = ""
+	var best_value = -1
+
+	for item_id in tracking.keys():
+
+		var value = tracking[item_id]
+
+		if value > best_value:
+
+			best_value = value
+			best_item = item_id
+
+	save_data["statistics"]["most_used_item"] = best_item
+
+func get_most_wrong_word():
+
+	var tracking = save_data["word_tracking"]
+
+	var best_word = ""
+	var best_value = 0
+
+	for word_id in tracking.keys():
+
+		var value = tracking[word_id].get("wrong", 0)
+
+		if value > best_value:
+
+			best_value = value
+			best_word = word_id
+
+	if best_value <= 0:
+		return ""
+
+	return best_word
+
+
+func get_setting(key, default_value = null):
+
+	return save_data["settings"].get(
+		key,
+		default_value
+	)
+
+
+func set_setting(key, value):
+
+	save_data["settings"][key] = value
+
+	save_game()

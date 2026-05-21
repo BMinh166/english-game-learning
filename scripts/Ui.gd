@@ -34,6 +34,8 @@ func _ready():
 	GameManager.connect("update_item_ui", update_item_ui)
 	GameManager.connect("activate_item_slot",_on_activate_item_slot)
 	hand_scene.connect("card_selected", _on_card_selected)
+	
+	update_language_ui()
 
 	#GameManager.update_item_ui.emit()
 
@@ -48,14 +50,7 @@ func update_state_ui(state):
 
 	word_label.text = state.current_word.text
 
-	turn_label.text = "Turn: " + str(state["turn"])
-
-	round_label.text = "Round: " + str(state["round"])
-
-	discard_left.text = (
-		"Discard left: "
-		+ str(state["discard_left"])
-	)
+	update_language_ui()
 
 	update_score_couting(state)
 
@@ -277,7 +272,9 @@ func _on_item_hover_started(item_ref):
 	var data = ItemDB.ITEMS[item_id]
 
 	var title = data.get("name", "")
-	var description = data.get("description", "")
+	var description = Localization.tr_item(
+		item_id + "_desc"
+	)
 
 	var status = GameManager.item_manager.get_item_status_text(
 		item_instance
@@ -441,6 +438,37 @@ func _on_activate_item_slot(item_id):
 
 	if slot.has_method("activate"):
 		slot.activate()
+		
+func update_language_ui():
+
+	play_button.text = Localization.tr_ui(
+		"play"
+	)
+
+	discard_button.text = Localization.tr_ui(
+		"discard"
+	)
+
+	if current_state == null:
+		return
+
+	turn_label.text = (
+		Localization.tr_ui("turn")
+		+ ": "
+		+ str(current_state.get("turn", 0))
+	)
+
+	round_label.text = (
+		Localization.tr_ui("round")
+		+ ": "
+		+ str(current_state.get("round", 0))
+	)
+
+	discard_left.text = (
+		Localization.tr_ui("discard_left")
+		+ ": "
+		+ str(current_state.get("discard_left", 0))
+	)
 	
 func format_number(n):
 

@@ -30,10 +30,13 @@ var reward_popup_open := false
 var pending_turn_bonus := 0
 var max_reward_reroll := 5
 var reward_reroll_left := 5
+var run_used_items := {}
 const MAX_SCORE = 1e15
 
 var step_delay: float = 0.2
 var previous_scene_path = ""
+var play_time_accumulator := 0.0
+var auto_save_timer := 0.0
 
 #SIGNALS
 signal update_state_ui(state)
@@ -55,9 +58,44 @@ func _ready():
 	randomize()
 	SaveManager.init_save()
 
+	apply_game_speed()
+
 	if !load_current_run():
 		start_game()
 		#
+		
+
+func _process(delta):
+
+	if get_tree().paused:
+		return
+
+	# =====================
+	# PLAY TIME TRACKING
+	# =====================
+
+	play_time_accumulator += delta
+
+	var seconds_to_add = int(play_time_accumulator)
+
+	if seconds_to_add > 0:
+
+		SaveManager.save_data["statistics"]["total_play_time"] += seconds_to_add
+
+		play_time_accumulator -= seconds_to_add
+
+	# =====================
+	# AUTO SAVE
+	# =====================
+
+	auto_save_timer += delta
+
+	if auto_save_timer >= 30.0:
+
+		auto_save_timer = 0.0
+
+		SaveManager.save_game()
+		
 func start_game():
 	setup_round()
 	current_word = word_db.get_random_word_exclude(current_word)
@@ -65,15 +103,15 @@ func start_game():
 	#discard_left = max_discard
 	
 	draw_hand()
-	
-	SaveManager.save_current_run(
-		build_round_save()
-	)
+
 	print("Game start")
 	print("Word:", current_word["text"])
 	
 	SaveManager.save_data["statistics"]["total_runs"] += 1
-	SaveManager.save_game()
+	
+	SaveManager.save_current_run(
+		build_round_save()
+	)
 #
 func draw_hand():
 	var result = generate_words.generate(
@@ -154,7 +192,7 @@ func play_selected(cards):
 		print("CHAIN:", chain_system.get_chain_count(), " MULT:", mult)
 
 		var is_valid = relations.size() > 0
-		var score_one = await process_single_word(steps, card, is_valid)
+		var score_one = await process_single_word(steps, relations, card, is_valid)
 
 		result_score += score_one
 		result_score = min(result_score, MAX_SCORE)
@@ -169,6 +207,10 @@ func play_selected(cards):
 	# ===== APPLY =====
 	score += result_score
 	score = min(score, MAX_SCORE)
+	
+	if score > SaveManager.save_data["statistics"]["highest_score"]:
+
+		SaveManager.save_data["statistics"]["highest_score"] = score
 	
 	turn -= 1
 
@@ -213,7 +255,7 @@ func play_selected(cards):
 
 	is_scoring = false
 	
-func process_single_word(steps: Array, card, is_valid: bool) -> int:
+func process_single_word(steps: Array, relations: Array, card, is_valid: bool) -> int:
 	point = 0
 	mult = 0
 	
@@ -339,9 +381,6 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	print("chain_mult:", chain_data.chain_mult)
 	print("delta_mult:", chain_data.delta_mult)
 	
-	if chain_data["chain_count"] > SaveManager.save_data["statistics"]["highest_chain"]:
-
-		SaveManager.save_data["statistics"]["highest_chain"] = chain_data["chain_count"]
 
 	# 👉 tính mult cuối (CHỈ 1 LẦN)
 	var chain_mult_value = chain_data.chain_mult
@@ -376,8 +415,18 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 				# 👇 QUAN TRỌNG
 				chain_system.chain_count += 1
 				chain_system.chain_mult = chain_mult_value
+				
 
 				print("CHAIN AFTER:", chain_mult_value)
+				
+	var display_chain = max(
+		chain_data["chain_count"] - 1,
+		0
+	)
+
+	if display_chain > SaveManager.save_data["statistics"]["highest_chain"]:
+
+		SaveManager.save_data["statistics"]["highest_chain"] = display_chain
 
 	var final_mult = mult * chain_mult_value
 
@@ -417,8 +466,12 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 
 	var relation_type = ""
 
-	if !steps.is_empty():
-		relation_type = steps[0].get("relation_type", "")
+	if !relations.is_empty():
+
+		relation_type = relations[0].get("type", "")
+
+	if is_valid and relation_type != "":
+		SaveManager.track_relation(relation_type)
 
 	item_manager.lone_word_valid = is_valid
 	item_manager.lone_word_relation = relation_type
@@ -749,8 +802,11 @@ func continue_next_round():
 	score -= target_score
 
 	round += 1
+	SaveManager.save_data["statistics"]["highest_round"] = max(
+		SaveManager.save_data["statistics"]["highest_round"],
+		round
+	)
 
-	SaveManager.save_game()
 
 	target_score = int(target_score * 1.5)
 	setup_round()
@@ -858,6 +914,8 @@ func show_reward_popup():
 func _on_reward_selected(item_data):
 
 	reward_popup_open = false
+	
+	run_used_items[item_data["id"]] = true
 
 	if item_manager.get_items().size() < 5:
 
@@ -883,8 +941,12 @@ func consume_reward_round():
 
 	score -= target_score
 	round += 1
+	
+	SaveManager.save_data["statistics"]["highest_round"] = max(
+		SaveManager.save_data["statistics"]["highest_round"],
+		round
+	)
 
-	SaveManager.save_game()
 
 	target_score = int(target_score * 1.5)
 	setup_round()
@@ -912,11 +974,10 @@ func end_game():
 
 		SaveManager.save_data["statistics"]["highest_score"] = score
 		
-	if round > SaveManager.save_data["statistics"]["highest_round"]:
+	for item_id in run_used_items.keys():
 
-		SaveManager.save_data["statistics"]["highest_round"] = round
+		SaveManager.track_item_use(item_id)
 		
-	SaveManager.save_game()
 	
 	SaveManager.clear_current_run()
 
@@ -945,6 +1006,7 @@ func reset_state():
 	mult = 0
 	point = 0
 	result_score = 0
+	run_used_items.clear()
 
 	current_word = null
 
@@ -960,6 +1022,24 @@ func reset_state():
 
 	hand.clear()
 	bag.clear()
+	
+func apply_game_speed():
+
+	var speed = SaveManager.get_setting(
+		"game_speed",
+		5
+	)
+
+	speed = clamp(speed, 1, 5)
+
+	step_delay = 0.6 - (speed * 0.1)
+
+	print(
+		"[GAME SPEED]",
+		speed,
+		" STEP DELAY:",
+		step_delay
+	)
 	
 func discard_selected(indices):
 	if indices.is_empty():
@@ -1051,6 +1131,7 @@ func load_current_run():
 
 	for item_id in data["items"]:
 		item_manager.add_item(item_id)
+		run_used_items[item_id] = true
 
 	emit_signal("update_item_ui")
 	emit_signal("update_state_ui", get_state())

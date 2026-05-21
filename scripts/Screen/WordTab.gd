@@ -4,17 +4,20 @@ extends Control
 
 @onready var word_container = $CenterContainer/MarginContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer/WordContainer
 
+@onready var back_button = $CenterContainer/MarginContainer/VBoxContainer/BackButton
+
 var popup_scene = preload(
 	"res://scenes/Screen/word_detail_popup.tscn"
 )
 
 
 func _ready():
-
+	
 	search_bar.text_changed.connect(
 		_on_search_text_changed
 	)
-
+	
+	update_language_ui()
 	load_words()
 
 
@@ -80,6 +83,13 @@ func open_word_detail(word_id):
 
 	popup.setup(word_id)
 
+
+func update_language_ui():
+
+	back_button.text = Localization.tr_ui(
+		"back"
+	)
+	
 
 func _on_search_text_changed(text):
 
