@@ -45,6 +45,13 @@ func create_default_save():
 			"most_wrong_word": "",
 			"most_seen_word": ""
 		},
+		
+		"completed_difficulties": {
+
+			"easy": false,
+			"normal": false,
+			"hard": false
+		},
 
 		"settings": {
 
@@ -54,7 +61,7 @@ func create_default_save():
 			"music_volume": 100,
 			"sfx_volume": 100,
 
-			"game_speed": 1 
+			"game_speed": 3 
 		},
 
 		"word_tracking": {},
@@ -142,6 +149,14 @@ func validate_save():
 	if !save_data.has("item_usage"):
 
 		save_data["item_usage"] = {}
+		
+	if !save_data.has("completed_difficulties"):
+
+		save_data["completed_difficulties"] = {
+			"easy": false,
+			"normal": false,
+			"hard": false
+		}
 
 	# =====================
 	# STATISTICS VALIDATE

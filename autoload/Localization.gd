@@ -83,9 +83,32 @@ var UI_TEXT = {
 		"continue": "Continue",
 		"difficulty": "Difficulty",
 
-		"easy_desc": "Relaxed gameplay",
-		"normal_desc": "Standard gameplay",
-		"hard_desc": "More challenging gameplay",
+		"easy_desc":
+			"15 rounds\n"
+			+ "Lower target score and more relation words appear.\n"
+			+ "A relaxed mode for learning and experimenting.",
+
+		"normal_desc":
+			"18 rounds\n"
+			+ "Balanced target score and balanced relation frequency.\n"
+			+ "The standard gameplay experience.",
+
+		"hard_desc":
+			"21 rounds\n"
+			+ "Higher score scaling and fewer relation words.\n"
+			+ "Requires strategy and vocabulary mastery.",
+		
+		"game_over": "Game Over",
+		"victory": "Victory",
+
+		"score": "Score",
+		
+		"completed": "Completed",
+		"not_completed": "Not Completed",
+		
+		"easy": "Easy",
+		"normal": "Normal",
+		"hard": "Hard",
 		
 	},
 
@@ -164,9 +187,32 @@ var UI_TEXT = {
 		"continue": "Tiếp tục",
 		"difficulty": "Độ khó",
 
-		"easy_desc": "Lối chơi thư giãn",
-		"normal_desc": "Lối chơi tiêu chuẩn",
-		"hard_desc": "Thử thách hơn",
+		"easy_desc":
+			"Có tổng 15 vòng\n"
+			+ "Điểm mục tiêu thấp và nhiều từ có quan hệ xuất hiện hơn.\n"
+			+ "Phù hợp để thư giãn và làm quen game.",
+
+		"normal_desc":
+			"Có tổng 18 vòng\n"
+			+ "Điểm mục tiêu và tỉ lệ quan hệ từ cân bằng.\n"
+			+ "Trải nghiệm tiêu chuẩn của game.",
+
+		"hard_desc":
+			"Có tổng 21 vòng\n"
+			+ "Điểm mục tiêu tăng mạnh và ít quan hệ từ hơn.\n"
+			+ "Yêu cầu chiến thuật và vốn từ vựng tốt.",
+		
+		"game_over": "Thất bại",
+		"victory": "Chiến thắng",
+
+		"score": "Điểm",
+		
+		"completed": "Đã hoàn thành",
+		"not_completed": "Chưa hoàn thành",
+		
+		"easy": "Dễ",
+		"normal": "Thường",
+		"hard": "Khó",
 	}
 }
 
@@ -250,25 +296,25 @@ var ITEM_TEXT = {
 	"en": {
 
 		"synonym_codex_desc":
-			"Synonym relations gain +10 Point",
+			"Synonym relations gain +40 Point",
 
 		"wildcard_desc":
 			"Gain +1 Mult each word",
 
 		"cappuccino_desc":
-			"B1/B2 level words gain +15 Point",
+			"B1/B2 level words gain +25 Point",
 
 		"intensifier_desc":
 			"First Degree relation each turn gains +3 Mult",
 
 		"extra_caffeine_desc":
-			"First valid word each turn gains +25 Point",
+			"First valid word each turn gains +125 Point",
 
 		"handy_shortcut_desc":
 			"First chain bonus applies instantly",
 
 		"family_guide_desc":
-			"Family relations gain +20 Point",
+			"Family relations gain +360 Point",
 
 		"phantom_hand_desc":
 			"First fail each turn does not reset chain",
@@ -283,10 +329,10 @@ var ITEM_TEXT = {
 			"C1/C2 level words gain +2 Mult",
 
 		"yin_yang_desc":
-			"Antonym relations gain +3 Mult",
+			"Antonym relations gain +5 Mult",
 
 		"magnetic_force_desc":
-			"Same consecutive relation gains +40 Point",
+			"Same consecutive relation gains +67 Point",
 
 		"future_debt_desc":
 			"First valid word gains +45 Point per Discard used",
@@ -313,25 +359,25 @@ var ITEM_TEXT = {
 	"vi": {
 
 		"synonym_codex_desc":
-			"Từ Đồng Nghĩa nhận +10 Điểm",
+			"Từ Đồng Nghĩa nhận +40 Điểm",
 
 		"wildcard_desc":
 			"Mỗi từ nhận +1 Số nhân",
 
 		"cappuccino_desc":
-			"Từ cấp độ B1/B2 nhận +15 Điểm",
+			"Từ cấp độ B1/B2 nhận +25 Điểm",
 
 		"intensifier_desc":
 			"Từ Mức Độ đầu tiên mỗi lượt nhận +3 Số nhân",
 
 		"extra_caffeine_desc":
-			"Từ hợp lệ đầu tiên mỗi lượt nhận +25 Điểm",
+			"Từ hợp lệ đầu tiên mỗi lượt nhận +125 Điểm",
 
 		"handy_shortcut_desc":
 			"Chain đầu tiên kích hoạt ngay lập tức",
 
 		"family_guide_desc":
-			"Từ Quan hệ Họ từ nhận +20 Điểm",
+			"Từ Quan hệ Họ từ nhận +360 Điểm",
 
 		"phantom_hand_desc":
 			"Fail đầu tiên mỗi lượt sẽ không mất Chain",
@@ -346,10 +392,10 @@ var ITEM_TEXT = {
 			"Từ cấp độ C1/C2 nhận +2 Mult",
 
 		"yin_yang_desc":
-			"Từ Trái Nghĩa nhận +3 Mult",
+			"Từ Trái Nghĩa nhận +5 Mult",
 
 		"magnetic_force_desc":
-			"Hai từ có Quan hệ liên tiếp giống nhau nhận +40 Điểm",
+			"Hai từ có Quan hệ liên tiếp giống nhau nhận +67 Điểm",
 
 		"future_debt_desc":
 			"Từ hợp lệ đầu tiên nhận +45 Điểm cho mỗi Lượt Bỏ đã dùng",

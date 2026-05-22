@@ -24,7 +24,9 @@ func update_language_ui():
 	difficulty_button.text = (
 		Localization.tr_ui("difficulty")
 		+ ": "
-		+ difficulties[current_index].capitalize()
+		+ Localization.tr_ui(
+			difficulties[current_index]
+		)
 	)
 
 	play_button.text = Localization.tr_ui(
@@ -35,9 +37,30 @@ func update_language_ui():
 		"back"
 	)
 
-	description_label.text = Localization.tr_ui(
-		difficulties[current_index]
-		+ "_desc"
+	var diff = difficulties[current_index]
+
+	var completed = DifficultyManager.is_completed(
+		diff
+	)
+
+	var status_text = ""
+
+	if completed:
+
+		status_text = Localization.tr_ui(
+			"completed"
+		)
+
+	else:
+
+		status_text = Localization.tr_ui(
+			"not_completed"
+		)
+
+	description_label.text = (
+		Localization.tr_ui(diff + "_desc")
+		+ "\n\n"
+		+ status_text
 	)
 
 
@@ -59,7 +82,7 @@ func _on_play_button_pressed() -> void:
 	GameManager.reset_state()
 
 	# nếu muốn sau này:
-	# GameManager.difficulty = difficulties[current_index]
+	DifficultyManager.current_difficulty =	difficulties[current_index]
 
 	get_tree().change_scene_to_file(
 		"res://scenes/Main.tscn"

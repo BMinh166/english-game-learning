@@ -36,7 +36,7 @@ static var ITEMS = {
 		"id": "synonym_codex",
 		"name": "Synonym Codex",
 		"rarity": "common",
-		"description": "Synonym relations gain +10 Point"
+		"description": "Synonym relations gain +40 Point"
 	},
 
 	"wildcard": {
@@ -68,7 +68,7 @@ static var ITEMS = {
 		"id": "extra_caffeine",
 		"name": "Extra Caffeine",
 		"rarity": "common",
-		"description": "First valid word each turn gains +25 Point"
+		"description": "First valid word each turn gains +125 Point"
 	},
 	
 	"handy_shortcut": {
@@ -84,7 +84,7 @@ static var ITEMS = {
 		"id": "family_guide",
 		"name": "Family Guide",
 		"rarity": "common",
-		"description": "Family relations gain +20 Point"
+		"description": "Family relations gain +360 Point"
 	},
 
 	"phantom_hand": {
@@ -124,7 +124,7 @@ static var ITEMS = {
 		"id": "yin_yang",
 		"name": "Yin and Yang",
 		"rarity": "uncommon",
-		"description": "Antonym relations gain +3 Final Mult"
+		"description": "Antonym relations gain +5 Final Mult"
 	},
 	
 	"magnetic_force": {
@@ -132,7 +132,7 @@ static var ITEMS = {
 		"id": "magnetic_force",
 		"name": "Magnetic Force",
 		"rarity": "uncommon",
-		"description": "If 2 consecutive words share the same relation type, gain +40 Point"
+		"description": "If 2 consecutive words share the same relation type, gain +67 Point"
 	},
 
 	"future_debt": {

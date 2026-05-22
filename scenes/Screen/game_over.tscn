@@ -32,15 +32,22 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="ColorRect" type="ColorRect" parent="GameOver/CenterContainer"]
-custom_minimum_size = Vector2(400, 300)
+custom_minimum_size = Vector2(420, 320)
 layout_mode = 2
 color = Color(0.49803922, 0.44705883, 0.6117647, 0.2)
 
-[node name="MenuContainer" type="VBoxContainer" parent="GameOver/CenterContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="GameOver/CenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="MenuContainer" type="VBoxContainer" parent="GameOver/CenterContainer/MarginContainer"]
 custom_minimum_size = Vector2(400, 300)
 layout_mode = 2
 
-[node name="GameOverLabel" type="Label" parent="GameOver/CenterContainer/MenuContainer"]
+[node name="GameOverLabel" type="Label" parent="GameOver/CenterContainer/MarginContainer/MenuContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "GAME OVER"
@@ -48,36 +55,36 @@ label_settings = SubResource("LabelSettings_bvsfx")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonContainer" type="VBoxContainer" parent="GameOver/CenterContainer/MenuContainer"]
+[node name="ButtonContainer" type="VBoxContainer" parent="GameOver/CenterContainer/MarginContainer/MenuContainer"]
 custom_minimum_size = Vector2(400, 200)
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="RoundLabel" type="Label" parent="GameOver/CenterContainer/MenuContainer/ButtonContainer"]
+[node name="RoundLabel" type="Label" parent="GameOver/CenterContainer/MarginContainer/MenuContainer/ButtonContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "Round:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ScoreLabel" type="Label" parent="GameOver/CenterContainer/MenuContainer/ButtonContainer"]
+[node name="ScoreLabel" type="Label" parent="GameOver/CenterContainer/MarginContainer/MenuContainer/ButtonContainer"]
 layout_mode = 2
 size_flags_vertical = 0
 text = "Score:"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="NewGameButton" type="Button" parent="GameOver/CenterContainer/MenuContainer/ButtonContainer"]
+[node name="NewGameButton" type="Button" parent="GameOver/CenterContainer/MarginContainer/MenuContainer/ButtonContainer"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_vertical = 6
 text = "New Game"
 
-[node name="MainMenuButton" type="Button" parent="GameOver/CenterContainer/MenuContainer/ButtonContainer"]
+[node name="MainMenuButton" type="Button" parent="GameOver/CenterContainer/MarginContainer/MenuContainer/ButtonContainer"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
 size_flags_vertical = 6
 text = "Main Menu"
 
-[connection signal="pressed" from="GameOver/CenterContainer/MenuContainer/ButtonContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
-[connection signal="pressed" from="GameOver/CenterContainer/MenuContainer/ButtonContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]
+[connection signal="pressed" from="GameOver/CenterContainer/MarginContainer/MenuContainer/ButtonContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]
+[connection signal="pressed" from="GameOver/CenterContainer/MarginContainer/MenuContainer/ButtonContainer/MainMenuButton" to="." method="_on_main_menu_button_pressed"]

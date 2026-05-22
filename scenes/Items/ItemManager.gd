@@ -462,11 +462,11 @@ func modify_final(point, mult, data) -> Dictionary:
 				if treated_as_synonym:
 
 					print("✅ SYNONYM CODEX ACTIVATED")
-					result.point += 10
+					result.point += 40
 
 					effects.append({
 						"type": "add_point",
-						"value": 10,
+						"value": 40,
 						"item_id": "synonym_codex",
 						"is_blueprint_copy":
 							item.get("is_blueprint_copy", false)
@@ -505,13 +505,13 @@ func modify_final(point, mult, data) -> Dictionary:
 					print("✅ CAPPUCCINO ACTIVATED")
 					print("WORD LEVEL:", level)
 					print("POINT BEFORE:", result.point)
-					print("ADD: +15 POINT")
+					print("ADD: +25 POINT")
 
-					result.point += 15
+					result.point += 25
 
 					effects.append({
 						"type": "add_point",
-						"value": 15,
+						"value": 25,
 						"item_id": "cappuccino",
 						"is_blueprint_copy":
 							item.get("is_blueprint_copy", false)
@@ -567,13 +567,13 @@ func modify_final(point, mult, data) -> Dictionary:
 
 				item["turn_used"] = true
 
-				result.point += 25
+				result.point += 125
 
 				print("POINT AFTER:", result.point)
 
 				effects.append({
 					"type": "add_point",
-					"value": 25,
+					"value": 125,
 					"item_id": "extra_caffeine",
 						"is_blueprint_copy":
 							item.get("is_blueprint_copy", false)
@@ -593,15 +593,15 @@ func modify_final(point, mult, data) -> Dictionary:
 					print("✅ FAMILY GUIDE ACTIVATED")
 					print("RELATION:", data.get("relation_type", ""))
 					print("POINT BEFORE:", result.point)
-					print("ADD: +20 POINT")
+					print("ADD: +360 POINT")
 
-					result.point += 20
+					result.point += 360
 
 					print("POINT AFTER:", result.point)
 
 					effects.append({
 						"type": "add_point",
-						"value": 20,
+						"value": 360,
 						"item_id": "family_guide",
 						"is_blueprint_copy":
 							item.get("is_blueprint_copy", false)
@@ -677,13 +677,13 @@ func modify_final(point, mult, data) -> Dictionary:
 					print("FINAL MULT BEFORE:", result.mult)
 					print("ADD FINAL MULT: +3")
 
-					result.mult += 3
+					result.mult += 5
 
 					print("FINAL MULT AFTER:", result.mult)
 
 					effects.append({
 						"type": "add_mult",
-						"value": 3,
+						"value": 5,
 						"item_id": "yin_yang",
 						"is_blueprint_copy":
 							item.get("is_blueprint_copy", false)
@@ -709,15 +709,15 @@ func modify_final(point, mult, data) -> Dictionary:
 					print("LAST RELATION:", last_relation_type)
 					print("CURRENT RELATION:", current_relation)
 					print("POINT BEFORE:", result.point)
-					print("ADD: +40 POINT")
+					print("ADD: +67 POINT")
 
-					result.point += 40
+					result.point += 67
 
 					print("POINT AFTER:", result.point)
 
 					effects.append({
 						"type": "add_point",
-						"value": 40,
+						"value": 67,
 						"item_id": "magnetic_force",
 						"is_blueprint_copy":
 							item.get("is_blueprint_copy", false)

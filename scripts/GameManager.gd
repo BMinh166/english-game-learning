@@ -22,7 +22,9 @@ var mult = 0
 var point = 0
 var score = 0
 var result_score = 0
+
 var target_score = 500
+
 var turn = 5
 var max_turn = 5
 var is_scoring = false
@@ -97,6 +99,10 @@ func _process(delta):
 		SaveManager.save_game()
 		
 func start_game():
+	reset_state()
+	
+	target_score = DifficultyManager.get_base_target()
+	
 	setup_round()
 	current_word = word_db.get_random_word_exclude(current_word)
 	
@@ -119,7 +125,7 @@ func draw_hand():
 		current_word,
 		hand_size,
 		bag_size,
-		"normal"
+		DifficultyManager.current_difficulty
 	)
 	
 	hand = result.hand
@@ -227,9 +233,7 @@ func play_selected(cards):
 
 	if score >= target_score:
 
-		emit_signal("clear_center_cards")
-
-		show_reward_popup()
+		clear_round()
 
 		return
 
@@ -788,7 +792,12 @@ func setup_round():
 func next_round():
 	round += 1
 	score -= target_score
-	target_score = int(target_score * 1.5)
+	
+	target_score = DifficultyManager.calculate_next_target(
+		target_score,
+		round
+	)
+	
 	setup_round()
 	SaveManager.save_current_run(
 		build_round_save()
@@ -804,13 +813,21 @@ func continue_next_round():
 	score -= target_score
 
 	round += 1
+	
+	if check_victory():
+		return
+	
 	SaveManager.save_data["statistics"]["highest_round"] = max(
 		SaveManager.save_data["statistics"]["highest_round"],
 		round
 	)
 
 
-	target_score = int(target_score * 1.5)
+	target_score = DifficultyManager.calculate_next_target(
+		target_score,
+		round
+	)
+	
 	setup_round()
 
 	print("=== NEXT ROUND ===")
@@ -950,7 +967,11 @@ func consume_reward_round():
 	)
 
 
-	target_score = int(target_score * 1.5)
+	target_score = DifficultyManager.calculate_next_target(
+		target_score,
+		round
+	)
+
 	setup_round()
 
 	emit_signal("update_state_ui", get_state())
@@ -972,37 +993,42 @@ func end_game():
 
 	print("Game Over - Final Score:", score)
 
-	if score > SaveManager.save_data["statistics"]["highest_score"]:
-
-		SaveManager.save_data["statistics"]["highest_score"] = score
-		
-	for item_id in run_used_items.keys():
-
-		SaveManager.track_item_use(item_id)
-		
-	
 	SaveManager.clear_current_run()
 
-	#is_scoring = false
-#
-	#emit_signal("clear_center_cards")
-#
-	#reset_state()
-
-	#emit_signal("update_item_ui")
-	await get_tree().process_frame
+	show_end_screen(false)
 	
+func show_end_screen(victory: bool):
+
+	var final_score = int(score)
+	var final_round = int(round)
+
+	var scene = preload(
+		"res://scenes/Screen/game_over.tscn"
+	)
+
+	var result = scene.instantiate()
+
+	result.setup(
+		victory,
+		final_score,
+		final_round
+	)
+
+	var old_scene = get_tree().current_scene
+
+	get_tree().root.add_child(result)
+
+	get_tree().current_scene = result
+
 	reset_state()
 
-	get_tree().change_scene_to_file(
-			"res://scenes/Screen/game_over.tscn"
-		)
+	old_scene.call_deferred("queue_free")
 	
 func reset_state():
 
 	score = 0
 	round = 1
-	target_score = 500
+	target_score = DifficultyManager.get_base_target()
 	turn = 5
 	max_turn = 5
 	mult = 0
@@ -1024,6 +1050,13 @@ func reset_state():
 
 	hand.clear()
 	bag.clear()
+	
+	emit_signal("update_item_ui")
+
+	emit_signal(
+		"update_state_ui",
+		get_state()
+	)
 	
 func apply_game_speed():
 
@@ -1114,8 +1147,42 @@ func build_round_save():
 			item_data,
 
 		"run_used_items":
-			run_used_items.duplicate(true)
+			run_used_items.duplicate(true),
+			
+		"difficulty":
+			DifficultyManager.current_difficulty,
 	}
+	
+func clear_round():
+
+	# round kế tiếp
+	var next_round_number = round + 1
+
+	# =====================
+	# VICTORY CHECK
+	# =====================
+
+	if DifficultyManager.is_victory(
+		next_round_number
+	):
+
+		print("VICTORY")
+
+		DifficultyManager.mark_completed()
+
+		SaveManager.clear_current_run()
+
+		show_end_screen(true)
+
+		return
+
+	# =====================
+	# NORMAL REWARD
+	# =====================
+
+	emit_signal("clear_center_cards")
+
+	show_reward_popup()
 	
 func load_current_run():
 
@@ -1127,6 +1194,11 @@ func load_current_run():
 		return false
 
 	var data = run["round_state"]
+	
+	DifficultyManager.current_difficulty = data.get(
+		"difficulty",
+		"normal"
+	)
 
 	round = data.get("round", 1)
 
@@ -1248,6 +1320,22 @@ func load_current_run():
 	print("CURRENT:", current_word)
 
 	return true
+	
+func check_victory():
+
+	if DifficultyManager.is_victory(round):
+
+		print("VICTORY")
+
+		DifficultyManager.mark_completed()
+
+		SaveManager.clear_current_run()
+
+		show_end_screen(true)
+
+		return true
+
+	return false
 	
 func debug_add_item(item_id: String):
 
