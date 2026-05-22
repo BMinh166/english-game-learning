@@ -227,10 +227,10 @@ func update_language_ui():
 func safe_text(value):
 
 	if value == null:
-		return "None"
+		return Localization.tr_ui("none")
 
 	if str(value).strip_edges() == "":
-		return "None"
+		return Localization.tr_ui("none")
 
 	return str(value)
 

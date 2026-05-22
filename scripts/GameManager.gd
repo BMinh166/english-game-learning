@@ -60,8 +60,8 @@ func _ready():
 
 	apply_game_speed()
 
-	if !load_current_run():
-		start_game()
+	#if !load_current_run():
+		#start_game()
 		#
 		
 
@@ -790,7 +790,9 @@ func next_round():
 	score -= target_score
 	target_score = int(target_score * 1.5)
 	setup_round()
-	
+	SaveManager.save_current_run(
+		build_round_save()
+	)
 	print("=== NEXT ROUND ===")
 	
 func continue_next_round():
@@ -1078,63 +1080,172 @@ func build_round_save():
 	for word in bag:
 		bag_words.append(word["text"])
 
-	var item_ids = []
+	var item_data = []
 
 	for item in item_manager.get_items():
-		item_ids.append(item["id"])
+
+		item_data.append(item.duplicate(true))
 
 	return {
 		"round": round,
 		"score": score,
 		"target_score": target_score,
 		"turn": turn,
-		"current_word": current_word["text"],
-		"hand": hand_words,
-		"bag": bag_words,
-		"reward_reroll_left": reward_reroll_left,
-		"items": item_ids
+		"max_turn": max_turn,
+
+		"discard_left": discard_left,
+
+		"reward_reroll_left":
+			reward_reroll_left,
+
+		"pending_turn_bonus":
+			pending_turn_bonus,
+
+		"current_word":
+			current_word["text"],
+
+		"hand":
+			hand_words,
+
+		"bag":
+			bag_words,
+
+		"items":
+			item_data,
+
+		"run_used_items":
+			run_used_items.duplicate(true)
 	}
 	
 func load_current_run():
 
-	var run = SaveManager.save_data["current_run"]
+	var run = SaveManager.save_data[
+		"current_run"
+	]
 
 	if !run["active"]:
 		return false
 
 	var data = run["round_state"]
 
-	round = data["round"]
-	score = data["score"]
-	target_score = data["target_score"]
-	turn = data["turn"]
+	round = data.get("round", 1)
 
-	current_word = WordDB.WORDS[data["current_word"]]
+	score = data.get("score", 0)
 
-	reward_reroll_left = data["reward_reroll_left"]
+	target_score = data.get(
+		"target_score",
+		500
+	)
+
+	turn = data.get("turn", 5)
+	
+	max_turn = data.get(
+		"max_turn",
+		5
+	)
+
+	discard_left = data.get(
+		"discard_left",
+		max_discard
+	)
+
+	reward_reroll_left = data.get(
+		"reward_reroll_left",
+		max_reward_reroll
+	)
+
+	pending_turn_bonus = data.get(
+		"pending_turn_bonus",
+		0
+	)
+
+	# =====================
+	# CURRENT WORD
+	# =====================
+
+	var current_word_id = data.get(
+		"current_word",
+		""
+	)
+
+	if WordDB.WORDS.has(current_word_id):
+
+		current_word = WordDB.WORDS[
+			current_word_id
+		]
+
+	# =====================
+	# HAND
+	# =====================
 
 	hand.clear()
 
-	for word_id in data["hand"]:
-		hand.append(
-			WordDB.WORDS[word_id]
-		)
+	for word_id in data.get("hand", []):
+
+		if WordDB.WORDS.has(word_id):
+
+			hand.append(
+				WordDB.WORDS[word_id]
+			)
+
+	# =====================
+	# BAG
+	# =====================
 
 	bag.clear()
 
-	for word_id in data["bag"]:
-		bag.append(
-			WordDB.WORDS[word_id]
-		)
+	for word_id in data.get("bag", []):
+
+		if WordDB.WORDS.has(word_id):
+
+			bag.append(
+				WordDB.WORDS[word_id]
+			)
+
+	# =====================
+	# ITEMS
+	# =====================
 
 	item_manager.reset_items()
 
-	for item_id in data["items"]:
-		item_manager.add_item(item_id)
-		run_used_items[item_id] = true
+	for item_data in data.get("items", []):
+
+		item_manager.items.append(
+			item_data.duplicate(true)
+		)
+
+	# =====================
+	# RUN USED ITEMS
+	# =====================
+
+	run_used_items = data.get(
+		"run_used_items",
+		{}
+	).duplicate(true)
+
+	# =====================
+	# IMPORTANT
+	# =====================
+
+	is_scoring = false
+
+	reward_popup_open = false
+
+	# =====================
+	# UI REFRESH
+	# =====================
 
 	emit_signal("update_item_ui")
-	emit_signal("update_state_ui", get_state())
+
+	emit_signal(
+		"update_state_ui",
+		get_state()
+	)
+
+	print("RUN LOADED")
+	print("ROUND:", round)
+	print("HAND:", hand)
+	print("CURRENT:", current_word)
 
 	return true
 	

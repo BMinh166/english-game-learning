@@ -115,16 +115,9 @@ func update_item_ui():
 
 	item_slots.clear()
 
-	# clear cũ
 	for child in item_container.get_children():
 		child.queue_free()
 
-	await get_tree().process_frame
-
-	if !is_inside_tree():
-		return
-
-	# lấy item player đang giữ
 	var items = GameManager.item_manager.get_items()
 
 	for item_instance in items:
@@ -455,13 +448,13 @@ func update_language_ui():
 	turn_label.text = (
 		Localization.tr_ui("turn")
 		+ ": "
-		+ str(current_state.get("turn", 0))
+		+ str(int(current_state.get("turn", 0)))
 	)
 
 	round_label.text = (
 		Localization.tr_ui("round")
 		+ ": "
-		+ str(current_state.get("round", 0))
+		+ str(int(current_state.get("round", 0)))
 	)
 
 	discard_left.text = (

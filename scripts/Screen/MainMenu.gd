@@ -30,10 +30,29 @@ func update_language_ui():
 	
 
 func _on_play_button_pressed() -> void:
-	GameManager.reset_state()
+
+	var has_run = SaveManager.save_data[
+		"current_run"
+	]["active"]
+
+	# =====================
+	# CONTINUE AVAILABLE
+	# =====================
+
+	if has_run:
+
+		get_tree().change_scene_to_file(
+			"res://scenes/Screen/play_game_menu.tscn"
+		)
+
+		return
+
+	# =====================
+	# NO RUN
+	# =====================
 
 	get_tree().change_scene_to_file(
-		"res://scenes/Main.tscn"
+		"res://scenes/Screen/new_game_menu.tscn"
 	)
 
 func _on_setting_button_pressed() -> void:

@@ -78,6 +78,15 @@ var UI_TEXT = {
 		
 		"undiscovered_item": "Undiscovered Item",
 		
+		"bag": "Bag",
+		
+		"continue": "Continue",
+		"difficulty": "Difficulty",
+
+		"easy_desc": "Relaxed gameplay",
+		"normal_desc": "Standard gameplay",
+		"hard_desc": "More challenging gameplay",
+		
 	},
 
 	"vi": {
@@ -149,6 +158,15 @@ var UI_TEXT = {
 		"discard": "Bỏ",
 		
 		"undiscovered_item": "Vật phẩm chưa khám phá",
+		
+		"bag": "Túi đồ",
+		
+		"continue": "Tiếp tục",
+		"difficulty": "Độ khó",
+
+		"easy_desc": "Lối chơi thư giãn",
+		"normal_desc": "Lối chơi tiêu chuẩn",
+		"hard_desc": "Thử thách hơn",
 	}
 }
 

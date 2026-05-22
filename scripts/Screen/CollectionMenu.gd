@@ -134,6 +134,8 @@ func _on_delete_data_button_pressed() -> void:
 
 			GameManager.reset_state()
 
+			Localization.set_language("en")
+
 			get_tree().change_scene_to_file(
 				"res://scenes/Screen/main_menu.tscn"
 			)

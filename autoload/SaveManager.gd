@@ -374,6 +374,15 @@ func get_most_wrong_word():
 
 	return best_word
 
+func has_active_run() -> bool:
+
+	return save_data.get(
+		"current_run",
+		{}
+	).get(
+		"active",
+		false
+	)
 
 func get_setting(key, default_value = null):
 
