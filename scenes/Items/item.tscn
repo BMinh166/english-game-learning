@@ -14,6 +14,7 @@ offset_bottom = 40.0
 script = ExtResource("1_ibweg")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+clip_contents = true
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -36,16 +37,19 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SellButton" type="Button" parent="."]
+custom_minimum_size = Vector2(37, 0)
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_top = 20.0
-offset_right = 35.0
-offset_bottom = 51.0
+offset_top = 3.0
+offset_right = 37.0
+offset_bottom = 57.0
 grow_horizontal = 0
 focus_mode = 0
-text = "Sell"
+text = "Sell
+(1)"
+alignment = 0
 
 [node name="UseButton" type="Button" parent="."]
 layout_mode = 1
@@ -54,9 +58,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = -40.0
+offset_top = -34.0
 offset_right = 37.0
-offset_bottom = -9.0
+offset_bottom = -3.0
 grow_horizontal = 0
 grow_vertical = 0
 focus_mode = 0

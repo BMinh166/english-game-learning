@@ -1,9 +1,21 @@
-[gd_scene load_steps=3 format=3 uid="uid://tf7btkdaq2ha"]
+[gd_scene load_steps=7 format=3 uid="uid://tf7btkdaq2ha"]
 
 [ext_resource type="Script" uid="uid://cagropjgcq88j" path="res://scenes/Screen/Setting.gd" id="1_78ite"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_d514q"]
 font_size = 24
+
+[sub_resource type="LabelSettings" id="LabelSettings_78ite"]
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_umb5a"]
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_48yhm"]
+font_size = 12
+
+[sub_resource type="LabelSettings" id="LabelSettings_anma2"]
+font_size = 12
 
 [node name="Setting" type="Control"]
 layout_mode = 3
@@ -26,12 +38,15 @@ grow_vertical = 2
 [node name="ColorRect" type="ColorRect" parent="SettingLayer/CenterContainer"]
 custom_minimum_size = Vector2(1152, 648)
 layout_mode = 2
-color = Color(1, 0, 0.14117648, 0.0627451)
+color = Color(0.2244977, 0.15667179, 0.25497583, 1)
 
 [node name="MarginContainer" type="MarginContainer" parent="SettingLayer/CenterContainer"]
 custom_minimum_size = Vector2(1152, 648)
 layout_mode = 2
+theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer"]
 layout_mode = 2
@@ -43,82 +58,117 @@ label_settings = SubResource("LabelSettings_d514q")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 25
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 25
+theme_override_constants/margin_bottom = 25
+
+[node name="Panel" type="Panel" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer"]
 custom_minimum_size = Vector2(1000, 400)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
 
-[node name="Language" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="Language" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="LanguageLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/Language"]
+[node name="LanguageLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Language"]
 layout_mode = 2
 text = "Language"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LanguageButton" type="Button" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/Language"]
+[node name="LanguageButton" type="Button" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Language"]
 custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 text = "ENGLISH"
 
-[node name="MasterVolume" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="MasterVolume" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="MasterLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/MasterVolume"]
+[node name="MasterLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MasterVolume"]
 layout_mode = 2
 text = "Master Volume"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MasterSlider" type="HSlider" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/MasterVolume"]
+[node name="MasterSlider" type="HSlider" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MasterVolume"]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="MusicVolume" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="MasterValueLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MasterVolume"]
+layout_mode = 2
+text = "100%"
+label_settings = SubResource("LabelSettings_78ite")
+horizontal_alignment = 1
+
+[node name="MusicVolume" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="MusicLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/MusicVolume"]
+[node name="MusicLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MusicVolume"]
 layout_mode = 2
 text = "Music Volume"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MusicSlider" type="HSlider" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/MusicVolume"]
+[node name="MusicSlider" type="HSlider" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MusicVolume"]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="SFXVolume" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="MusicValueLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MusicVolume"]
+layout_mode = 2
+text = "100%"
+label_settings = SubResource("LabelSettings_umb5a")
+horizontal_alignment = 1
+
+[node name="SFXVolume" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="SFXLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/SFXVolume"]
+[node name="SFXLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SFXVolume"]
 layout_mode = 2
 text = "SFX Volume"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SFXSlider" type="HSlider" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/SFXVolume"]
+[node name="SFXSlider" type="HSlider" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SFXVolume"]
 layout_mode = 2
 
-[node name="GameSpeed" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="SFXValueLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SFXVolume"]
+layout_mode = 2
+text = "100%"
+label_settings = SubResource("LabelSettings_48yhm")
+horizontal_alignment = 1
+
+[node name="GameSpeed" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="GameSpeed" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/GameSpeed"]
+[node name="GameSpeed" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/GameSpeed"]
 layout_mode = 2
 text = "Game Speed"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="GameSpeedSlider" type="HSlider" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/VBoxContainer/GameSpeed"]
+[node name="GameSpeedSlider" type="HSlider" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/GameSpeed"]
 layout_mode = 2
 size_flags_vertical = 6
 max_value = 4.0
+
+[node name="GameSpeedValueLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/GameSpeed"]
+layout_mode = 2
+text = "1"
+label_settings = SubResource("LabelSettings_anma2")
+horizontal_alignment = 1
 
 [node name="BackButton" type="Button" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 60)
@@ -126,4 +176,9 @@ layout_mode = 2
 size_flags_vertical = 8
 text = "Back"
 
+[connection signal="pressed" from="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Language/LanguageButton" to="." method="_on_language_button_pressed"]
+[connection signal="value_changed" from="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MasterVolume/MasterSlider" to="." method="_on_master_slider_value_changed"]
+[connection signal="value_changed" from="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MusicVolume/MusicSlider" to="." method="_on_music_slider_value_changed"]
+[connection signal="value_changed" from="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SFXVolume/SFXSlider" to="." method="_on_sfx_slider_value_changed"]
+[connection signal="value_changed" from="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/GameSpeed/GameSpeedSlider" to="." method="_on_game_speed_slider_value_changed"]
 [connection signal="pressed" from="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]

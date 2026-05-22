@@ -1,0 +1,283 @@
+[gd_scene load_steps=2 format=3 uid="uid://ogkwjuvcpr7f"]
+
+[ext_resource type="Script" uid="uid://berwvi7vavddn" path="res://scripts/Screen/RelationInfoMenu.gd" id="1_8idtn"]
+
+[node name="RelationInfoMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8idtn")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.36862746, 0.7294118, 0.80784315, 0.19607843)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuBackground" type="ColorRect" parent="CenterContainer"]
+custom_minimum_size = Vector2(520, 360)
+layout_mode = 2
+color = Color(0.7409713, 0.30617556, 0.41250515, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="MenuContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
+custom_minimum_size = Vector2(500, 340)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+
+[node name="RelationContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+
+[node name="SynonymContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="BG1" type="Panel" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/SynonymContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/SynonymContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/SynonymContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="SynonymLabel" type="Label" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/SynonymContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 1
+text = "Synonym"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/SynonymContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="BG2" type="Panel" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/SynonymContainer/MarginContainer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+
+[node name="SynonymScoreLabel" type="Label" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/SynonymContainer/MarginContainer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
+text = "40 x 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AntonymContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="BG1" type="Panel" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/AntonymContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/AntonymContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/AntonymContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="AntonymLabel" type="Label" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/AntonymContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 1
+text = "Antonym"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/AntonymContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="BG2" type="Panel" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/AntonymContainer/MarginContainer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+
+[node name="AntonymScoreLabel" type="Label" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/AntonymContainer/MarginContainer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
+text = "40 x 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DegreeContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="BG1" type="Panel" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/DegreeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/DegreeContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/DegreeContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="DegreeLabel" type="Label" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/DegreeContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 1
+text = "Degree"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/DegreeContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="BG2" type="Panel" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/DegreeContainer/MarginContainer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+
+[node name="DegreeScoreLabel" type="Label" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/DegreeContainer/MarginContainer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
+text = "35 x 2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="FamilyContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="BG1" type="Panel" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/FamilyContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/FamilyContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/FamilyContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="FamilyLabel" type="Label" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/FamilyContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 1
+text = "Family"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/FamilyContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="BG2" type="Panel" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/FamilyContainer/MarginContainer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+
+[node name="FamilyScoreLabel" type="Label" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/FamilyContainer/MarginContainer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
+text = "30 x 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="POSContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="BG1" type="Panel" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/POSContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/POSContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 80
+theme_override_constants/margin_right = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/POSContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="POSLabel" type="Label" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/POSContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+size_flags_vertical = 1
+text = "Part of Speech"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/POSContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="BG2" type="Panel" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/POSContainer/MarginContainer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+
+[node name="POSScoreLabel" type="Label" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/RelationContainer/POSContainer/MarginContainer/HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 1
+text = "25 x 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Back"
+
+[connection signal="pressed" from="CenterContainer/MarginContainer/MenuContainer/BackButton" to="." method="_on_back_button_pressed"]

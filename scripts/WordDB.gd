@@ -2,14 +2,43 @@ extends Node
 
 var words = []
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
+var WORDS := {}
+
+func _ready():
 	load_words()
 
 func load_words():
-	var file = FileAccess.open("res://data/words.json", FileAccess.READ)
+
+	var file = FileAccess.open(
+		"res://data/words.json",
+		FileAccess.READ
+	)
+
+	if file == null:
+		push_error("Cannot open words.json")
+		return
+
 	var text = file.get_as_text()
-	words = JSON.parse_string(text)
+
+	var parsed = JSON.parse_string(text)
+	
+	if parsed == null:
+		push_error("Invalid JSON")
+		return
+
+	if parsed == null:
+		push_error("Invalid words.json")
+		return
+
+	words = parsed
+
+	WORDS.clear()
+
+	for word in words:
+
+		if word.has("text"):
+
+			WORDS[word["text"]] = word
 
 func get_random_word():
 	if words.is_empty():
@@ -21,7 +50,7 @@ func get_random_word_exclude(exclude_word):
 	var filtered = []
 
 	for w in words:
-		if exclude_word == null or w.text != exclude_word.text:
+		if exclude_word == null or w["text"] != exclude_word["text"]:
 			filtered.append(w)
 
 	if filtered.is_empty():

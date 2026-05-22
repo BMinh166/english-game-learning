@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://3iqxf7auxrl8"]
+[gd_scene load_steps=3 format=3 uid="uid://3iqxf7auxrl8"]
 
 [ext_resource type="Script" uid="uid://wp4ew6783ukk" path="res://scenes/Bag/BagPopup.gd" id="1_18w1g"]
+[ext_resource type="PackedScene" uid="uid://b2sv6hi7qb0tj" path="res://scenes/Card/Card.tscn" id="2_d3ncv"]
 
 [node name="BagPopup" type="Control"]
 layout_mode = 3
@@ -12,52 +13,78 @@ grow_vertical = 2
 size_flags_vertical = 3
 script = ExtResource("1_18w1g")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 200
-theme_override_constants/margin_top = 100
-theme_override_constants/margin_right = 200
-theme_override_constants/margin_bottom = 100
 
-[node name="Panel" type="Panel" parent="MarginContainer"]
+[node name="Background" type="ColorRect" parent="CenterContainer"]
+custom_minimum_size = Vector2(770, 420)
 layout_mode = 2
+color = Color(0.23927715, 0.570279, 0.4783492, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Panel"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
+layout_mode = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Panel/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
+custom_minimum_size = Vector2(750, 400)
 layout_mode = 2
 
-[node name="CloseButton" type="Button" parent="MarginContainer/Panel/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(75, 50)
+[node name="Panel" type="Panel" parent="CenterContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 0
-text = "Back
-"
+size_flags_vertical = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 15
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CenterContainer/MarginContainer/VBoxContainer/Panel/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="BagContainer" type="GridContainer" parent="MarginContainer/Panel/MarginContainer/VBoxContainer/ScrollContainer"]
+[node name="BagContainer" type="GridContainer" parent="CenterContainer/MarginContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+theme_override_constants/v_separation = 24
 columns = 4
 
-[connection signal="pressed" from="MarginContainer/Panel/MarginContainer/VBoxContainer/CloseButton" to="." method="_on_close_button_pressed"]
+[node name="Card" parent="CenterContainer/MarginContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer/BagContainer" instance=ExtResource("2_d3ncv")]
+layout_mode = 2
+
+[node name="Card2" parent="CenterContainer/MarginContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer/BagContainer" instance=ExtResource("2_d3ncv")]
+layout_mode = 2
+
+[node name="Card3" parent="CenterContainer/MarginContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer/BagContainer" instance=ExtResource("2_d3ncv")]
+layout_mode = 2
+
+[node name="Card4" parent="CenterContainer/MarginContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer/BagContainer" instance=ExtResource("2_d3ncv")]
+layout_mode = 2
+
+[node name="Card5" parent="CenterContainer/MarginContainer/VBoxContainer/Panel/MarginContainer/ScrollContainer/BagContainer" instance=ExtResource("2_d3ncv")]
+layout_mode = 2
+
+[node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(75, 50)
+layout_mode = 2
+size_flags_vertical = 8
+text = "Back
+"
+
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]

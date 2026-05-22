@@ -22,7 +22,9 @@ var mult = 0
 var point = 0
 var score = 0
 var result_score = 0
+
 var target_score = 500
+
 var turn = 5
 var max_turn = 5
 var is_scoring = false
@@ -30,10 +32,13 @@ var reward_popup_open := false
 var pending_turn_bonus := 0
 var max_reward_reroll := 5
 var reward_reroll_left := 5
+var run_used_items := {}
 const MAX_SCORE = 1e15
 
 var step_delay: float = 0.2
 var previous_scene_path = ""
+var play_time_accumulator := 0.0
+var auto_save_timer := 0.0
 
 #SIGNALS
 signal update_state_ui(state)
@@ -55,20 +60,64 @@ func _ready():
 	randomize()
 	SaveManager.init_save()
 
-	#start_game()
+	apply_game_speed()
+
+	#if !load_current_run():
+		#start_game()
 		#
+		
+
+func _process(delta):
+
+	if get_tree().paused:
+		return
+
+	# =====================
+	# PLAY TIME TRACKING
+	# =====================
+
+	play_time_accumulator += delta
+
+	var seconds_to_add = int(play_time_accumulator)
+
+	if seconds_to_add > 0:
+
+		SaveManager.save_data["statistics"]["total_play_time"] += seconds_to_add
+
+		play_time_accumulator -= seconds_to_add
+
+	# =====================
+	# AUTO SAVE
+	# =====================
+
+	auto_save_timer += delta
+
+	if auto_save_timer >= 30.0:
+
+		auto_save_timer = 0.0
+
+		SaveManager.save_game()
+		
 func start_game():
+	reset_state()
+	
+	target_score = DifficultyManager.get_base_target()
+	
 	setup_round()
 	current_word = word_db.get_random_word_exclude(current_word)
 	
 	#discard_left = max_discard
 	
 	draw_hand()
+
 	print("Game start")
-	print("Word:", current_word.text)
+	print("Word:", current_word["text"])
 	
 	SaveManager.save_data["statistics"]["total_runs"] += 1
-	SaveManager.save_game()
+	
+	SaveManager.save_current_run(
+		build_round_save()
+	)
 #
 func draw_hand():
 	var result = generate_words.generate(
@@ -76,12 +125,12 @@ func draw_hand():
 		current_word,
 		hand_size,
 		bag_size,
-		"normal"
+		DifficultyManager.current_difficulty
 	)
 	
 	hand = result.hand
 	print("Hand size: " + str(hand_size))
-	print("First word: " + str(hand[0].text))
+	print("First word: " + str(hand[0]["text"]))
 	bag = result.bag
 	emit_signal("update_state_ui", get_state())
 
@@ -139,17 +188,17 @@ func play_selected(cards):
 		var word = selected_words[i]
 
 		var relations = relation.check_relation(current_word, word)
-		var steps = score_system.build_steps(relations, word.level)
+		var steps = score_system.build_steps(relations,	word["level"])
 		
 		print("\n=== NEW WORD ===")
-		print("WORD:", word.text)
+		print("WORD:", word["text"])
 		print("RELATIONS:", relations.size())
 		print("STEPS:", steps)
 
 		print("CHAIN:", chain_system.get_chain_count(), " MULT:", mult)
 
 		var is_valid = relations.size() > 0
-		var score_one = await process_single_word(steps, card, is_valid)
+		var score_one = await process_single_word(steps, relations, card, is_valid)
 
 		result_score += score_one
 		result_score = min(result_score, MAX_SCORE)
@@ -164,6 +213,10 @@ func play_selected(cards):
 	# ===== APPLY =====
 	score += result_score
 	score = min(score, MAX_SCORE)
+	
+	if score > SaveManager.save_data["statistics"]["highest_score"]:
+
+		SaveManager.save_data["statistics"]["highest_score"] = score
 	
 	turn -= 1
 
@@ -180,9 +233,7 @@ func play_selected(cards):
 
 	if score >= target_score:
 
-		emit_signal("clear_center_cards")
-
-		show_reward_popup()
+		clear_round()
 
 		return
 
@@ -208,7 +259,7 @@ func play_selected(cards):
 
 	is_scoring = false
 	
-func process_single_word(steps: Array, card, is_valid: bool) -> int:
+func process_single_word(steps: Array, relations: Array, card, is_valid: bool) -> int:
 	point = 0
 	mult = 0
 	
@@ -256,14 +307,16 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	# WORD TRACKING
 	# =====================
 	
-	var word_data = SaveManager.get_word_data(card.data.text)
+	var word_data = SaveManager.get_word_data(card.data["text"])
 
-	word_data.seen += 1
+	word_data["seen"] += 1
 
 	if is_valid:
-		word_data.correct += 1
+		word_data["correct"] += 1
+		SaveManager.save_data["statistics"]["total_correct"] += 1
 	else:
-		word_data.wrong += 1
+		word_data["wrong"] += 1
+		SaveManager.save_data["statistics"]["total_wrong"] += 1
 		
 	# ❌ FAIL
 	if !is_valid:
@@ -331,6 +384,7 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 	print("chain_count:", chain_data.chain_count)
 	print("chain_mult:", chain_data.chain_mult)
 	print("delta_mult:", chain_data.delta_mult)
+	
 
 	# 👉 tính mult cuối (CHỈ 1 LẦN)
 	var chain_mult_value = chain_data.chain_mult
@@ -365,8 +419,18 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 				# 👇 QUAN TRỌNG
 				chain_system.chain_count += 1
 				chain_system.chain_mult = chain_mult_value
+				
 
 				print("CHAIN AFTER:", chain_mult_value)
+				
+	var display_chain = max(
+		chain_data["chain_count"] - 1,
+		0
+	)
+
+	if display_chain > SaveManager.save_data["statistics"]["highest_chain"]:
+
+		SaveManager.save_data["statistics"]["highest_chain"] = display_chain
 
 	var final_mult = mult * chain_mult_value
 
@@ -406,8 +470,12 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 
 	var relation_type = ""
 
-	if !steps.is_empty():
-		relation_type = steps[0].get("relation_type", "")
+	if !relations.is_empty():
+
+		relation_type = relations[0].get("type", "")
+
+	if is_valid and relation_type != "":
+		SaveManager.track_relation(relation_type)
 
 	item_manager.lone_word_valid = is_valid
 	item_manager.lone_word_relation = relation_type
@@ -432,7 +500,7 @@ func process_single_word(steps: Array, card, is_valid: bool) -> int:
 			"is_valid": is_valid,
 			"card": card,
 			"relation_type": relation_type,
-			"word_level": card.data.level,
+			"word_level": card.data["level"],
 			"is_synonym_glitch": false,
 			"discard_used": max_discard - discard_left,
 		}
@@ -635,7 +703,7 @@ func get_text_from_step(step):
 			var source = step.get("source", "")
 
 			if source == "level":
-				return step.level + " (+" + str(value) + " Point)"
+				return step["level"] + " (+" + str(value) + " Point)"
 			else:
 				return "+" + str(value) + " Point"
 
@@ -644,7 +712,7 @@ func get_text_from_step(step):
 			var source = step.get("source", "")
 
 			if source == "level":
-				return step.level + " (+" + str(value) + " Mult)"
+				return step["level"] + " (+" + str(value) + " Mult)"
 			else:
 				return "+" + str(value) + " Mult"
 
@@ -724,9 +792,16 @@ func setup_round():
 func next_round():
 	round += 1
 	score -= target_score
-	target_score = int(target_score * 1.5)
-	setup_round()
 	
+	target_score = DifficultyManager.calculate_next_target(
+		target_score,
+		round
+	)
+	
+	setup_round()
+	SaveManager.save_current_run(
+		build_round_save()
+	)
 	print("=== NEXT ROUND ===")
 	
 func continue_next_round():
@@ -738,10 +813,21 @@ func continue_next_round():
 	score -= target_score
 
 	round += 1
+	
+	if check_victory():
+		return
+	
+	SaveManager.save_data["statistics"]["highest_round"] = max(
+		SaveManager.save_data["statistics"]["highest_round"],
+		round
+	)
 
-	SaveManager.save_game()
 
-	target_score = int(target_score * 1.5)
+	target_score = DifficultyManager.calculate_next_target(
+		target_score,
+		round
+	)
+	
 	setup_round()
 
 	print("=== NEXT ROUND ===")
@@ -751,6 +837,10 @@ func continue_next_round():
 	current_word = word_db.get_random_word_exclude(current_word)
 
 	draw_hand()
+	
+	SaveManager.save_current_run(
+		build_round_save()
+	)
 	
 
 	
@@ -843,9 +933,15 @@ func show_reward_popup():
 func _on_reward_selected(item_data):
 
 	reward_popup_open = false
+	
+	run_used_items[item_data["id"]] = true
 
 	if item_manager.get_items().size() < 5:
+
 		item_manager.add_item(item_data["id"])
+
+		SaveManager.unlock_item(item_data["id"])
+
 		emit_signal("update_item_ui")
 	else:
 		print("ITEM INVENTORY FULL - reward skipped")
@@ -864,10 +960,18 @@ func consume_reward_round():
 
 	score -= target_score
 	round += 1
+	
+	SaveManager.save_data["statistics"]["highest_round"] = max(
+		SaveManager.save_data["statistics"]["highest_round"],
+		round
+	)
 
-	SaveManager.save_game()
 
-	target_score = int(target_score * 1.5)
+	target_score = DifficultyManager.calculate_next_target(
+		target_score,
+		round
+	)
+
 	setup_round()
 
 	emit_signal("update_state_ui", get_state())
@@ -878,6 +982,10 @@ func consume_reward_round():
 
 	current_word = word_db.get_random_word_exclude(current_word)
 	draw_hand()
+	
+	SaveManager.save_current_run(
+		build_round_save()
+	)
 
 	is_scoring = false
 	
@@ -885,37 +993,48 @@ func end_game():
 
 	print("Game Over - Final Score:", score)
 
-	if score > SaveManager.save_data["statistics"]["highest_score"]:
+	SaveManager.clear_current_run()
 
-		SaveManager.save_data["statistics"]["highest_score"] = score
-		
-	SaveManager.save_game()
-
-	#is_scoring = false
-#
-	#emit_signal("clear_center_cards")
-#
-	#reset_state()
-
-	#emit_signal("update_item_ui")
-	await get_tree().process_frame
+	show_end_screen(false)
 	
+func show_end_screen(victory: bool):
+
+	var final_score = int(score)
+	var final_round = int(round)
+
+	var scene = preload(
+		"res://scenes/Screen/game_over.tscn"
+	)
+
+	var result = scene.instantiate()
+
+	result.setup(
+		victory,
+		final_score,
+		final_round
+	)
+
+	var old_scene = get_tree().current_scene
+
+	get_tree().root.add_child(result)
+
+	get_tree().current_scene = result
+
 	reset_state()
 
-	get_tree().change_scene_to_file(
-			"res://scenes/Screen/game_over.tscn"
-		)
+	old_scene.call_deferred("queue_free")
 	
 func reset_state():
 
 	score = 0
 	round = 1
-	target_score = 500
+	target_score = DifficultyManager.get_base_target()
 	turn = 5
 	max_turn = 5
 	mult = 0
 	point = 0
 	result_score = 0
+	run_used_items.clear()
 
 	current_word = null
 
@@ -931,6 +1050,31 @@ func reset_state():
 
 	hand.clear()
 	bag.clear()
+	
+	emit_signal("update_item_ui")
+
+	emit_signal(
+		"update_state_ui",
+		get_state()
+	)
+	
+func apply_game_speed():
+
+	var speed = SaveManager.get_setting(
+		"game_speed",
+		5
+	)
+
+	speed = clamp(speed, 1, 5)
+
+	step_delay = 0.6 - (speed * 0.1)
+
+	print(
+		"[GAME SPEED]",
+		speed,
+		" STEP DELAY:",
+		step_delay
+	)
 	
 func discard_selected(indices):
 	if indices.is_empty():
@@ -956,6 +1100,242 @@ func discard_selected(indices):
 		bag.remove_at(rand_index)
 	
 	emit_signal("update_state_ui", get_state())
+	
+func build_round_save():
+
+	var hand_words = []
+
+	for word in hand:
+		hand_words.append(word["text"])
+
+	var bag_words = []
+
+	for word in bag:
+		bag_words.append(word["text"])
+
+	var item_data = []
+
+	for item in item_manager.get_items():
+
+		item_data.append(item.duplicate(true))
+
+	return {
+		"round": round,
+		"score": score,
+		"target_score": target_score,
+		"turn": turn,
+		"max_turn": max_turn,
+
+		"discard_left": discard_left,
+
+		"reward_reroll_left":
+			reward_reroll_left,
+
+		"pending_turn_bonus":
+			pending_turn_bonus,
+
+		"current_word":
+			current_word["text"],
+
+		"hand":
+			hand_words,
+
+		"bag":
+			bag_words,
+
+		"items":
+			item_data,
+
+		"run_used_items":
+			run_used_items.duplicate(true),
+			
+		"difficulty":
+			DifficultyManager.current_difficulty,
+	}
+	
+func clear_round():
+
+	# round kế tiếp
+	var next_round_number = round + 1
+
+	# =====================
+	# VICTORY CHECK
+	# =====================
+
+	if DifficultyManager.is_victory(
+		next_round_number
+	):
+
+		print("VICTORY")
+
+		DifficultyManager.mark_completed()
+
+		SaveManager.clear_current_run()
+
+		show_end_screen(true)
+
+		return
+
+	# =====================
+	# NORMAL REWARD
+	# =====================
+
+	emit_signal("clear_center_cards")
+
+	show_reward_popup()
+	
+func load_current_run():
+
+	var run = SaveManager.save_data[
+		"current_run"
+	]
+
+	if !run["active"]:
+		return false
+
+	var data = run["round_state"]
+	
+	DifficultyManager.current_difficulty = data.get(
+		"difficulty",
+		"normal"
+	)
+
+	round = data.get("round", 1)
+
+	score = data.get("score", 0)
+
+	target_score = data.get(
+		"target_score",
+		500
+	)
+
+	turn = data.get("turn", 5)
+	
+	max_turn = data.get(
+		"max_turn",
+		5
+	)
+
+	discard_left = data.get(
+		"discard_left",
+		max_discard
+	)
+
+	reward_reroll_left = data.get(
+		"reward_reroll_left",
+		max_reward_reroll
+	)
+
+	pending_turn_bonus = data.get(
+		"pending_turn_bonus",
+		0
+	)
+
+	# =====================
+	# CURRENT WORD
+	# =====================
+
+	var current_word_id = data.get(
+		"current_word",
+		""
+	)
+
+	if WordDB.WORDS.has(current_word_id):
+
+		current_word = WordDB.WORDS[
+			current_word_id
+		]
+
+	# =====================
+	# HAND
+	# =====================
+
+	hand.clear()
+
+	for word_id in data.get("hand", []):
+
+		if WordDB.WORDS.has(word_id):
+
+			hand.append(
+				WordDB.WORDS[word_id]
+			)
+
+	# =====================
+	# BAG
+	# =====================
+
+	bag.clear()
+
+	for word_id in data.get("bag", []):
+
+		if WordDB.WORDS.has(word_id):
+
+			bag.append(
+				WordDB.WORDS[word_id]
+			)
+
+	# =====================
+	# ITEMS
+	# =====================
+
+	item_manager.reset_items()
+
+	for item_data in data.get("items", []):
+
+		item_manager.items.append(
+			item_data.duplicate(true)
+		)
+
+	# =====================
+	# RUN USED ITEMS
+	# =====================
+
+	run_used_items = data.get(
+		"run_used_items",
+		{}
+	).duplicate(true)
+
+	# =====================
+	# IMPORTANT
+	# =====================
+
+	is_scoring = false
+
+	reward_popup_open = false
+
+	# =====================
+	# UI REFRESH
+	# =====================
+
+	emit_signal("update_item_ui")
+
+	emit_signal(
+		"update_state_ui",
+		get_state()
+	)
+
+	print("RUN LOADED")
+	print("ROUND:", round)
+	print("HAND:", hand)
+	print("CURRENT:", current_word)
+
+	return true
+	
+func check_victory():
+
+	if DifficultyManager.is_victory(round):
+
+		print("VICTORY")
+
+		DifficultyManager.mark_completed()
+
+		SaveManager.clear_current_run()
+
+		show_end_screen(true)
+
+		return true
+
+	return false
 	
 func debug_add_item(item_id: String):
 

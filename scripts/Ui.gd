@@ -34,6 +34,8 @@ func _ready():
 	GameManager.connect("update_item_ui", update_item_ui)
 	GameManager.connect("activate_item_slot",_on_activate_item_slot)
 	hand_scene.connect("card_selected", _on_card_selected)
+	
+	update_language_ui()
 
 	#GameManager.update_item_ui.emit()
 
@@ -48,14 +50,7 @@ func update_state_ui(state):
 
 	word_label.text = state.current_word.text
 
-	turn_label.text = "Turn: " + str(state["turn"])
-
-	round_label.text = "Round: " + str(state["round"])
-
-	discard_left.text = (
-		"Discard left: "
-		+ str(state["discard_left"])
-	)
+	update_language_ui()
 
 	update_score_couting(state)
 
@@ -120,16 +115,9 @@ func update_item_ui():
 
 	item_slots.clear()
 
-	# clear cũ
 	for child in item_container.get_children():
 		child.queue_free()
 
-	await get_tree().process_frame
-
-	if !is_inside_tree():
-		return
-
-	# lấy item player đang giữ
 	var items = GameManager.item_manager.get_items()
 
 	for item_instance in items:
@@ -245,9 +233,27 @@ func _on_sell_item_pressed(item_ref):
 	update_state_ui(GameManager.get_state())
 
 func _on_item_hover_started(item_ref):
+
 	print("TOOLTIP START")
 
 	var item_instance = item_ref.item_instance
+
+	# =====================
+	# UNDISCOVERED
+	# =====================
+
+	if item_instance == null:
+
+		show_tooltip(
+			"???",
+			"Undiscovered Item",
+			"",
+			"",
+			get_viewport().get_mouse_position()
+			+ Vector2(24, 24)
+		)
+
+		return
 
 	var item_id = item_instance.get("id", "")
 
@@ -259,23 +265,23 @@ func _on_item_hover_started(item_ref):
 	var data = ItemDB.ITEMS[item_id]
 
 	var title = data.get("name", "")
-	var description = data.get("description", "")
+	var description = Localization.tr_item(
+		item_id + "_desc"
+	)
 
 	var status = GameManager.item_manager.get_item_status_text(
 		item_instance
 	)
-	
+
+	var rarity = data.get("rarity", "")
+
 	print("STATUS:", status)
 
-	item_tooltip.setup(
+	show_tooltip(
 		title,
 		description,
-		status
-	)
-
-	item_tooltip.visible = true
-
-	item_tooltip.position = (
+		status,
+		rarity,
 		get_viewport().get_mouse_position()
 		+ Vector2(24, 24)
 	)
@@ -425,6 +431,37 @@ func _on_activate_item_slot(item_id):
 
 	if slot.has_method("activate"):
 		slot.activate()
+		
+func update_language_ui():
+
+	play_button.text = Localization.tr_ui(
+		"play"
+	)
+
+	discard_button.text = Localization.tr_ui(
+		"discard"
+	)
+
+	if current_state == null:
+		return
+
+	turn_label.text = (
+		Localization.tr_ui("turn")
+		+ ": "
+		+ str(int(current_state.get("turn", 0)))
+	)
+
+	round_label.text = (
+		Localization.tr_ui("round")
+		+ ": "
+		+ str(int(current_state.get("round", 0)))
+	)
+
+	discard_left.text = (
+		Localization.tr_ui("discard_left")
+		+ ": "
+		+ str(current_state.get("discard_left", 0))
+	)
 	
 func format_number(n):
 
@@ -463,13 +500,15 @@ func show_tooltip(
 	title,
 	description,
 	status,
+	rarity,
 	pos
 ):
 
 	item_tooltip.setup(
 		title,
 		description,
-		status
+		status,
+		rarity
 	)
 
 	item_tooltip.visible = true
@@ -480,6 +519,17 @@ func show_tooltip(
 func hide_tooltip():
 
 	item_tooltip.visible = false
+	
+func _process(_delta):
+
+	if item_tooltip.visible:
+
+		var pos = (
+			get_viewport().get_mouse_position()
+			+ Vector2(24, 24)
+		)
+
+		item_tooltip.position = pos
 	
 func _input(event):
 	pass

@@ -1,0 +1,87 @@
+[gd_scene load_steps=2 format=3 uid="uid://7ja1t6chbony"]
+
+[ext_resource type="Script" uid="uid://dm762y36ccndg" path="res://scripts/Screen/CollectionMenu.gd" id="1_rjjtm"]
+
+[node name="CollectionMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rjjtm")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.77254903, 0.7411765, 0.87058824, 0.11764706)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuBackground" type="ColorRect" parent="CenterContainer"]
+custom_minimum_size = Vector2(620, 420)
+layout_mode = 2
+color = Color(0.7085927, 0.6522982, 0.84024405, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="MenuContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
+custom_minimum_size = Vector2(600, 410)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_right = 30
+
+[node name="ButtonContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="WordButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+text = "WORDS (123/472)"
+
+[node name="ItemsButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "ITEMS (12/20)"
+
+[node name="RelationsButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "Relations Info"
+
+[node name="StatsButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+text = "Stats"
+
+[node name="DeleteDataButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer"]
+layout_mode = 2
+text = "Delete Data"
+
+[node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Back
+"
+
+[connection signal="pressed" from="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/RelationsButton" to="." method="_on_relations_button_pressed"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/StatsButton" to="." method="_on_stats_button_pressed"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/DeleteDataButton" to="." method="_on_delete_data_button_pressed"]

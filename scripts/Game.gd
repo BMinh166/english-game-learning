@@ -6,9 +6,14 @@ extends Node
 var pause_cooldown := false
 
 func _ready():
-	GameManager.start_game()
-	
-	GameManager.emit_signal("update_item_ui")
+
+	if SaveManager.has_active_run():
+
+		GameManager.load_current_run()
+
+	else:
+
+		GameManager.start_game()
 	
 func _unhandled_input(event):
 

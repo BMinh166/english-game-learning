@@ -6,9 +6,13 @@ extends Control
 @onready var main_menu_button = $CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/MainMenuButton
 @onready var relations_button = $CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/RelationsButton
 
+var relation_scene = preload(
+	"res://scenes/Screen/relation_info_menu.tscn"
+)
 
 func _ready():
 	hide()
+	update_language_ui()
 
 	back_button.pressed.connect(_on_back_button_pressed)
 	new_game_button.pressed.connect(_on_new_game_button_pressed)
@@ -16,6 +20,27 @@ func _ready():
 	main_menu_button.pressed.connect(_on_main_menu_button_pressed)
 	relations_button.pressed.connect(_on_relations_button_pressed)
 
+func update_language_ui():
+
+	back_button.text = Localization.tr_ui(
+		"back"
+	)
+
+	new_game_button.text = Localization.tr_ui(
+		"new_game"
+	)
+
+	setting_button.text = Localization.tr_ui(
+		"settings"
+	)
+
+	main_menu_button.text = Localization.tr_ui(
+		"main_menu"
+	)
+
+	relations_button.text = Localization.tr_ui(
+		"relations"
+	)
 
 func open():
 
@@ -83,4 +108,10 @@ func _on_back_button_pressed() -> void:
 
 
 func _on_relations_button_pressed() -> void:
-	pass # Replace with function body.
+	hide()
+
+	var popup = relation_scene.instantiate()
+
+	popup.pause_menu = self
+
+	get_tree().current_scene.add_child(popup)

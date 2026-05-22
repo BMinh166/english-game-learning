@@ -1,11 +1,20 @@
 extends Control
 
 @export var bag_popup_scene: PackedScene
+@onready var button = $Button
 
 var popup = null
 
 func _ready():
 	GameManager.connect("update_state_ui", _on_game_update)
+	
+	update_language_ui()
+	
+func update_language_ui():
+
+	button.text = Localization.tr_ui(
+		"bag"
+	)
 	
 func _on_game_update(_state):
 	if popup != null and is_instance_valid(popup):

@@ -1,0 +1,85 @@
+[gd_scene load_steps=2 format=3 uid="uid://fmwopxbrovlu"]
+
+[ext_resource type="Script" uid="uid://nyfl402avch" path="res://scenes/Screen/NotifyPopup.gd" id="1_iw7x8"]
+
+[node name="NotifyPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_iw7x8")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.86646575, 0, 0.14903274, 0.1882353)
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuBackground" type="ColorRect" parent="CenterContainer"]
+custom_minimum_size = Vector2(315, 210)
+layout_mode = 2
+color = Color(0.7601081, 0.39318302, 0.31179515, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="MenuContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 10
+
+[node name="Panel" type="Panel" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="NotifyLabel" type="Label" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/MarginContainer"]
+custom_minimum_size = Vector2(280, 130)
+layout_mode = 2
+size_flags_vertical = 1
+text = "Are you sure?"
+autowrap_mode = 3
+
+[node name="ButtonContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/MenuContainer"]
+layout_mode = 2
+
+[node name="YesButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/ButtonContainer"]
+custom_minimum_size = Vector2(80, 40)
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Yes"
+
+[node name="CancelButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/ButtonContainer"]
+custom_minimum_size = Vector2(80, 40)
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Cancel"
