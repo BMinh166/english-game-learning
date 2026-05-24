@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://f0cmrj2jnvti"]
+[gd_scene load_steps=4 format=3 uid="uid://f0cmrj2jnvti"]
 
 [ext_resource type="Script" uid="uid://c36n1wbyelluv" path="res://scripts/Screen/WordDetailPopup.gd" id="1_8gmmj"]
+[ext_resource type="Texture2D" uid="uid://bv4xbp47kou8s" path="res://assets/background/Master Background.png" id="2_sgwh2"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vhijg"]
 font_size = 32
@@ -13,6 +14,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8gmmj")
+
+[node name="BackGround" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_sgwh2")
+expand_mode = 3
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1

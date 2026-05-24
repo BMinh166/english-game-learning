@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dfacalig5kwqo"]
+[gd_scene load_steps=3 format=3 uid="uid://dfacalig5kwqo"]
 
 [ext_resource type="Script" uid="uid://bunmy5haabq1n" path="res://scenes/Items/ItemContainer.gd" id="1_1781g"]
+[ext_resource type="Texture2D" uid="uid://dmyxdb7fot4jf" path="res://assets/items/Item Container Border.png" id="2_1781g"]
 
 [node name="ItemContainer" type="Control"]
 custom_minimum_size = Vector2(199.795, 536)
@@ -16,7 +17,15 @@ custom_minimum_size = Vector2(170, 536)
 layout_mode = 0
 offset_right = 170.0
 offset_bottom = 536.0
-color = Color(0.5451974, 0.40185362, 0.2785745, 1)
+color = Color(0.54509807, 0.4, 0.2784314, 0)
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+custom_minimum_size = Vector2(170, 536)
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_1781g")
+region_rect = Rect2(2.843048, 16.30658, 642.6499, 1917.2083)
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 custom_minimum_size = Vector2(200, 505)

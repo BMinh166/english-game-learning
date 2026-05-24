@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://0tuaofw8vqd0"]
+[gd_scene load_steps=5 format=3 uid="uid://0tuaofw8vqd0"]
 
 [ext_resource type="PackedScene" uid="uid://dibgjlfac13mo" path="res://scenes/Items/item.tscn" id="1_6hjki"]
 [ext_resource type="Script" uid="uid://dfw1i1hytbjqg" path="res://scripts/Screen/ItemTab.gd" id="1_11hc5"]
+[ext_resource type="Texture2D" uid="uid://bv4xbp47kou8s" path="res://assets/background/Master Background.png" id="2_d8cgc"]
 [ext_resource type="PackedScene" uid="uid://bfjcm2grg5k60" path="res://scenes/Items/item_tooltip.tscn" id="3_kfkvm"]
 
 [node name="ItemTab" type="Control"]
@@ -12,6 +13,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_11hc5")
+
+[node name="BackGround" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_d8cgc")
+expand_mode = 3
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1

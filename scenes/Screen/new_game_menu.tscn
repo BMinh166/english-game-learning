@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://qswr6w6fm7ch"]
+[gd_scene load_steps=3 format=3 uid="uid://qswr6w6fm7ch"]
 
 [ext_resource type="Script" uid="uid://bwe1c5ft61sv8" path="res://scripts/Screen/NewGameMenu.gd" id="1_kuuuo"]
+[ext_resource type="Texture2D" uid="uid://bv4xbp47kou8s" path="res://assets/background/Master Background.png" id="2_o2fjt"]
 
 [node name="NewGameMenu" type="Control"]
 layout_mode = 3
@@ -18,7 +19,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.98039216, 0.5372549, 0.44705883, 0.20392157)
+color = Color(0.98039216, 0.5372549, 0.44705883, 0)
+
+[node name="BackGround" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_o2fjt")
+expand_mode = 3
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -58,6 +69,7 @@ layout_mode = 2
 [node name="DifficultyButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+focus_mode = 0
 text = "Difficulty"
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/VBoxContainer"]

@@ -11,10 +11,10 @@ func _ready():
 	update_language_ui()
 	
 func update_language_ui():
-
-	button.text = Localization.tr_ui(
-		"bag"
-	)
+	pass
+	#button.text = Localization.tr_ui(
+		#"bag"
+	#)
 	
 func _on_game_update(_state):
 	if popup != null and is_instance_valid(popup):

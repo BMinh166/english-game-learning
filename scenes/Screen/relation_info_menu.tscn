@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://ogkwjuvcpr7f"]
+[gd_scene load_steps=3 format=3 uid="uid://ogkwjuvcpr7f"]
 
 [ext_resource type="Script" uid="uid://berwvi7vavddn" path="res://scripts/Screen/RelationInfoMenu.gd" id="1_8idtn"]
+[ext_resource type="Texture2D" uid="uid://bv4xbp47kou8s" path="res://assets/background/Master Background.png" id="2_3kv65"]
 
 [node name="RelationInfoMenu" type="Control"]
 layout_mode = 3
@@ -18,7 +19,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.36862746, 0.7294118, 0.80784315, 0.19607843)
+color = Color(0.36862746, 0.7294118, 0.80784315, 0)
+
+[node name="BackGround" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_3kv65")
+expand_mode = 3
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1

@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://b2sv6hi7qb0tj"]
+[gd_scene load_steps=4 format=3 uid="uid://b2sv6hi7qb0tj"]
 
 [ext_resource type="Script" uid="uid://lroyb64c4k0i" path="res://scenes/Card/Card.gd" id="1_ywscy"]
+[ext_resource type="Texture2D" uid="uid://dqvtgla2kbncy" path="res://assets/words/Word Card.png" id="2_4e1nc"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ywscy"]
+texture = ExtResource("2_4e1nc")
 
 [node name="Card" type="Control"]
 custom_minimum_size = Vector2(150, 100)
@@ -29,6 +33,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+color = Color(1, 1, 1, 0)
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -38,6 +43,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_ywscy")
 
 [node name="MarginContainer" type="MarginContainer" parent="Panel"]
 layout_mode = 1
