@@ -8,24 +8,24 @@ var DIFFICULTY_DATA = {
 		"max_round": 15,		#default: 15
 		"base_target": 400,
 
-		"normal_scale": 1.15,	#default: 1.4
-		"spike_scale": 1.55, 	#default: 1.6
+		"normal_scale": 1.2,	#default: 1.4
+		"spike_scale": 1.6, 	#default: 1.6
 	},
 
 	"normal": {
 		"max_round": 18,		#default: 18
 		"base_target": 550,
 
-		"normal_scale": 1.2,	#default: 1.5
-		"spike_scale": 1.55,		#default: 1.8
+		"normal_scale": 1.3,	#default: 1.5
+		"spike_scale": 1.7,		#default: 1.8
 	},
 
 	"hard": {
 		"max_round": 21,	#default: 21
 		"base_target": 650,
 
-		"normal_scale": 1.3,	#default: 1.6
-		"spike_scale": 1.7,		#default: 2.0
+		"normal_scale": 1.4,	#default: 1.6
+		"spike_scale": 1.8,		#default: 2.0
 	}
 }
 

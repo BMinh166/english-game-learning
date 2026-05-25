@@ -307,7 +307,7 @@ var ITEM_TEXT = {
 			"Synonym relations gain +40 Point",
 
 		"wildcard_desc":
-			"Gain +1 Mult each word",
+			"Gain +1 Mult each valid word",
 
 		"cappuccino_desc":
 			"B1/B2 level words gain +25 Point",
@@ -367,25 +367,25 @@ var ITEM_TEXT = {
 	"vi": {
 
 		"synonym_codex_desc":
-			"Từ Đồng Nghĩa nhận +40 Điểm",
+			"Từ Đồng Nghĩa nhận +40 Point",
 
 		"wildcard_desc":
-			"Mỗi từ nhận +1 Số nhân",
+			"Mỗi từ hợp lệ nhận +1 Mult",
 
 		"cappuccino_desc":
-			"Từ cấp độ B1/B2 nhận +25 Điểm",
+			"Từ cấp độ B1/B2 nhận +25 Point",
 
 		"intensifier_desc":
-			"Từ Mức Độ đầu tiên mỗi lượt nhận +3 Số nhân",
+			"Từ Mức Độ đầu tiên mỗi lượt nhận +3 Mult",
 
 		"extra_caffeine_desc":
-			"Từ hợp lệ đầu tiên mỗi lượt nhận +125 Điểm",
+			"Từ hợp lệ đầu tiên mỗi lượt nhận +125 Point",
 
 		"handy_shortcut_desc":
 			"Chain đầu tiên kích hoạt ngay lập tức",
 
 		"family_guide_desc":
-			"Từ Quan hệ Họ từ nhận +360 Điểm",
+			"Từ Quan hệ Họ từ nhận +360 Point",
 
 		"phantom_hand_desc":
 			"Fail đầu tiên mỗi lượt sẽ không mất Chain",
@@ -394,7 +394,7 @@ var ITEM_TEXT = {
 			"Trái Nghĩa cũng được tính là Đồng Nghĩa",
 
 		"golden_ratio_desc":
-			"Từ hợp lệ nhận vĩnh viễn +2 Điểm",
+			"Từ hợp lệ nhận vĩnh viễn +2 Point",
 
 		"scholars_thesis_desc":
 			"Từ cấp độ C1/C2 nhận +2 Mult",
@@ -403,10 +403,10 @@ var ITEM_TEXT = {
 			"Từ Trái Nghĩa nhận +5 Mult",
 
 		"magnetic_force_desc":
-			"Hai từ có Quan hệ liên tiếp giống nhau nhận +67 Điểm",
+			"Hai từ có Quan hệ liên tiếp giống nhau nhận +67 Point",
 
 		"future_debt_desc":
-			"Từ hợp lệ đầu tiên nhận +45 Điểm cho mỗi Lượt Bỏ đã dùng",
+			"Từ hợp lệ đầu tiên nhận +45 Point cho mỗi Lượt Bỏ đã dùng",
 
 		"full_combo_desc":
 			"Nếu cả 5 từ hợp lệ, từ cuối cùng sẽ tiếp tục Chain thêm 2 lần nữa",
@@ -418,10 +418,10 @@ var ITEM_TEXT = {
 			"Sử dụng vật phẩm này, chọn vào vật phẩm khác để sao chép hiệu ứng của nó",
 
 		"yojigen_pocket_desc":
-			"Nhận thêm Lượt bằng một nửa giả trị bán của các item khác",
+			"Nhận thêm Lượt bằng một nửa giá trị bán của các item khác",
 
 		"over_heaven_desc":
-			"Từ Đồng Nghĩa nhận x2 Số nhân và sẽ tăng vĩnh viễn giá trị đó lên +0.5",
+			"Từ Đồng Nghĩa nhận x2 Mult và sẽ tăng vĩnh viễn giá trị đó lên +0.5",
 
 		"infinite_paradox_desc":
 			"Chain không bao giờ kết thúc nếu không Fail"

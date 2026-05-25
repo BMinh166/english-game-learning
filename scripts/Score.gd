@@ -59,9 +59,9 @@ func _create_level_step(type, value, level, word):
 
 func get_relation_label(type: String) -> String:
 	match type:
-		"synonym": return "Đồng nghĩa"
-		"antonym": return "Trái nghĩa"
-		"degree": return "Mức độ"
-		"family": return "Gia đình từ"
-		"pos": return "Cùng loại"
+		"synonym": return Localization.tr_ui("synonym")
+		"antonym": return Localization.tr_ui("antonym")
+		"degree": return Localization.tr_ui("degree")
+		"family": return Localization.tr_ui("family")
+		"pos": return Localization.tr_ui("pos")
 		_: return type

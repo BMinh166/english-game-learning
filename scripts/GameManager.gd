@@ -933,16 +933,27 @@ func show_reward_popup():
 func _on_reward_selected(item_data):
 
 	reward_popup_open = false
-	
-	run_used_items[item_data["id"]] = true
+
+	var item_id = item_data["id"]
+
+	# =====================
+	# TRACK ONLY ONCE PER RUN
+	# =====================
+
+	if !run_used_items.has(item_id):
+
+		run_used_items[item_id] = true
+
+		SaveManager.track_item_pick(item_id)
 
 	if item_manager.get_items().size() < 5:
 
-		item_manager.add_item(item_data["id"])
+		item_manager.add_item(item_id)
 
-		SaveManager.unlock_item(item_data["id"])
+		SaveManager.unlock_item(item_id)
 
 		emit_signal("update_item_ui")
+
 	else:
 		print("ITEM INVENTORY FULL - reward skipped")
 
