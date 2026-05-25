@@ -110,6 +110,10 @@ var UI_TEXT = {
 		"normal": "Normal",
 		"hard": "Hard",
 		
+		"skip": "Skip",
+		"reroll": "Reroll",
+		"reward_item": "Choose a reward",
+		
 	},
 
 	"vi": {
@@ -213,6 +217,10 @@ var UI_TEXT = {
 		"easy": "Dễ",
 		"normal": "Thường",
 		"hard": "Khó",
+		
+		"skip": "Bỏ qua",
+		"reroll": "Đổi lại",
+		"reward_item": "Hãy chọn phần thưởng",
 	}
 }
 
@@ -451,7 +459,7 @@ var STATUS_TEXT = {
 
 		"no_copy": "Chưa copy",
 
-		"copying": "Đang copy",
+		"copying": "Copy",
 
 		"bonus_point": "Điểm",
 

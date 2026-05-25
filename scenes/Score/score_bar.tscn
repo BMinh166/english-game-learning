@@ -1,6 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bra1jlyfk5mrd"]
+[gd_scene load_steps=5 format=3 uid="uid://bra1jlyfk5mrd"]
 
 [ext_resource type="Script" uid="uid://chj65i1plkieh" path="res://scenes/Score/ScoreBar.gd" id="1_ata6w"]
+[ext_resource type="Texture2D" uid="uid://6t8mw0imvxsx" path="res://assets/menu_ui/Progress Bar.png" id="2_kasip"]
+[ext_resource type="Texture2D" uid="uid://cksdabpts4111" path="res://assets/menu_ui/Fill Bar.png" id="3_77bh6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ctufl"]
 font_size = 24
@@ -20,10 +22,20 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 5
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 8
+
+[node name="TextureProgressBarFill" type="TextureProgressBar" parent="MarginContainer"]
+custom_minimum_size = Vector2(1000, 0)
+layout_mode = 2
+value = 100.0
+nine_patch_stretch = true
+texture_progress = ExtResource("3_77bh6")
 
 [node name="ProgressBar" type="ProgressBar" parent="MarginContainer"]
+visible = false
 layout_mode = 2
 size_flags_vertical = 1
 value = 40.0
@@ -34,3 +46,11 @@ layout_mode = 2
 size_flags_horizontal = 4
 text = "100/500"
 label_settings = SubResource("LabelSettings_ctufl")
+
+[node name="ProgressBarBG" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_right = 1147.0
+offset_bottom = 50.0
+nine_patch_stretch = true
+texture_over = ExtResource("2_kasip")

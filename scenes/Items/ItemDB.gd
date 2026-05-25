@@ -36,7 +36,8 @@ static var ITEMS = {
 		"id": "synonym_codex",
 		"name": "Synonym Codex",
 		"rarity": "common",
-		"description": "Synonym relations gain +40 Point"
+		"description": "Synonym relations gain +40 Point",
+		"background_path": "res://assets/items/item_background/synonym_codex.png"
 	},
 
 	"wildcard": {
@@ -44,7 +45,8 @@ static var ITEMS = {
 		"id": "wildcard",
 		"name": "Wildcard",
 		"rarity": "common",
-		"description": "Gain +1 extra Mult each word"
+		"description": "Gain +1 extra Mult each word",
+		"background_path": "res://assets/items/item_background/wildcard.png"
 	},
 	
 	"cappuccino": {
@@ -52,7 +54,8 @@ static var ITEMS = {
 		"id": "cappuccino",
 		"name": "Cappuccino",
 		"rarity": "common",
-		"description": "B1 and B2 words gain +15 Point"
+		"description": "B1 and B2 words gain +15 Point",
+		"background_path": "res://assets/items/item_background/cappuccino.png"
 	},
 	
 	"intensifier": {
@@ -60,7 +63,8 @@ static var ITEMS = {
 		"id": "intensifier",
 		"name": "Intensifier",
 		"rarity": "common",
-		"description": "The first Degree relation each turn gains +3 Final Mult"
+		"description": "The first Degree relation each turn gains +3 Final Mult",
+		"background_path": "res://assets/items/item_background/intensifier.png"
 	},
 	
 	"extra_caffeine": {
@@ -68,7 +72,8 @@ static var ITEMS = {
 		"id": "extra_caffeine",
 		"name": "Extra Caffeine",
 		"rarity": "common",
-		"description": "First valid word each turn gains +125 Point"
+		"description": "First valid word each turn gains +125 Point",
+		"background_path": "res://assets/items/item_background/extra_caffeine.png"
 	},
 	
 	"handy_shortcut": {
@@ -76,7 +81,8 @@ static var ITEMS = {
 		"id": "handy_shortcut",
 		"name": "Handy Shortcut",
 		"rarity": "common",
-		"description": "First chain multiplier applies immediately"
+		"description": "First chain multiplier applies immediately",
+		"background_path": "res://assets/items/item_background/handy_shortcut.png"
 	},
 	
 	"family_guide": {
@@ -84,7 +90,8 @@ static var ITEMS = {
 		"id": "family_guide",
 		"name": "Family Guide",
 		"rarity": "common",
-		"description": "Family relations gain +360 Point"
+		"description": "Family relations gain +360 Point",
+		"background_path": "res://assets/items/item_background/family_guild.png"
 	},
 
 	"phantom_hand": {
@@ -92,7 +99,8 @@ static var ITEMS = {
 		"id": "phantom_hand",
 		"name": "Phantom Hand",
 		"rarity": "common",
-		"description": "First fail each turn does not reset chain"
+		"description": "First fail each turn does not reset chain",
+		"background_path": "res://assets/items/item_background/phantom_hand.png"
 	},
 	
 	"language_glitch": {
@@ -100,7 +108,8 @@ static var ITEMS = {
 		"id": "language_glitch",
 		"name": "Language Glitch",
 		"rarity": "uncommon",
-		"description": "Antonym relations are also treated as Synonym relations"
+		"description": "Antonym relations are also treated as Synonym relations",
+		"background_path": "res://assets/items/item_background/language_glitch.png"
 	},
 
 	"golden_ratio": {
@@ -108,7 +117,8 @@ static var ITEMS = {
 		"id": "golden_ratio",
 		"name": "Golden Ratio",
 		"rarity": "uncommon",
-		"description": "Gain +2 permanent Point bonus whenever you play a valid word"
+		"description": "Gain +2 permanent Point bonus whenever you play a valid word",
+		"background_path": "res://assets/items/item_background/golden_ratio.png"
 	},
 	
 	"scholars_thesis": {
@@ -116,7 +126,8 @@ static var ITEMS = {
 		"id": "scholars_thesis",
 		"name": "Scholar's Thesis",
 		"rarity": "uncommon",
-		"description": "C1 and C2 words gain +2 Mult"
+		"description": "C1 and C2 words gain +2 Mult",
+		"background_path": "res://assets/items/item_background/scholars_thesis.png"
 	},
 
 	"yin_yang": {
@@ -124,7 +135,8 @@ static var ITEMS = {
 		"id": "yin_yang",
 		"name": "Yin and Yang",
 		"rarity": "uncommon",
-		"description": "Antonym relations gain +5 Final Mult"
+		"description": "Antonym relations gain +5 Final Mult",
+		"background_path": "res://assets/items/item_background/yin_and_yang.png"
 	},
 	
 	"magnetic_force": {
@@ -132,7 +144,8 @@ static var ITEMS = {
 		"id": "magnetic_force",
 		"name": "Magnetic Force",
 		"rarity": "uncommon",
-		"description": "If 2 consecutive words share the same relation type, gain +67 Point"
+		"description": "If 2 consecutive words share the same relation type, gain +67 Point",
+		"background_path": "res://assets/items/item_background/magnetic_force.png"
 	},
 
 	"future_debt": {
@@ -140,7 +153,8 @@ static var ITEMS = {
 		"id": "future_debt",
 		"name": "Future Debt",
 		"rarity": "uncommon",
-		"description": "Your first valid word each turn gains +45 Point for each Discard used"
+		"description": "Your first valid word each turn gains +45 Point for each Discard used",
+		"background_path": "res://assets/items/item_background/future_debt.png"
 	},
 	
 	"full_combo": {
@@ -148,7 +162,8 @@ static var ITEMS = {
 		"id": "full_combo",
 		"name": "Full Combo",
 		"rarity": "rare",
-		"description": "If all 5 played words are valid, the final word continues the chain two more"
+		"description": "If all 5 played words are valid, the final word continues the chain two more",
+		"background_path": "res://assets/items/item_background/full_combo.png"
 	},
 
 	"lone_word": {
@@ -156,7 +171,8 @@ static var ITEMS = {
 		"id": "lone_word",
 		"name": "Lone Word",
 		"rarity": "rare",
-		"description": "Playing only 1 Synonym word costs no Turn"
+		"description": "Playing only 1 Synonym word costs no Turn",
+		"background_path": "res://assets/items/item_background/lone_word.png"
 	},
 	
 	"blueprint": {
@@ -164,7 +180,8 @@ static var ITEMS = {
 		"id": "blueprint",
 		"name": "Blueprint",
 		"rarity": "rare",
-		"description": "Click this item, then choose another item to copy its effect"
+		"description": "Click this item, then choose another item to copy its effect",
+		"background_path": "res://assets/items/item_background/blueprint.png"
 	},
 	
 	"yojigen_pocket": {
@@ -172,7 +189,8 @@ static var ITEMS = {
 		"id": "yojigen_pocket",
 		"name": "Yojigen Pocket",
 		"rarity": "rare",
-		"description": "Gain bonus Turns each round equal to half total rarity value of your other items"
+		"description": "Gain bonus Turns each round equal to half total rarity value of your other items",
+		"background_path": "res://assets/items/item_background/yojigen_pocket.png"
 	},
 	
 	"over_heaven": {
@@ -180,7 +198,8 @@ static var ITEMS = {
 		"id": "over_heaven",
 		"name": "Over Heaven",
 		"rarity": "legendary",
-		"description": "Gain x2 Final Mult. Each Synonym permanently increases it by +0.5"
+		"description": "Gain x2 Final Mult. Each Synonym permanently increases it by +0.5",
+		"background_path": "res://assets/items/item_background/over_heaven.png"
 	},
 	
 	"infinite_paradox": {
@@ -188,7 +207,8 @@ static var ITEMS = {
 		"id": "infinite_paradox",
 		"name": "Infinite Paradox",
 		"rarity": "legendary",
-		"description": "Chain never ends unless you fail"
+		"description": "Chain never ends unless you fail",
+		"background_path": "res://assets/items/item_background/infinite_paradox.png"
 	},
 }
 

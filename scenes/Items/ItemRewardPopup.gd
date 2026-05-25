@@ -6,8 +6,14 @@ signal reward_rerolled
 
 @onready var slots = $HBoxContainer/CenterContainer/RewardBG/PopupContainer/MarginContainer/RewardContainer.get_children()
 @onready var reroll_button = $HBoxContainer/CenterContainer/RewardBG/PopupContainer/ButtonContainer/Reroll
+@onready var skip_button = $HBoxContainer/CenterContainer/RewardBG/PopupContainer/ButtonContainer/Skip
+@onready var popup_label = $HBoxContainer/CenterContainer/RewardBG/PopupContainer/PopupLabel
 
 var current_rewards = []
+
+func _ready() -> void:
+	skip_button.text = Localization.tr_ui("skip")
+	popup_label.text = Localization.tr_ui("reward_item")
 
 func setup(
 	items,
@@ -16,7 +22,7 @@ func setup(
 	
 	current_rewards = items
 
-	reroll_button.text = "Reroll (" + str(reroll_left) + ")"
+	reroll_button.text = Localization.tr_ui("reroll")+" (" + str(reroll_left) + ")"
 
 	reroll_button.disabled = reroll_left <= 0
 

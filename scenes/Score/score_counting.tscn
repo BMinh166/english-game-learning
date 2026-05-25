@@ -7,12 +7,15 @@ font_size = 26
 
 [sub_resource type="LabelSettings" id="LabelSettings_a4mqh"]
 font_size = 24
+font_color = Color(0, 0.42352942, 1, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_lvytm"]
 font_size = 24
+font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_fj273"]
 font_size = 24
+font_color = Color(1, 0, 0, 1)
 
 [node name="ScoreCounting" type="Control"]
 custom_minimum_size = Vector2(150, 80)

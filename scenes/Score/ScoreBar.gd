@@ -1,6 +1,6 @@
 extends Control
 
-@onready var progress_bar = $MarginContainer/ProgressBar
+@onready var progress_bar = $MarginContainer/TextureProgressBarFill
 @onready var progress_score = $MarginContainer/ProgressScore
 
 func set_progress_bar(numerator,denominator):

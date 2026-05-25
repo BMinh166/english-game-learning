@@ -1,9 +1,50 @@
-[gd_scene load_steps=3 format=3 uid="uid://bahuldnv1aakw"]
+[gd_scene load_steps=20 format=3 uid="uid://bahuldnv1aakw"]
 
 [ext_resource type="Script" uid="uid://bt2rq2sxg1hy7" path="res://scripts/Screen/MainMenu.gd" id="1_1qmrp"]
+[ext_resource type="Texture2D" uid="uid://gw5hdnf37s32" path="res://assets/menu_ui/Logo Game.png" id="2_cedm2"]
+[ext_resource type="Texture2D" uid="uid://bv4xbp47kou8s" path="res://assets/background/Master Background.png" id="2_f54is"]
+[ext_resource type="Texture2D" uid="uid://ctotamw33gl0k" path="res://assets/menu_ui/button/Red Button.png" id="4_qj1v5"]
+[ext_resource type="Texture2D" uid="uid://dgqajfvwuy7oe" path="res://assets/menu_ui/button/Red Button Clicked.png" id="5_nx5xv"]
+[ext_resource type="Texture2D" uid="uid://7r0aolyd68sq" path="res://assets/menu_ui/button/Red Button Hover.png" id="6_2xuqo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_1qmrp"]
 font_size = 64
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c04tc"]
+texture = ExtResource("4_qj1v5")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7u2c5"]
+texture = ExtResource("5_nx5xv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2v3vl"]
+texture = ExtResource("6_2xuqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nx5xv"]
+texture = ExtResource("4_qj1v5")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2xuqo"]
+texture = ExtResource("5_nx5xv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nw4po"]
+texture = ExtResource("6_2xuqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3rngi"]
+texture = ExtResource("4_qj1v5")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8du4u"]
+texture = ExtResource("5_nx5xv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_12tu7"]
+texture = ExtResource("6_2xuqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w7fgf"]
+texture = ExtResource("4_qj1v5")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fjy7x"]
+texture = ExtResource("5_nx5xv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yaudx"]
+texture = ExtResource("6_2xuqo")
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -16,13 +57,33 @@ script = ExtResource("1_1qmrp")
 
 [node name="MainMenu" type="CanvasLayer" parent="."]
 
+[node name="Background" type="TextureRect" parent="MainMenu"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_f54is")
+expand_mode = 3
+
 [node name="ColorRect" type="ColorRect" parent="MainMenu"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.26786906, 0.49610853, 0.2448104, 0.101960786)
+color = Color(0.26666668, 0.49803922, 0.24313726, 0)
+
+[node name="GameName" type="Label" parent="MainMenu"]
+offset_left = 443.0
+offset_top = 4.0
+offset_right = 708.0
+offset_bottom = 324.0
+size_flags_horizontal = 4
+size_flags_vertical = 3
+label_settings = SubResource("LabelSettings_1qmrp")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="CenterContainer" type="CenterContainer" parent="MainMenu"]
 anchors_preset = 15
@@ -35,14 +96,18 @@ grow_vertical = 2
 custom_minimum_size = Vector2(1152, 648)
 layout_mode = 2
 
-[node name="GameName" type="Label" parent="MainMenu/CenterContainer/VBoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="MainMenu/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="GameName" type="TextureRect" parent="MainMenu/CenterContainer/VBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(716.04, 180)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 3
-text = "WORLEA"
-label_settings = SubResource("LabelSettings_1qmrp")
-horizontal_alignment = 1
-vertical_alignment = 1
+texture = ExtResource("2_cedm2")
+expand_mode = 1
+stretch_mode = 5
 
 [node name="MarginContainer" type="MarginContainer" parent="MainMenu/CenterContainer/VBoxContainer"]
 layout_mode = 2
@@ -59,21 +124,37 @@ size_flags_vertical = 3
 [node name="PlayButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/MarginContainer/ButtonContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_c04tc")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_7u2c5")
+theme_override_styles/hover = SubResource("StyleBoxTexture_2v3vl")
 text = "PLAY"
 
 [node name="SettingButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/MarginContainer/ButtonContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_nx5xv")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_2xuqo")
+theme_override_styles/hover = SubResource("StyleBoxTexture_nw4po")
 text = "SETTING"
 
 [node name="CollectionButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/MarginContainer/ButtonContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_3rngi")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8du4u")
+theme_override_styles/hover = SubResource("StyleBoxTexture_12tu7")
 text = "COLLECTION"
 
 [node name="QuitButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/MarginContainer/ButtonContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_w7fgf")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_fjy7x")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yaudx")
 text = "QUIT"
 
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/MarginContainer/ButtonContainer/PlayButton" to="." method="_on_play_button_pressed"]

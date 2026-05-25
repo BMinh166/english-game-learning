@@ -264,14 +264,25 @@ func get_item_status_text(item_instance) -> String:
 				"copied_item",
 				""
 			)
+			
 
 			if copied == "":
 				return Localization.tr_status("no_copy")
 
+			var copied_data = ItemDB.ITEMS.get(
+				copied,
+				{}
+			)
+
+			var copied_name = copied_data.get(
+				"name",
+				copied
+			)
+		
 			return (
 				Localization.tr_status("copying")
 				+ ": "
-				+ copied
+				+ copied_name
 			)
 
 		"yojigen_pocket":

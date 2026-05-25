@@ -13,8 +13,12 @@ var difficulties = [
 
 var current_index := 1
 
+var pause_menu = null
+
 
 func _ready() -> void:
+
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 	update_language_ui()
 
@@ -75,6 +79,9 @@ func _on_difficulty_button_pressed() -> void:
 
 
 func _on_play_button_pressed() -> void:
+	
+	if get_tree().paused:
+		get_tree().paused = false
 
 	# clear old run
 	SaveManager.clear_current_run()
@@ -91,6 +98,12 @@ func _on_play_button_pressed() -> void:
 
 func _on_back_button_pressed() -> void:
 
-	get_tree().change_scene_to_file(
-		"res://scenes/Screen/main_menu.tscn"
-	)
+	if pause_menu != null:
+
+		pause_menu.show()
+		queue_free()
+		
+	else:
+		get_tree().change_scene_to_file( "res://scenes/Screen/main_menu.tscn" )
+
+	

@@ -1,22 +1,40 @@
-[gd_scene load_steps=5 format=3 uid="uid://bfjcm2grg5k60"]
+[gd_scene load_steps=8 format=3 uid="uid://bfjcm2grg5k60"]
 
+[ext_resource type="Texture2D" uid="uid://8k81qrf2rutp" path="res://assets/background/ItemBG.png" id="1_0ljf3"]
 [ext_resource type="Script" uid="uid://cbdfjkqaruv7g" path="res://scenes/Items/item_tooltip.gd" id="1_rf4pf"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d03bf"]
+texture = ExtResource("1_0ljf3")
+expand_margin_left = 50.0
+expand_margin_top = 60.0
+expand_margin_right = 50.0
+expand_margin_bottom = 75.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_7puqk"]
 font_size = 21
+font_color = Color(0.68235296, 0.9372549, 1, 1)
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_d03bf"]
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_rf4pf"]
 line_spacing = 1.0
 font_size = 12
+font_color = Color(0.8868978, 0.9695433, 0.7560183, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_0ljf3"]
 font_size = 14
+font_color = Color(1, 0.3254902, 0.36078432, 1)
 
 [node name="ItemTooltip" type="PanelContainer"]
-custom_minimum_size = Vector2(200, 120)
+custom_minimum_size = Vector2(200, 165)
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_d03bf")
 script = ExtResource("1_rf4pf")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -41,6 +59,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 0
 text = "Rarity"
+label_settings = SubResource("LabelSettings_d03bf")
 horizontal_alignment = 1
 vertical_alignment = 1
 

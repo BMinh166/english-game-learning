@@ -1,11 +1,37 @@
-[gd_scene load_steps=4 format=3 uid="uid://drk3tcduhh8hh"]
+[gd_scene load_steps=16 format=3 uid="uid://drk3tcduhh8hh"]
 
 [ext_resource type="Script" uid="uid://battppjmlyi0e" path="res://scenes/Items/ItemRewardPopup.gd" id="1_6o87u"]
 [ext_resource type="PackedScene" uid="uid://cy8paeecnov47" path="res://scenes/Items/reward_slot.tscn" id="1_m3o6i"]
+[ext_resource type="Texture2D" uid="uid://d8sjj0yo384f" path="res://assets/background/HMenuBG.png" id="2_d34pq"]
+[ext_resource type="Texture2D" uid="uid://dnev5ikck3a6" path="res://assets/menu_ui/button/BlueButton.png" id="3_pyk6c"]
+[ext_resource type="Texture2D" uid="uid://b2emnn3ahjrdd" path="res://assets/menu_ui/button/BlueButton Clicked.png" id="4_dpjyw"]
+[ext_resource type="Texture2D" uid="uid://doo7ho42jtu1" path="res://assets/menu_ui/button/BlueButton Hover.png" id="5_p33dv"]
+[ext_resource type="Texture2D" uid="uid://d4im801k5wfu4" path="res://assets/menu_ui/button/BlueButton Disable.png" id="6_p33dv"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_6o87u"]
 font_size = 24
 shadow_size = 16
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y6wjs"]
+texture = ExtResource("3_pyk6c")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d34pq"]
+texture = ExtResource("4_dpjyw")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6ldcl"]
+texture = ExtResource("5_p33dv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3dnsh"]
+texture = ExtResource("6_p33dv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_dpjyw"]
+texture = ExtResource("3_pyk6c")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p33dv"]
+texture = ExtResource("4_dpjyw")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_iwnms"]
+texture = ExtResource("5_p33dv")
 
 [node name="ItemRewardPopup" type="Control"]
 layout_mode = 3
@@ -41,10 +67,16 @@ size_flags_horizontal = 6
 size_flags_stretch_ratio = 0.0
 mouse_filter = 0
 
+[node name="MenuBG" type="TextureRect" parent="HBoxContainer/CenterContainer"]
+custom_minimum_size = Vector2(750, 500)
+layout_mode = 2
+texture = ExtResource("2_d34pq")
+expand_mode = 3
+
 [node name="RewardBG" type="ColorRect" parent="HBoxContainer/CenterContainer"]
 custom_minimum_size = Vector2(750, 500)
 layout_mode = 2
-color = Color(0.3665946, 0.3665946, 0.36659458, 1)
+color = Color(0.3647059, 0.3647059, 0.3647059, 0)
 
 [node name="PopupContainer" type="VBoxContainer" parent="HBoxContainer/CenterContainer/RewardBG"]
 layout_mode = 1
@@ -101,12 +133,21 @@ size_flags_vertical = 3
 custom_minimum_size = Vector2(100, 60)
 layout_mode = 2
 size_flags_horizontal = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_y6wjs")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_d34pq")
+theme_override_styles/hover = SubResource("StyleBoxTexture_6ldcl")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_3dnsh")
 text = "Reroll"
 
 [node name="Skip" type="Button" parent="HBoxContainer/CenterContainer/RewardBG/PopupContainer/ButtonContainer"]
 custom_minimum_size = Vector2(100, 60)
 layout_mode = 2
 size_flags_horizontal = 10
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_dpjyw")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_p33dv")
+theme_override_styles/hover = SubResource("StyleBoxTexture_iwnms")
 text = "Skip"
 
 [node name="ColorRect" type="ColorRect" parent="HBoxContainer"]

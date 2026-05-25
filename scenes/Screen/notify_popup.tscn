@@ -1,6 +1,29 @@
-[gd_scene load_steps=2 format=3 uid="uid://fmwopxbrovlu"]
+[gd_scene load_steps=13 format=3 uid="uid://fmwopxbrovlu"]
 
 [ext_resource type="Script" uid="uid://nyfl402avch" path="res://scenes/Screen/NotifyPopup.gd" id="1_iw7x8"]
+[ext_resource type="Texture2D" uid="uid://bv4xbp47kou8s" path="res://assets/background/Master Background.png" id="2_8vbim"]
+[ext_resource type="Texture2D" uid="uid://ctotamw33gl0k" path="res://assets/menu_ui/button/Red Button.png" id="3_7a42y"]
+[ext_resource type="Texture2D" uid="uid://d8sjj0yo384f" path="res://assets/background/HMenuBG.png" id="3_7ig7j"]
+[ext_resource type="Texture2D" uid="uid://dgqajfvwuy7oe" path="res://assets/menu_ui/button/Red Button Clicked.png" id="4_7ig7j"]
+[ext_resource type="Texture2D" uid="uid://7r0aolyd68sq" path="res://assets/menu_ui/button/Red Button Hover.png" id="5_1cgb6"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_udydj"]
+texture = ExtResource("3_7a42y")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jab26"]
+texture = ExtResource("4_7ig7j")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_0f3bl"]
+texture = ExtResource("5_1cgb6")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4cagj"]
+texture = ExtResource("3_7a42y")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gwexg"]
+texture = ExtResource("4_7ig7j")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_wojua"]
+texture = ExtResource("5_1cgb6")
 
 [node name="NotifyPopup" type="Control"]
 layout_mode = 3
@@ -18,7 +41,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.86646575, 0, 0.14903274, 0.1882353)
+color = Color(0.8666667, 0, 0.14901961, 0)
+
+[node name="BackGround" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_8vbim")
+expand_mode = 3
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -31,7 +64,13 @@ grow_vertical = 2
 [node name="MenuBackground" type="ColorRect" parent="CenterContainer"]
 custom_minimum_size = Vector2(315, 210)
 layout_mode = 2
-color = Color(0.7601081, 0.39318302, 0.31179515, 1)
+color = Color(0.7607843, 0.39215687, 0.3137255, 0)
+
+[node name="MenuBG" type="TextureRect" parent="CenterContainer"]
+custom_minimum_size = Vector2(340, 230)
+layout_mode = 2
+texture = ExtResource("3_7ig7j")
+expand_mode = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
 layout_mode = 2
@@ -76,10 +115,16 @@ layout_mode = 2
 custom_minimum_size = Vector2(80, 40)
 layout_mode = 2
 size_flags_horizontal = 6
+theme_override_styles/normal = SubResource("StyleBoxTexture_udydj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_jab26")
+theme_override_styles/hover = SubResource("StyleBoxTexture_0f3bl")
 text = "Yes"
 
 [node name="CancelButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/ButtonContainer"]
 custom_minimum_size = Vector2(80, 40)
 layout_mode = 2
 size_flags_horizontal = 6
+theme_override_styles/normal = SubResource("StyleBoxTexture_4cagj")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_gwexg")
+theme_override_styles/hover = SubResource("StyleBoxTexture_wojua")
 text = "Cancel"

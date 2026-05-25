@@ -1,6 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://bylrcb4c4fofo"]
+[gd_scene load_steps=10 format=3 uid="uid://bylrcb4c4fofo"]
 
 [ext_resource type="Script" uid="uid://b0hcngdqoogii" path="res://scripts/Screen/stats_menu.gd" id="1_v0ur3"]
+[ext_resource type="Texture2D" uid="uid://bv4xbp47kou8s" path="res://assets/background/Master Background.png" id="2_dn0p0"]
+[ext_resource type="Texture2D" uid="uid://bassx3fyqj844" path="res://assets/background/MenuBG Full.png" id="3_autg0"]
+[ext_resource type="Texture2D" uid="uid://0luagiemxlay" path="res://assets/menu_ui/button/Gold Button.png" id="3_l1v8p"]
+[ext_resource type="Texture2D" uid="uid://bfkbg1jk4uxbr" path="res://assets/menu_ui/button/Gold Button Clicked.png" id="4_autg0"]
+[ext_resource type="Texture2D" uid="uid://bvsemwykfmrdu" path="res://assets/menu_ui/button/Gold Button Hover.png" id="5_76net"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q272p"]
+texture = ExtResource("3_l1v8p")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vo1yx"]
+texture = ExtResource("4_autg0")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6c2y8"]
+texture = ExtResource("5_76net")
 
 [node name="StatsMenu" type="Control"]
 layout_mode = 3
@@ -10,6 +24,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_v0ur3")
+
+[node name="BackGround" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_dn0p0")
+expand_mode = 3
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -22,7 +46,13 @@ grow_vertical = 2
 [node name="BackgroundMenu" type="ColorRect" parent="CenterContainer"]
 custom_minimum_size = Vector2(670, 340)
 layout_mode = 2
-color = Color(0.4383051, 0.6924692, 0.75301874, 1)
+color = Color(0.4392157, 0.69411767, 0.7529412, 0)
+
+[node name="MenuBG" type="TextureRect" parent="CenterContainer"]
+custom_minimum_size = Vector2(700, 400)
+layout_mode = 2
+texture = ExtResource("3_autg0")
+expand_mode = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
 layout_mode = 2
@@ -130,7 +160,15 @@ layout_mode = 2
 text = "Words Discovered:"
 
 [node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_pressed_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_hover_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_q272p")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_vo1yx")
+theme_override_styles/hover = SubResource("StyleBoxTexture_6c2y8")
 text = "Back"
 
 [connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]

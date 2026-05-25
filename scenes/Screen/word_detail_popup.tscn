@@ -1,9 +1,23 @@
-[gd_scene load_steps=3 format=3 uid="uid://f0cmrj2jnvti"]
+[gd_scene load_steps=11 format=3 uid="uid://f0cmrj2jnvti"]
 
 [ext_resource type="Script" uid="uid://c36n1wbyelluv" path="res://scripts/Screen/WordDetailPopup.gd" id="1_8gmmj"]
+[ext_resource type="Texture2D" uid="uid://bv4xbp47kou8s" path="res://assets/background/Master Background.png" id="2_sgwh2"]
+[ext_resource type="Texture2D" uid="uid://0luagiemxlay" path="res://assets/menu_ui/button/Gold Button.png" id="3_8ytlj"]
+[ext_resource type="Texture2D" uid="uid://dmutwkx5hq3em" path="res://assets/background/MenuBG Square.png" id="3_innme"]
+[ext_resource type="Texture2D" uid="uid://bfkbg1jk4uxbr" path="res://assets/menu_ui/button/Gold Button Clicked.png" id="4_innme"]
+[ext_resource type="Texture2D" uid="uid://bvsemwykfmrdu" path="res://assets/menu_ui/button/Gold Button Hover.png" id="5_0yygt"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vhijg"]
 font_size = 32
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_076w1"]
+texture = ExtResource("3_8ytlj")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_72kr4"]
+texture = ExtResource("4_innme")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yu5lq"]
+texture = ExtResource("5_0yygt")
 
 [node name="WordDetailPopup" type="Control"]
 layout_mode = 3
@@ -13,6 +27,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_8gmmj")
+
+[node name="BackGround" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_sgwh2")
+expand_mode = 3
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -25,14 +49,19 @@ grow_vertical = 2
 [node name="ColorRect" type="ColorRect" parent="CenterContainer"]
 custom_minimum_size = Vector2(610, 510)
 layout_mode = 2
-color = Color(0.9093105, 0.70444435, 0.64163387, 1)
+color = Color(0.9098039, 0.7058824, 0.6431373, 0)
+
+[node name="MenuBG" type="TextureRect" parent="CenterContainer"]
+custom_minimum_size = Vector2(650, 534.45)
+layout_mode = 2
+texture = ExtResource("3_innme")
+expand_mode = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
-theme_override_constants/margin_bottom = 5
+theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
 custom_minimum_size = Vector2(600, 500)
@@ -62,10 +91,12 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = 104.0
+offset_bottom = 323.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 10
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
@@ -129,8 +160,16 @@ layout_mode = 2
 text = "Accuracy:"
 
 [node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 size_flags_vertical = 8
+focus_mode = 0
+theme_override_colors/font_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_pressed_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_hover_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_076w1")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_72kr4")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yu5lq")
 text = "Back"
 
 [connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/BackButton" to="." method="_on_back_button_pressed"]

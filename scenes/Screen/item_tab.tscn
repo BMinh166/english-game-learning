@@ -1,8 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://0tuaofw8vqd0"]
+[gd_scene load_steps=12 format=3 uid="uid://0tuaofw8vqd0"]
 
 [ext_resource type="PackedScene" uid="uid://dibgjlfac13mo" path="res://scenes/Items/item.tscn" id="1_6hjki"]
 [ext_resource type="Script" uid="uid://dfw1i1hytbjqg" path="res://scripts/Screen/ItemTab.gd" id="1_11hc5"]
+[ext_resource type="Texture2D" uid="uid://bv4xbp47kou8s" path="res://assets/background/Master Background.png" id="2_d8cgc"]
 [ext_resource type="PackedScene" uid="uid://bfjcm2grg5k60" path="res://scenes/Items/item_tooltip.tscn" id="3_kfkvm"]
+[ext_resource type="Texture2D" uid="uid://d8sjj0yo384f" path="res://assets/background/HMenuBG.png" id="3_pjnis"]
+[ext_resource type="Texture2D" uid="uid://0luagiemxlay" path="res://assets/menu_ui/button/Gold Button.png" id="4_6hrh1"]
+[ext_resource type="Texture2D" uid="uid://bfkbg1jk4uxbr" path="res://assets/menu_ui/button/Gold Button Clicked.png" id="5_pjnis"]
+[ext_resource type="Texture2D" uid="uid://bvsemwykfmrdu" path="res://assets/menu_ui/button/Gold Button Hover.png" id="6_nc1wq"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rnagv"]
+texture = ExtResource("4_6hrh1")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ilkf0"]
+texture = ExtResource("5_pjnis")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_55vfw"]
+texture = ExtResource("6_nc1wq")
 
 [node name="ItemTab" type="Control"]
 layout_mode = 3
@@ -13,6 +27,16 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_11hc5")
 
+[node name="BackGround" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_d8cgc")
+expand_mode = 3
+
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -21,10 +45,16 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="CenterContainer"]
+[node name="Menu" type="ColorRect" parent="CenterContainer"]
 custom_minimum_size = Vector2(800, 500)
 layout_mode = 2
-color = Color(0.8298584, 0.4922672, 0.6501783, 1)
+color = Color(0.83137256, 0.49411765, 0.6509804, 0)
+
+[node name="MenuBG" type="TextureRect" parent="CenterContainer"]
+custom_minimum_size = Vector2(820, 520)
+layout_mode = 2
+texture = ExtResource("3_pjnis")
+expand_mode = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
 custom_minimum_size = Vector2(800, 500)
@@ -93,8 +123,16 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 size_flags_vertical = 8
+focus_mode = 0
+theme_override_colors/font_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_pressed_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_hover_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_rnagv")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ilkf0")
+theme_override_styles/hover = SubResource("StyleBoxTexture_55vfw")
 text = "Back"
 
 [node name="TooltipLayer" type="CanvasLayer" parent="."]
