@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://b5of4wmqava30"]
+[gd_scene load_steps=24 format=3 uid="uid://b5of4wmqava30"]
 
 [ext_resource type="Script" uid="uid://dnq84hekjhund" path="res://scripts/Game.gd" id="1_elqb8"]
 [ext_resource type="PackedScene" uid="uid://dfacalig5kwqo" path="res://scenes/Items/item_container.tscn" id="2_rvslj"]
@@ -9,10 +9,38 @@
 [ext_resource type="PackedScene" uid="uid://bsr3ijj7bu30h" path="res://scenes/Bag/bag.tscn" id="4_rarhs"]
 [ext_resource type="PackedScene" uid="uid://rds78cqmw0tj" path="res://scenes/Score/score_counting.tscn" id="5_nxtc6"]
 [ext_resource type="PackedScene" uid="uid://bfjcm2grg5k60" path="res://scenes/Items/item_tooltip.tscn" id="8_jlsqs"]
+[ext_resource type="Texture2D" uid="uid://ctotamw33gl0k" path="res://assets/menu_ui/button/Red Button.png" id="8_qmy6f"]
+[ext_resource type="Texture2D" uid="uid://dgqajfvwuy7oe" path="res://assets/menu_ui/button/Red Button Clicked.png" id="9_mwfav"]
 [ext_resource type="PackedScene" uid="uid://dh2a8ebswuupw" path="res://scenes/Screen/pause_game.tscn" id="9_q8u5g"]
+[ext_resource type="Texture2D" uid="uid://7r0aolyd68sq" path="res://assets/menu_ui/button/Red Button Hover.png" id="10_3p2gp"]
+[ext_resource type="Texture2D" uid="uid://ck501u1h16uho" path="res://assets/menu_ui/button/Red Button Disable.png" id="11_mwfav"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_elqb8"]
 font_size = 46
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cvmbd"]
+texture = ExtResource("8_qmy6f")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ft6cd"]
+texture = ExtResource("9_mwfav")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_bb450"]
+texture = ExtResource("10_3p2gp")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3p2gp"]
+texture = ExtResource("11_mwfav")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nfivy"]
+texture = ExtResource("8_qmy6f")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1nqs0"]
+texture = ExtResource("9_mwfav")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1iba3"]
+texture = ExtResource("10_3p2gp")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yxlcp"]
+texture = ExtResource("11_mwfav")
 
 [node name="Game" type="Node"]
 script = ExtResource("1_elqb8")
@@ -116,11 +144,21 @@ size_flags_vertical = 3
 [node name="PlayButton" type="Button" parent="UI/MarginContainer/Main/Body/RightContainer/PlayButtonContainer"]
 custom_minimum_size = Vector2(0, 75)
 layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_cvmbd")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_ft6cd")
+theme_override_styles/hover = SubResource("StyleBoxTexture_bb450")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_3p2gp")
 text = "Play"
 
 [node name="DiscardButton" type="Button" parent="UI/MarginContainer/Main/Body/RightContainer/PlayButtonContainer"]
 custom_minimum_size = Vector2(0, 75)
 layout_mode = 2
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_nfivy")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_1nqs0")
+theme_override_styles/hover = SubResource("StyleBoxTexture_1iba3")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_yxlcp")
 text = "Discard"
 
 [node name="DiscardLeft" type="Label" parent="UI/MarginContainer/Main/Body/RightContainer/PlayButtonContainer"]

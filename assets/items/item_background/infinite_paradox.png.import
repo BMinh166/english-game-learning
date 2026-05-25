@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ny30aruujxsy"
-path="res://.godot/imported/Master Button.png-0911a13d9b9e3fee99c9cd0b1cbfffe5.ctex"
+uid="uid://cbddutpx42yp0"
+path="res://.godot/imported/infinite_paradox.png-097e5b20cbb428da628cfcc122e60004.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/menu_ui/button/Master Button.png"
-dest_files=["res://.godot/imported/Master Button.png-0911a13d9b9e3fee99c9cd0b1cbfffe5.ctex"]
+source_file="res://assets/items/item_background/infinite_paradox.png"
+dest_files=["res://.godot/imported/infinite_paradox.png-097e5b20cbb428da628cfcc122e60004.ctex"]
 
 [params]
 

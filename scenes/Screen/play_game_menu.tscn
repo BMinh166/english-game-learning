@@ -1,6 +1,20 @@
-[gd_scene load_steps=2 format=3 uid="uid://bv2soc40dixcp"]
+[gd_scene load_steps=10 format=3 uid="uid://bv2soc40dixcp"]
 
 [ext_resource type="Script" uid="uid://jj2gxesi2kxs" path="res://scripts/Screen/PlayGameMenu.gd" id="1_3t2cb"]
+[ext_resource type="Texture2D" uid="uid://0luagiemxlay" path="res://assets/menu_ui/button/Gold Button.png" id="2_pjdfq"]
+[ext_resource type="Texture2D" uid="uid://bv4xbp47kou8s" path="res://assets/background/Master Background.png" id="2_sw558"]
+[ext_resource type="Texture2D" uid="uid://bassx3fyqj844" path="res://assets/background/MenuBG Full.png" id="3_defaf"]
+[ext_resource type="Texture2D" uid="uid://bfkbg1jk4uxbr" path="res://assets/menu_ui/button/Gold Button Clicked.png" id="3_ua5ik"]
+[ext_resource type="Texture2D" uid="uid://bvsemwykfmrdu" path="res://assets/menu_ui/button/Gold Button Hover.png" id="4_sw558"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_pvbxu"]
+texture = ExtResource("2_pjdfq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_defaf"]
+texture = ExtResource("3_ua5ik")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_hggck"]
+texture = ExtResource("4_sw558")
 
 [node name="PlayGameMenu" type="Control"]
 layout_mode = 3
@@ -18,7 +32,17 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.39607844, 0.54509807, 0.63529414, 0.2784314)
+color = Color(0.39607844, 0.54509807, 0.63529414, 0)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_sw558")
+expand_mode = 3
 
 [node name="CenterContainer" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -31,7 +55,13 @@ grow_vertical = 2
 [node name="MenuBackground" type="ColorRect" parent="CenterContainer"]
 custom_minimum_size = Vector2(410, 210)
 layout_mode = 2
-color = Color(0.6509661, 0.6273783, 0.47677058, 1)
+color = Color(0.6509804, 0.627451, 0.47843137, 0)
+
+[node name="MenuBG" type="TextureRect" parent="CenterContainer"]
+custom_minimum_size = Vector2(440, 240)
+layout_mode = 2
+texture = ExtResource("3_defaf")
+expand_mode = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
 layout_mode = 2
@@ -70,16 +100,25 @@ size_flags_vertical = 4
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_vertical = 6
+focus_mode = 0
 text = "New Game"
 
 [node name="ContinueButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/MarginContainer/ButtonContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 size_flags_vertical = 6
+focus_mode = 0
 text = "Continue Game"
 
 [node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer"]
 layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_pressed_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_hover_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_pvbxu")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_defaf")
+theme_override_styles/hover = SubResource("StyleBoxTexture_hggck")
 text = "Back"
 
 [connection signal="pressed" from="CenterContainer/MarginContainer/MenuContainer/MarginContainer/MarginContainer/ButtonContainer/NewGameButton" to="." method="_on_new_game_button_pressed"]

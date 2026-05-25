@@ -1,7 +1,20 @@
-[gd_scene load_steps=3 format=3 uid="uid://qswr6w6fm7ch"]
+[gd_scene load_steps=10 format=3 uid="uid://qswr6w6fm7ch"]
 
 [ext_resource type="Script" uid="uid://bwe1c5ft61sv8" path="res://scripts/Screen/NewGameMenu.gd" id="1_kuuuo"]
 [ext_resource type="Texture2D" uid="uid://bv4xbp47kou8s" path="res://assets/background/Master Background.png" id="2_o2fjt"]
+[ext_resource type="Texture2D" uid="uid://bassx3fyqj844" path="res://assets/background/MenuBG Full.png" id="3_3oy0c"]
+[ext_resource type="Texture2D" uid="uid://0luagiemxlay" path="res://assets/menu_ui/button/Gold Button.png" id="3_6egaj"]
+[ext_resource type="Texture2D" uid="uid://bfkbg1jk4uxbr" path="res://assets/menu_ui/button/Gold Button Clicked.png" id="4_3oy0c"]
+[ext_resource type="Texture2D" uid="uid://bvsemwykfmrdu" path="res://assets/menu_ui/button/Gold Button Hover.png" id="5_jet0i"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c8iwx"]
+texture = ExtResource("3_6egaj")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6op0l"]
+texture = ExtResource("4_3oy0c")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4djb7"]
+texture = ExtResource("5_jet0i")
 
 [node name="NewGameMenu" type="Control"]
 layout_mode = 3
@@ -42,7 +55,13 @@ grow_vertical = 2
 [node name="MenuBackground" type="ColorRect" parent="CenterContainer"]
 custom_minimum_size = Vector2(620, 370)
 layout_mode = 2
-color = Color(0.23729849, 0.7669764, 0.8663433, 1)
+color = Color(0.23921569, 0.76862746, 0.8666667, 0)
+
+[node name="MenuBG" type="TextureRect" parent="CenterContainer"]
+custom_minimum_size = Vector2(630, 400)
+layout_mode = 2
+texture = ExtResource("3_3oy0c")
+expand_mode = 5
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
 layout_mode = 2
@@ -99,10 +118,19 @@ autowrap_mode = 3
 [node name="PlayButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
+focus_mode = 0
 text = "Play"
 
 [node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_pressed_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_hover_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_c8iwx")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6op0l")
+theme_override_styles/hover = SubResource("StyleBoxTexture_4djb7")
 text = "Back"
 
 [connection signal="pressed" from="CenterContainer/MarginContainer/MenuContainer/MarginContainer/VBoxContainer/DifficultyButton" to="." method="_on_difficulty_button_pressed"]

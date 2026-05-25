@@ -1,9 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://df7ghxudsrgia"]
+[gd_scene load_steps=7 format=3 uid="uid://df7ghxudsrgia"]
 
 [ext_resource type="Script" uid="uid://c3dlhtahacg4i" path="res://scenes/Screen/GameOver.gd" id="1_a02d3"]
+[ext_resource type="Texture2D" uid="uid://cgfvopxed0h55" path="res://assets/background/Gameover_BG.png" id="2_6fquk"]
+[ext_resource type="Texture2D" uid="uid://dmutwkx5hq3em" path="res://assets/background/MenuBG Square.png" id="2_yldua"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_bvsfx"]
-font_size = 24
+font_size = 26
+font_color = Color(0, 0, 0, 1)
+shadow_color = Color(0, 0, 0, 0.2627451)
+
+[sub_resource type="LabelSettings" id="LabelSettings_yldua"]
+font_size = 18
+font_color = Color(0.8898692, 0.88301903, 1.1551381e-06, 1)
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_6fquk"]
+font_size = 18
+font_color = Color(0.34117648, 0.9882353, 0, 1)
+outline_size = 1
+outline_color = Color(0, 0, 0, 1)
 
 [node name="GameOver" type="Control"]
 layout_mode = 3
@@ -16,13 +32,22 @@ script = ExtResource("1_a02d3")
 
 [node name="GameOver" type="CanvasLayer" parent="."]
 
+[node name="TextureRect" type="TextureRect" parent="GameOver"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_6fquk")
+expand_mode = 3
+
 [node name="ColorRect" type="ColorRect" parent="GameOver"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(1, 0.3882353, 0.4, 0.12156863)
+color = Color(0.793966, 0.7971164, 0.79633677, 0.1882353)
 
 [node name="CenterContainer" type="CenterContainer" parent="GameOver"]
 anchors_preset = 15
@@ -34,7 +59,13 @@ grow_vertical = 2
 [node name="ColorRect" type="ColorRect" parent="GameOver/CenterContainer"]
 custom_minimum_size = Vector2(420, 320)
 layout_mode = 2
-color = Color(0.49803922, 0.44705883, 0.6117647, 0.2)
+color = Color(0.49803922, 0.44705883, 0.6117647, 0)
+
+[node name="MenuBG" type="TextureRect" parent="GameOver/CenterContainer"]
+custom_minimum_size = Vector2(450, 340)
+layout_mode = 2
+texture = ExtResource("2_yldua")
+expand_mode = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="GameOver/CenterContainer"]
 layout_mode = 2
@@ -64,6 +95,7 @@ size_flags_vertical = 6
 layout_mode = 2
 size_flags_vertical = 0
 text = "Round:"
+label_settings = SubResource("LabelSettings_yldua")
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -71,6 +103,7 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 0
 text = "Score:"
+label_settings = SubResource("LabelSettings_6fquk")
 horizontal_alignment = 1
 vertical_alignment = 1
 

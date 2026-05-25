@@ -1,11 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://dibgjlfac13mo"]
+[gd_scene load_steps=16 format=3 uid="uid://dibgjlfac13mo"]
 
 [ext_resource type="Script" uid="uid://l0t6vtj51psr" path="res://scenes/Items/Item.gd" id="1_ibweg"]
-[ext_resource type="Texture2D" uid="uid://cjuuy8t72is16" path="res://assets/items/item_border/Rare.png" id="2_16poj"]
 [ext_resource type="Texture2D" uid="uid://byxvn12x66toj" path="res://assets/menu_ui/button/SellButton.png" id="2_j8xjb"]
-[ext_resource type="Texture2D" uid="uid://y0bxtpduosft" path="res://assets/menu_ui/button/SellButtonClicked.png" id="3_6ms2b"]
+[ext_resource type="Texture2D" uid="uid://yj8ug3oqo3xi" path="res://assets/menu_ui/button/SellButtonClicked.png" id="3_6ms2b"]
 [ext_resource type="Texture2D" uid="uid://bt1r5g7y2so4o" path="res://assets/menu_ui/button/UseButton.png" id="4_4ufq6"]
-[ext_resource type="Texture2D" uid="uid://btd7xd7jgynw0" path="res://assets/menu_ui/button/UseButtonClicked.png" id="5_16poj"]
+[ext_resource type="Texture2D" uid="uid://7fqrnlljdens" path="res://assets/menu_ui/button/SellButtonHover.png" id="4_qoeog"]
+[ext_resource type="Texture2D" uid="uid://bm0onsialuvr0" path="res://assets/menu_ui/button/UseButtonClicked.png" id="5_16poj"]
+[ext_resource type="Texture2D" uid="uid://cwe2uxeprgtmf" path="res://assets/menu_ui/button/UseButtonHover.png" id="7_1otiq"]
+[ext_resource type="Texture2D" uid="uid://ddduv0mad5hx" path="res://assets/items/item_border/default_item_bg.png" id="8_1otiq"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4ufq6"]
 texture = ExtResource("2_j8xjb")
@@ -13,11 +15,17 @@ texture = ExtResource("2_j8xjb")
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_16poj"]
 texture = ExtResource("3_6ms2b")
 
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nvuru"]
+texture = ExtResource("4_qoeog")
+
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_qoeog"]
 texture = ExtResource("4_4ufq6")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_1otiq"]
 texture = ExtResource("5_16poj")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d67y0"]
+texture = ExtResource("7_1otiq")
 
 [sub_resource type="LabelSettings" id="LabelSettings_vx682"]
 font_size = 20
@@ -36,14 +44,15 @@ layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -5.0
+offset_left = -3.0
 offset_top = 5.0
-offset_right = 32.0
+offset_right = 34.0
 offset_bottom = 59.0
 grow_horizontal = 0
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxTexture_4ufq6")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_16poj")
+theme_override_styles/hover = SubResource("StyleBoxTexture_nvuru")
 text = "Sell
 (1)"
 
@@ -54,15 +63,16 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -5.0
+offset_left = -3.0
 offset_top = -40.0
-offset_right = 32.0
+offset_right = 34.0
 offset_bottom = -9.0
 grow_horizontal = 0
 grow_vertical = 0
 focus_mode = 0
 theme_override_styles/normal = SubResource("StyleBoxTexture_qoeog")
 theme_override_styles/pressed = SubResource("StyleBoxTexture_1otiq")
+theme_override_styles/hover = SubResource("StyleBoxTexture_d67y0")
 text = "Use"
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
@@ -76,7 +86,7 @@ grow_vertical = 2
 
 [node name="ItemBackground" type="TextureRect" parent="MarginContainer"]
 layout_mode = 2
-texture = ExtResource("2_16poj")
+texture = ExtResource("8_1otiq")
 expand_mode = 3
 
 [node name="ColorRect" type="ColorRect" parent="MarginContainer"]

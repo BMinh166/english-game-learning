@@ -1,18 +1,30 @@
-[gd_resource type="Theme" load_steps=6 format=3 uid="uid://bw2ny6yxympwp"]
+[gd_resource type="Theme" load_steps=11 format=3 uid="uid://bw2ny6yxympwp"]
 
-[ext_resource type="Texture2D" uid="uid://ny30aruujxsy" path="res://assets/menu_ui/button/Master Button.png" id="1_k528p"]
-[ext_resource type="Texture2D" uid="uid://dmskddpe8fwwe" path="res://assets/menu_ui/button/Master Button Clicked.png" id="2_cu4xe"]
+[ext_resource type="Texture2D" uid="uid://dawefef0shq4m" path="res://assets/menu_ui/button/Long Wooden ButtonP Hover.png" id="1_4lwr2"]
+[ext_resource type="Texture2D" uid="uid://c4wudra0qhdww" path="res://assets/menu_ui/button/Long Wooden ButtonP.png" id="2_4lwr2"]
+[ext_resource type="Texture2D" uid="uid://bxat5yxo33dpe" path="res://assets/menu_ui/button/Long Wooden ButtonP Clicked.png" id="3_eckwq"]
+[ext_resource type="Texture2D" uid="uid://6t8mw0imvxsx" path="res://assets/menu_ui/Progress Bar.png" id="4_4lwr2"]
+[ext_resource type="Texture2D" uid="uid://cksdabpts4111" path="res://assets/menu_ui/Fill Bar.png" id="5_eckwq"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_k528p"]
-texture = ExtResource("1_k528p")
+texture = ExtResource("1_4lwr2")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_605w4"]
-texture = ExtResource("1_k528p")
+texture = ExtResource("2_4lwr2")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4lwr2"]
-texture = ExtResource("2_cu4xe")
+texture = ExtResource("3_eckwq")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_i0b23"]
+texture = ExtResource("4_4lwr2")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cqbvn"]
+texture = ExtResource("5_eckwq")
 
 [resource]
+Button/styles/focus = null
 Button/styles/hover = SubResource("StyleBoxTexture_k528p")
 Button/styles/normal = SubResource("StyleBoxTexture_605w4")
 Button/styles/pressed = SubResource("StyleBoxTexture_4lwr2")
+ProgressBar/styles/background = SubResource("StyleBoxTexture_i0b23")
+ProgressBar/styles/fill = SubResource("StyleBoxTexture_cqbvn")

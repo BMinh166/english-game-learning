@@ -1,9 +1,49 @@
-[gd_scene load_steps=7 format=3 uid="uid://tf7btkdaq2ha"]
+[gd_scene load_steps=23 format=3 uid="uid://tf7btkdaq2ha"]
 
 [ext_resource type="Script" uid="uid://cagropjgcq88j" path="res://scenes/Screen/Setting.gd" id="1_78ite"]
+[ext_resource type="Texture2D" uid="uid://bassx3fyqj844" path="res://assets/background/MenuBG Full.png" id="2_x5fht"]
+[ext_resource type="Texture2D" uid="uid://dxoysqjpifyso" path="res://assets/background/LHMenuPanel.png" id="3_x5fht"]
+[ext_resource type="Texture2D" uid="uid://0luagiemxlay" path="res://assets/menu_ui/button/Gold Button.png" id="4_o078q"]
+[ext_resource type="Texture2D" uid="uid://cyiyqe14m7m11" path="res://assets/menu_ui/button/Wooden Button pixel.png" id="4_ur7ds"]
+[ext_resource type="Texture2D" uid="uid://bfkbg1jk4uxbr" path="res://assets/menu_ui/button/Gold Button Clicked.png" id="5_ur7ds"]
+[ext_resource type="Texture2D" uid="uid://cynl7picgy7jy" path="res://assets/menu_ui/button/Wooden ButtonP Clicked.png" id="5_x5fht"]
+[ext_resource type="Texture2D" uid="uid://bvsemwykfmrdu" path="res://assets/menu_ui/button/Gold Button Hover.png" id="6_6kt33"]
+[ext_resource type="Texture2D" uid="uid://xwqokrwwiqix" path="res://assets/menu_ui/button/Wooden ButtonP Hover.png" id="6_jtvcg"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_d514q"]
 font_size = 24
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jtvcg"]
+texture = ExtResource("4_ur7ds")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nc1f0"]
+texture = ExtResource("5_x5fht")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8ah73"]
+texture = ExtResource("6_jtvcg")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_x5fht"]
+bg_color = Color(0.41076782, 0.6253579, 0.79554236, 1)
+border_width_left = 7
+border_width_top = 5
+border_width_right = 7
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 7
+corner_radius_top_right = 7
+corner_radius_bottom_right = 7
+corner_radius_bottom_left = 7
+expand_margin_left = 7.0
+expand_margin_top = 8.0
+expand_margin_right = 7.0
+expand_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jtvcg"]
+bg_color = Color(0, 1, 0.4627451, 1)
+corner_radius_top_left = 2
+corner_radius_bottom_left = 2
+expand_margin_top = 3.0
+expand_margin_bottom = 3.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_78ite"]
 font_size = 12
@@ -16,6 +56,15 @@ font_size = 12
 
 [sub_resource type="LabelSettings" id="LabelSettings_anma2"]
 font_size = 12
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_ur7ds"]
+texture = ExtResource("4_o078q")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_6kt33"]
+texture = ExtResource("5_ur7ds")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_x5fht"]
+texture = ExtResource("6_6kt33")
 
 [node name="Setting" type="Control"]
 layout_mode = 3
@@ -38,15 +87,21 @@ grow_vertical = 2
 [node name="ColorRect" type="ColorRect" parent="SettingLayer/CenterContainer"]
 custom_minimum_size = Vector2(1152, 648)
 layout_mode = 2
-color = Color(0.2244977, 0.15667179, 0.25497583, 1)
+color = Color(0, 0, 0, 1)
+
+[node name="TextureRect" type="TextureRect" parent="SettingLayer/CenterContainer"]
+custom_minimum_size = Vector2(1152, 648)
+layout_mode = 2
+texture = ExtResource("2_x5fht")
+expand_mode = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="SettingLayer/CenterContainer"]
 custom_minimum_size = Vector2(1152, 648)
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 20
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_top = 30
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_bottom = 20
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer"]
 layout_mode = 2
@@ -66,11 +121,17 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 25
 theme_override_constants/margin_bottom = 25
 
+[node name="TextureRect" type="TextureRect" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("3_x5fht")
+expand_mode = 5
+
 [node name="Panel" type="Panel" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer"]
+visible = false
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer"]
-custom_minimum_size = Vector2(1000, 400)
+custom_minimum_size = Vector2(970, 400)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6
@@ -85,10 +146,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="LanguageButton" type="Button" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Language"]
-custom_minimum_size = Vector2(200, 0)
+custom_minimum_size = Vector2(200, 60)
 layout_mode = 2
 size_flags_horizontal = 4
 focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_jtvcg")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_nc1f0")
+theme_override_styles/hover = SubResource("StyleBoxTexture_8ah73")
 text = "ENGLISH"
 
 [node name="MasterVolume" type="VBoxContainer" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer"]
@@ -104,6 +168,11 @@ vertical_alignment = 1
 [node name="MasterSlider" type="HSlider" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MasterVolume"]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_constants/center_grabber = 1
+theme_override_styles/slider = SubResource("StyleBoxFlat_x5fht")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_jtvcg")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_jtvcg")
+value = 10.0
 
 [node name="MasterValueLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MasterVolume"]
 layout_mode = 2
@@ -124,6 +193,10 @@ vertical_alignment = 1
 [node name="MusicSlider" type="HSlider" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MusicVolume"]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_constants/center_grabber = 1
+theme_override_styles/slider = SubResource("StyleBoxFlat_x5fht")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_jtvcg")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_jtvcg")
 
 [node name="MusicValueLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/MusicVolume"]
 layout_mode = 2
@@ -143,6 +216,10 @@ vertical_alignment = 1
 
 [node name="SFXSlider" type="HSlider" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SFXVolume"]
 layout_mode = 2
+theme_override_constants/center_grabber = 1
+theme_override_styles/slider = SubResource("StyleBoxFlat_x5fht")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_jtvcg")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_jtvcg")
 
 [node name="SFXValueLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/SFXVolume"]
 layout_mode = 2
@@ -163,6 +240,10 @@ vertical_alignment = 1
 [node name="GameSpeedSlider" type="HSlider" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/GameSpeed"]
 layout_mode = 2
 size_flags_vertical = 6
+theme_override_constants/center_grabber = 1
+theme_override_styles/slider = SubResource("StyleBoxFlat_x5fht")
+theme_override_styles/grabber_area = SubResource("StyleBoxFlat_jtvcg")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxFlat_jtvcg")
 max_value = 4.0
 
 [node name="GameSpeedValueLabel" type="Label" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/GameSpeed"]
@@ -172,9 +253,16 @@ label_settings = SubResource("LabelSettings_anma2")
 horizontal_alignment = 1
 
 [node name="BackButton" type="Button" parent="SettingLayer/CenterContainer/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 60)
+custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 size_flags_vertical = 8
+focus_mode = 0
+theme_override_colors/font_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_pressed_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_hover_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_ur7ds")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_6kt33")
+theme_override_styles/hover = SubResource("StyleBoxTexture_x5fht")
 text = "Back"
 
 [connection signal="pressed" from="SettingLayer/CenterContainer/MarginContainer/VBoxContainer/MarginContainer/VBoxContainer/Language/LanguageButton" to="." method="_on_language_button_pressed"]

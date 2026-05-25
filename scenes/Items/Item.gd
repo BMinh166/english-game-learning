@@ -4,6 +4,7 @@ extends Control
 @onready var sell_button = $SellButton
 @onready var use_button = $UseButton
 @onready var click_area = $ClickArea
+@onready var item_bg = $MarginContainer/ItemBackground
 
 var item_instance
 var selected = false
@@ -36,17 +37,28 @@ func setup(instance):
 
 	var data = ItemDB.ITEMS[item_id]
 
-	label.text = data["name"]
-	if item_instance.get("id", "") == "blueprint":
+	label.text = ""
+	
+	# =====================
+	# SET BACKGROUND
+	# =====================
 
-		var copied = item_instance.get(
-			"copied_item",
-			""
+	if data.has("background_path"):
+
+		item_bg.texture = load(
+			data["background_path"]
 		)
-
-		if copied != "":
-
-			label.text += "\n[" + copied + "]"
+	
+	#if item_instance.get("id", "") == "blueprint":
+#
+		#var copied = item_instance.get(
+			#"copied_item",
+			#""
+		#)
+#
+		#if copied != "":
+#
+			#label.text += "\n[" + copied + "]"
 	
 			
 func update_buttons():
@@ -106,7 +118,7 @@ func activate():
 
 	var tween = create_tween()
 
-	modulate = Color(1.3, 1.3, 0.7)
+	modulate = Color(1.3, 1.3, 1.3, 1.0)
 
 	tween.tween_property(
 		self,

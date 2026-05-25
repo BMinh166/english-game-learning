@@ -10,15 +10,19 @@ var relation_scene = preload(
 	"res://scenes/Screen/relation_info_menu.tscn"
 )
 
+var new_game_scene = preload(
+	"res://scenes/Screen/new_game_menu.tscn"
+)
+
 func _ready():
 	hide()
 	update_language_ui()
 
-	back_button.pressed.connect(_on_back_button_pressed)
-	new_game_button.pressed.connect(_on_new_game_button_pressed)
-	setting_button.pressed.connect(_on_setting_button_pressed)
-	main_menu_button.pressed.connect(_on_main_menu_button_pressed)
-	relations_button.pressed.connect(_on_relations_button_pressed)
+	#back_button.pressed.connect(_on_back_button_pressed)
+	#new_game_button.pressed.connect(_on_new_game_button_pressed)
+	#setting_button.pressed.connect(_on_setting_button_pressed)
+	#main_menu_button.pressed.connect(_on_main_menu_button_pressed)
+	#relations_button.pressed.connect(_on_relations_button_pressed)
 
 func update_language_ui():
 
@@ -65,14 +69,17 @@ func close():
 
 
 func _on_new_game_button_pressed() -> void:
-	var ui = get_tree().get_first_node_in_group("ui")
-	ui.selected_indices.clear()
 
-	GameManager.reset_state()
+	if get_tree().current_scene.has_node("NewGameMenu"):
+		return
 
-	get_tree().paused = false
+	hide()
 
-	get_tree().reload_current_scene()
+	var popup = new_game_scene.instantiate()
+
+	popup.pause_menu = self
+
+	get_tree().current_scene.add_child(popup)
 
 
 func _on_setting_button_pressed() -> void:

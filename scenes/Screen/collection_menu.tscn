@@ -1,7 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://7ja1t6chbony"]
+[gd_scene load_steps=13 format=3 uid="uid://7ja1t6chbony"]
 
 [ext_resource type="Script" uid="uid://dm762y36ccndg" path="res://scripts/Screen/CollectionMenu.gd" id="1_rjjtm"]
 [ext_resource type="Texture2D" uid="uid://bv4xbp47kou8s" path="res://assets/background/Master Background.png" id="2_n2dlm"]
+[ext_resource type="Texture2D" uid="uid://bassx3fyqj844" path="res://assets/background/MenuBG Full.png" id="3_fnp61"]
+[ext_resource type="Texture2D" uid="uid://0luagiemxlay" path="res://assets/menu_ui/button/Gold Button.png" id="7_o6xsw"]
+[ext_resource type="Texture2D" uid="uid://bfkbg1jk4uxbr" path="res://assets/menu_ui/button/Gold Button Clicked.png" id="8_1q8l4"]
+[ext_resource type="Texture2D" uid="uid://bvsemwykfmrdu" path="res://assets/menu_ui/button/Gold Button Hover.png" id="9_onx3q"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_rbf5y"]
+texture = ExtResource("7_o6xsw")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7k21h"]
+texture = ExtResource("8_1q8l4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vgqfm"]
+texture = ExtResource("9_onx3q")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_q2lww"]
+texture = ExtResource("7_o6xsw")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v32e3"]
+texture = ExtResource("8_1q8l4")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_o6xsw"]
+texture = ExtResource("9_onx3q")
 
 [node name="CollectionMenu" type="Control"]
 layout_mode = 3
@@ -42,13 +64,19 @@ grow_vertical = 2
 [node name="MenuBackground" type="ColorRect" parent="CenterContainer"]
 custom_minimum_size = Vector2(620, 420)
 layout_mode = 2
-color = Color(0.7085927, 0.6522982, 0.84024405, 1)
+color = Color(0.70980394, 0.6509804, 0.8392157, 0)
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer"]
+custom_minimum_size = Vector2(640, 420)
+layout_mode = 2
+texture = ExtResource("3_fnp61")
+expand_mode = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
 [node name="MenuContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
 custom_minimum_size = Vector2(600, 410)
@@ -66,32 +94,54 @@ layout_mode = 2
 [node name="WordButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer"]
 custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
+focus_mode = 0
 text = "WORDS (123/472)"
 
 [node name="ItemsButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+focus_mode = 0
 text = "ITEMS (12/20)"
 
 [node name="RelationsButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+focus_mode = 0
 text = "Relations Info"
 
 [node name="StatsButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+focus_mode = 0
 text = "Stats"
 
 [node name="DeleteDataButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
+focus_mode = 0
+theme_override_colors/font_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_pressed_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_hover_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_styles/normal = SubResource("StyleBoxTexture_rbf5y")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_7k21h")
+theme_override_styles/hover = SubResource("StyleBoxTexture_vgqfm")
 text = "Delete Data"
 
 [node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/MenuContainer"]
+custom_minimum_size = Vector2(0, 28)
 layout_mode = 2
 size_flags_vertical = 8
+focus_mode = 0
+theme_override_colors/font_color = Color(0.09620453, 0.09620487, 0.096204616, 1)
+theme_override_colors/font_pressed_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_colors/font_hover_color = Color(0.09803922, 0.09803922, 0.09803922, 1)
+theme_override_font_sizes/font_size = 16
+theme_override_styles/normal = SubResource("StyleBoxTexture_q2lww")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_v32e3")
+theme_override_styles/hover = SubResource("StyleBoxTexture_o6xsw")
 text = "Back
 "
+icon_alignment = 1
 
 [connection signal="pressed" from="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/RelationsButton" to="." method="_on_relations_button_pressed"]
 [connection signal="pressed" from="CenterContainer/MarginContainer/MenuContainer/MarginContainer/ButtonContainer/StatsButton" to="." method="_on_stats_button_pressed"]

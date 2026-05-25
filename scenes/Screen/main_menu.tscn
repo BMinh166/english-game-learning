@@ -1,11 +1,50 @@
-[gd_scene load_steps=5 format=3 uid="uid://bahuldnv1aakw"]
+[gd_scene load_steps=20 format=3 uid="uid://bahuldnv1aakw"]
 
 [ext_resource type="Script" uid="uid://bt2rq2sxg1hy7" path="res://scripts/Screen/MainMenu.gd" id="1_1qmrp"]
 [ext_resource type="Texture2D" uid="uid://gw5hdnf37s32" path="res://assets/menu_ui/Logo Game.png" id="2_cedm2"]
 [ext_resource type="Texture2D" uid="uid://bv4xbp47kou8s" path="res://assets/background/Master Background.png" id="2_f54is"]
+[ext_resource type="Texture2D" uid="uid://ctotamw33gl0k" path="res://assets/menu_ui/button/Red Button.png" id="4_qj1v5"]
+[ext_resource type="Texture2D" uid="uid://dgqajfvwuy7oe" path="res://assets/menu_ui/button/Red Button Clicked.png" id="5_nx5xv"]
+[ext_resource type="Texture2D" uid="uid://7r0aolyd68sq" path="res://assets/menu_ui/button/Red Button Hover.png" id="6_2xuqo"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_1qmrp"]
 font_size = 64
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_c04tc"]
+texture = ExtResource("4_qj1v5")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7u2c5"]
+texture = ExtResource("5_nx5xv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2v3vl"]
+texture = ExtResource("6_2xuqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nx5xv"]
+texture = ExtResource("4_qj1v5")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_2xuqo"]
+texture = ExtResource("5_nx5xv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_nw4po"]
+texture = ExtResource("6_2xuqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3rngi"]
+texture = ExtResource("4_qj1v5")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_8du4u"]
+texture = ExtResource("5_nx5xv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_12tu7"]
+texture = ExtResource("6_2xuqo")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_w7fgf"]
+texture = ExtResource("4_qj1v5")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_fjy7x"]
+texture = ExtResource("5_nx5xv")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_yaudx"]
+texture = ExtResource("6_2xuqo")
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -85,21 +124,37 @@ size_flags_vertical = 3
 [node name="PlayButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/MarginContainer/ButtonContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_c04tc")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_7u2c5")
+theme_override_styles/hover = SubResource("StyleBoxTexture_2v3vl")
 text = "PLAY"
 
 [node name="SettingButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/MarginContainer/ButtonContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_nx5xv")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_2xuqo")
+theme_override_styles/hover = SubResource("StyleBoxTexture_nw4po")
 text = "SETTING"
 
 [node name="CollectionButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/MarginContainer/ButtonContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_3rngi")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_8du4u")
+theme_override_styles/hover = SubResource("StyleBoxTexture_12tu7")
 text = "COLLECTION"
 
 [node name="QuitButton" type="Button" parent="MainMenu/CenterContainer/VBoxContainer/MarginContainer/ButtonContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_w7fgf")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_fjy7x")
+theme_override_styles/hover = SubResource("StyleBoxTexture_yaudx")
 text = "QUIT"
 
 [connection signal="pressed" from="MainMenu/CenterContainer/VBoxContainer/MarginContainer/ButtonContainer/PlayButton" to="." method="_on_play_button_pressed"]
