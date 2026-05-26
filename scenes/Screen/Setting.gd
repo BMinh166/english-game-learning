@@ -189,6 +189,8 @@ func _on_master_slider_value_changed(value: float) -> void:
 		"master_volume",
 		int(master_slider.value)
 	)
+	
+	AudioManager.apply_volume_settings()
 
 	update_value_labels()
 
@@ -201,6 +203,8 @@ func _on_music_slider_value_changed(value: float) -> void:
 		"music_volume",
 		int(music_slider.value)
 	)
+	
+	AudioManager.apply_volume_settings()
 
 	update_value_labels()
 
@@ -213,6 +217,8 @@ func _on_sfx_slider_value_changed(value: float) -> void:
 		"sfx_volume",
 		int(sfx_slider.value)
 	)
+	
+	AudioManager.apply_volume_settings()
 
 	update_value_labels()
 

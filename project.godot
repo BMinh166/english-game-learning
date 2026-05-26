@@ -22,6 +22,7 @@ GameManager="*res://scripts/GameManager.gd"
 SaveManager="*res://autoload/SaveManager.gd"
 Localization="*res://autoload/Localization.gd"
 DifficultyManager="*res://autoload/DifficultyManager.gd"
+AudioManager="*res://scenes/Audio/audio_manager.tscn"
 
 [display]
 

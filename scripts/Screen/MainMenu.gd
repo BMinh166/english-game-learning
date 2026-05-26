@@ -8,6 +8,7 @@ extends Control
 func _ready():
 	update_language_ui()
 	
+	AudioManager.play_main_menu_bgm()
 	
 func update_language_ui():
 
