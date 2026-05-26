@@ -45,9 +45,8 @@ func setup(word_id):
 
 	meaning_label.text = (
 		Localization.tr_ui("meaning") + ": "
-		+ word.get(
-			"meaning",
-			"No meaning"
+		+ Localization.tr_meaning(
+			word.get("text", "")
 		)
 	)
 
