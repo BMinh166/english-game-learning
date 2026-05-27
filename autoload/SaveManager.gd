@@ -61,7 +61,9 @@ func create_default_save():
 			"music_volume": 100,
 			"sfx_volume": 100,
 
-			"game_speed": 3 
+			"game_speed": 3,
+			
+			"tutorial_completed": false
 		},
 
 		"word_tracking": {},

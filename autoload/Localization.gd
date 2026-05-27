@@ -42,6 +42,10 @@ var UI_TEXT = {
 		"back": "Back",
 		"yes": "Yes",
 		"cancel": "Cancel",
+		"next": "Next",
+		"done": "Done",
+		
+		"toturial": "TOTURIAL",
 		
 		"delete_confirm": "All save data will be permanently deleted.\nThis action cannot be undone.\n\nAre you sure?",
 		
@@ -114,6 +118,36 @@ var UI_TEXT = {
 		"reroll": "Reroll",
 		"reward_item": "Choose a reward",
 		
+		"tutorial_step_1":
+			"The target word appears at the center.\n"
+			+ "Choose words below that can form relations with the target word to score points.\n"
+			+ "Reach the target score before running out of Turns.",
+
+		"tutorial_step_2":
+			"There are 5 word relations and each relation gives different score values.\n\n"
+			+ "Examples:\n"
+			+ "Big – Huge (Synonym)\n"
+			+ "Hot – Warm (Degree)\n"
+			+ "Create – Creative (Family)\n\n"
+			+ "Word relations are not completely rigid, so feel free to experiment.",
+
+		"tutorial_step_3":
+			"Chain activates when 2 or more valid words are played consecutively.\n"
+			+ "Chain increases score exponentially, the longer the streak the stronger it becomes.\n"
+			+ "Try to minimize invalid words as much as possible.",
+
+		"tutorial_step_4":
+			"Each play consumes 1 Turn. Running out of Turns means defeat.\n\n"
+			+ "Besides the 5 words in your hand, the Bag contains 40 additional words.\n"
+			+ "Use Discard to remove unwanted words and draw random new ones from the Bag.\n"
+			+ "You can Discard up to 5 times.",
+
+		"tutorial_step_5":
+			"After reaching the target score, you clear the round and choose 1 support Item.\n"
+			+ "Items shape your playstyle and improve scoring.\n"
+			+ "You can only hold up to 5 Items, so choose carefully.\n"
+			+ "Selling Items grants bonus Turns.",
+		
 	},
 
 	"vi": {
@@ -150,6 +184,10 @@ var UI_TEXT = {
 		"back": "Quay lại",
 		"yes": "Có",
 		"cancel": "Hủy",
+		"next": "Tiếp",
+		"done": "Xong",
+		
+		"toturial": "HƯỚNG DẪN",
 		
 		"delete_confirm": "Tất cả dữ liệu sẽ bị xóa vĩnh viễn.\nKhông thể hoàn tác thao tác này.\n\nBạn có chắn chắn không?",
 		
@@ -221,6 +259,36 @@ var UI_TEXT = {
 		"skip": "Bỏ qua",
 		"reroll": "Đổi lại",
 		"reward_item": "Hãy chọn phần thưởng",
+		
+		"tutorial_step_1":
+			"Từ yêu cầu xuất hiện ở giữa.\n"
+			+ "Hãy chọn các từ bên dưới có thể lập mối quan hệ với từ yêu cầu để ghi điểm.\n"
+			+ "Hãy ghi đủ số điểm trước khi hết Lượt chơi.",
+
+		"tutorial_step_2":
+			"Có 5 quan hệ từ và mỗi quan hệ từ sẽ ghi số điểm khác nhau.\n\n"
+			+ "Ví dụ:\n"
+			+ "Big – Huge (Đồng nghĩa)\n"
+			+ "Hot – Warm (Mức độ)\n"
+			+ "Create – Creative (Họ)\n\n"
+			+ "Các quan hệ từ không hoạt động cứng nhắc vì thế hãy cứ thoải mái.",
+
+		"tutorial_step_3":
+			"Chain sẽ kích hoạt khi có 2 hoặc nhiều hơn từ hợp lệ liên tiếp nhau.\n"
+			+ "Chain sẽ tăng điểm theo cấp số nhân, càng đúng liên tục điểm tăng càng mạnh.\n"
+			+ "Hãy cố gắng giảm thiểu số từ không hợp lệ nhất nhé.",
+
+		"tutorial_step_4":
+			"Mỗi lần đánh từ ra sẽ tốn 1 Lượt, nếu hết lượt sẽ thua.\n\n"
+			+ "Ngoài 5 từ trên tay, trong Túi sẽ có thêm 40 từ khác.\n"
+			+ "Có thể dùng Bỏ từ để loại bỏ những từ không cần thiết và từ mới sẽ được lấy ngẫu nhiên trong Túi.\n"
+			+ "Tối đa có 5 lượt Bỏ từ.",
+
+		"tutorial_step_5":
+			"Sau khi hoàn thành số điểm yêu cầu sẽ qua màn và được chọn 1 Vật Phẩm hỗ trợ.\n"
+			+ "Các Vật Phẩm này giúp định hình lối chơi và cải thiện điểm nhận được.\n"
+			+ "Tối đa chỉ chứa được 5 Vật Phẩm, hãy suy nghĩ kỹ trước khi lựa chọn.\n"
+			+ "Vật phẩm khi bán sẽ chuyển thành số Lượt chơi.",
 	}
 }
 

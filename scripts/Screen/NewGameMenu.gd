@@ -80,8 +80,9 @@ func _on_difficulty_button_pressed() -> void:
 
 
 func _on_play_button_pressed() -> void:
+
 	AudioManager.play_button_click()
-	
+
 	if get_tree().paused:
 		get_tree().paused = false
 
@@ -90,12 +91,28 @@ func _on_play_button_pressed() -> void:
 
 	GameManager.reset_state()
 
-	# nếu muốn sau này:
-	DifficultyManager.current_difficulty =	difficulties[current_index]
+	DifficultyManager.current_difficulty = difficulties[current_index]
 
-	get_tree().change_scene_to_file(
-		"res://scenes/Main.tscn"
+	# =====================
+	# FIRST TIME CHECK
+	# =====================
+
+	var tutorial_completed = SaveManager.get_setting(
+		"tutorial_completed",
+		false
 	)
+
+	if !tutorial_completed:
+
+		get_tree().change_scene_to_file(
+			"res://scenes/Screen/toturial.tscn"
+		)
+
+	else:
+
+		get_tree().change_scene_to_file(
+			"res://scenes/Main.tscn"
+		)
 
 
 func _on_back_button_pressed() -> void:
