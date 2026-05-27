@@ -23,6 +23,7 @@ func _ready():
 
 	back_button.pressed.connect(
 		func():
+			AudioManager.play_button_click()
 			queue_free()
 	)
 

@@ -32,6 +32,7 @@ func _ready() -> void:
 
 
 func _on_yes_pressed():
+	AudioManager.play_button_click()
 
 	emit_signal("confirmed")
 
@@ -39,6 +40,7 @@ func _on_yes_pressed():
 
 
 func _on_cancel_pressed():
+	AudioManager.play_button_click()
 
 	emit_signal("cancelled")
 

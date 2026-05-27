@@ -69,6 +69,7 @@ func update_language_ui():
 
 
 func _on_difficulty_button_pressed() -> void:
+	AudioManager.play_button_click()
 
 	current_index += 1
 
@@ -79,6 +80,7 @@ func _on_difficulty_button_pressed() -> void:
 
 
 func _on_play_button_pressed() -> void:
+	AudioManager.play_button_click()
 	
 	if get_tree().paused:
 		get_tree().paused = false
@@ -97,6 +99,7 @@ func _on_play_button_pressed() -> void:
 
 
 func _on_back_button_pressed() -> void:
+	AudioManager.play_button_click()
 
 	if pause_menu != null:
 

@@ -302,6 +302,8 @@ func _on_play_cards(cards):
 	var total_width = (count - 1) * spacing
 	var start_x = center_pos.x - total_width / 2
 
+	AudioManager.play_card_fly()
+
 	for i in range(count):
 		var card = selected_cards[i]
 
@@ -352,18 +354,23 @@ func _on_show_floating_text(card, data):
 	match data.type:
 		"add_point":
 			color = Color.GREEN
+			AudioManager.play_floating_text_score()
 
 		"add_mult", "mul_mult":
 			color = Color.CYAN
+			AudioManager.play_floating_text_score()
 
 		"fail":
 			color = Color.RED
+			AudioManager.play_score_fail()
 			
 		"chain":
 			color = Color.ORANGE
+			AudioManager.play_floating_text_score()
 			
 		"item":
 			color = Color.GOLD
+			AudioManager.play_floating_text_score()
 
 	print("FT_TEXT SIZE BEFORE PLAY:", ft.size)
 
@@ -372,6 +379,7 @@ func _on_show_floating_text(card, data):
 		card.size.x / 2,
 		card.size.y + 10
 	)
+	
 	
 	print("FT_POS BEFORE PLAY:", ft.position)
 
@@ -435,6 +443,9 @@ func _on_play_button_pressed() -> void:
 	GameManager.play_selected(selected_cards)
 	selected_indices.clear()
 	#update_hand_selection()
+	
+	AudioManager.play_button_click()
+	
 	update_buttons()
 
 
@@ -447,6 +458,9 @@ func _on_discard_button_pressed() -> void:
 	
 	GameManager.discard_selected(selected_indices)
 	selected_indices.clear()
+	
+	AudioManager.play_button_click()
+	
 	update_hand_selection()
 	
 func _on_activate_item_slot(item_id):

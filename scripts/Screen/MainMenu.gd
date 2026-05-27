@@ -36,10 +36,11 @@ func _on_play_button_pressed() -> void:
 		"current_run"
 	]["active"]
 
+	AudioManager.play_button_click()
+
 	# =====================
 	# CONTINUE AVAILABLE
 	# =====================
-
 	if has_run:
 
 		get_tree().change_scene_to_file(
@@ -60,7 +61,7 @@ func _on_setting_button_pressed() -> void:
 	GameManager.previous_scene_path = (
 		"res://scenes/Screen/main_menu.tscn"
 	)
-
+	AudioManager.play_button_click()
 	get_tree().change_scene_to_file(
 		"res://scenes/Screen/setting.tscn"
 	)
@@ -68,10 +69,12 @@ func _on_setting_button_pressed() -> void:
 	print("PREVIOUS:", GameManager.previous_scene_path)
 
 func _on_quit_button_pressed() -> void:
-		get_tree().quit()
+	AudioManager.play_button_click()
+	get_tree().quit()
 
 
 func _on_collection_button_pressed() -> void:
+	AudioManager.play_button_click()
 	get_tree().change_scene_to_file(
 		"res://scenes/Screen/collection_menu.tscn"
 	)

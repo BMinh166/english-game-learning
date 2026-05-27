@@ -88,6 +88,7 @@ func play_item_choose():
 
 
 func play_bar_increase():
+	bar_increase.pitch_scale = randf_range(0.98, 1.02)
 	bar_increase.play()
 
 

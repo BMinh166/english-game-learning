@@ -695,6 +695,7 @@ func get_text_from_step(step):
 			var label = step.get("relation_label", "")
 			var p = step.get("point", 0)
 			var m = step.get("mult", 1)
+			AudioManager.play_floating_text_score()
 
 			return label + " (" + str(p) + " x" + str(m) + ")"
 
@@ -723,6 +724,7 @@ func get_text_from_step(step):
 			return "Chain x" + str(step.value)
 
 		_:
+			AudioManager.play_floating_text_score()
 			return step.type
 	
 func apply_step(step: Dictionary):
@@ -813,6 +815,8 @@ func continue_next_round():
 	score -= target_score
 
 	round += 1
+	
+	AudioManager.play_next_round()
 	
 	if check_victory():
 		return

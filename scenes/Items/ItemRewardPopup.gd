@@ -116,15 +116,19 @@ func _on_slot_selected(item_data):
 		return
 
 	reward_selected.emit(item_data)
+	AudioManager.play_item_choose()
 
 	queue_free()
 
 
 func _on_reroll_pressed() -> void:
 
+	AudioManager.play_button_click()
 	reward_rerolled.emit()
 
 func _on_skip_pressed() -> void:
+	AudioManager.play_button_click()
+	
 	reward_skipped.emit()
 
 	queue_free()

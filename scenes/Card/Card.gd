@@ -46,6 +46,8 @@ func _gui_input(event):
 		if event.button_index == MOUSE_BUTTON_LEFT:
 
 			print("CLICK CARD:", index, label.text)
+			
+			AudioManager.play_card_click()
 
 			emit_signal("card_clicked", index)
 
@@ -68,9 +70,8 @@ func _on_hover_exit():
 	update_visual()
 
 func set_selected(is_selected):
-
 	selected = is_selected
-
+		
 	update_visual()
 
 func set_fail(is_fail):
@@ -101,6 +102,7 @@ func update_visual():
 
 	elif hovered:
 		target_y = HOVER_OFFSET
+		AudioManager.play_card_hover()
 
 	if move_tween:
 		move_tween.kill()

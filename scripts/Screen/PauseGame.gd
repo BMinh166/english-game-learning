@@ -69,7 +69,8 @@ func close():
 
 
 func _on_new_game_button_pressed() -> void:
-
+	AudioManager.play_button_click()
+	
 	if get_tree().current_scene.has_node("NewGameMenu"):
 		return
 
@@ -84,6 +85,7 @@ func _on_new_game_button_pressed() -> void:
 
 func _on_setting_button_pressed() -> void:
 	print("Open setting")
+	AudioManager.play_button_click()
 	if get_tree().current_scene.has_node("Setting"):
 		return
 	
@@ -101,6 +103,7 @@ func _on_setting_button_pressed() -> void:
 
 
 func _on_main_menu_button_pressed() -> void:
+	AudioManager.play_button_click()
 	get_tree().paused = false
 
 	GameManager.reset_state()
@@ -111,12 +114,14 @@ func _on_main_menu_button_pressed() -> void:
 
 
 func _on_back_button_pressed() -> void:
+	AudioManager.play_button_click()
 	close()
 
 
 func _on_relations_button_pressed() -> void:
 	hide()
-
+	AudioManager.play_button_click()
+	
 	var popup = relation_scene.instantiate()
 
 	popup.pause_menu = self

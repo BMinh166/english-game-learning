@@ -134,10 +134,11 @@ func _on_back_button_pressed() -> void:
 
 	print("PREVIOUS:", GameManager.previous_scene_path)
 
+	AudioManager.play_button_click()
+
 	# =====================
 	# OPENED FROM PAUSE
 	# =====================
-
 	if pause_menu != null:
 
 		if pause_menu.has_method(
@@ -177,7 +178,8 @@ func _on_language_button_pressed() -> void:
 			"language",
 			"en"
 		)
-
+	AudioManager.play_button_click()
+	
 	load_settings()
 
 

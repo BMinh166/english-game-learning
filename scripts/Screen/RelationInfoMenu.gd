@@ -39,7 +39,7 @@ func load_relation_info():
 		
 
 func _on_back_button_pressed() -> void:
-
+	AudioManager.play_button_click()
 	if pause_menu != null:
 
 		pause_menu.show()

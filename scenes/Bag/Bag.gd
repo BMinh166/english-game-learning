@@ -23,6 +23,7 @@ func _on_game_update(_state):
 
 func _on_button_pressed() -> void:
 	print("BAG PRESSED")
+	AudioManager.play_button_click()
 	if popup == null or !is_instance_valid(popup):
 		popup = bag_popup_scene.instantiate()
 		get_tree().current_scene.add_child(popup)

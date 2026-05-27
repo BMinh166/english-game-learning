@@ -68,6 +68,7 @@ func load_words():
 
 		button.pressed.connect(
 			func():
+				AudioManager.play_button_click()
 				if current_discovered:
 					open_word_detail(current_word_id)
 		)
@@ -108,6 +109,7 @@ func _on_search_text_changed(text):
 
 
 func _on_back_button_pressed() -> void:
+	AudioManager.play_button_click()
 	get_tree().change_scene_to_file(
 		"res://scenes/Screen/collection_menu.tscn"
 	)

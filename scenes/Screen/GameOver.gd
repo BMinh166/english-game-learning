@@ -32,12 +32,16 @@ func update_language_ui():
 		game_over_label.text = Localization.tr_ui(
 			"victory"
 		)
+		
+		AudioManager.play_win_run()
 
 	else:
 
 		game_over_label.text = Localization.tr_ui(
 			"game_over"
 		)
+		
+		AudioManager.play_lose_run()
 
 	score_label.text = (
 		Localization.tr_ui("score")
@@ -60,6 +64,7 @@ func update_language_ui():
 	)
 
 func _on_new_game_button_pressed() -> void:
+	AudioManager.play_button_click()
 
 	get_tree().change_scene_to_file(
 		"res://scenes/Screen/new_game_menu.tscn"
@@ -67,6 +72,7 @@ func _on_new_game_button_pressed() -> void:
 
 
 func _on_main_menu_button_pressed() -> void:
-		get_tree().change_scene_to_file(
+	AudioManager.play_button_click()
+	get_tree().change_scene_to_file(
 		"res://scenes/Screen/main_menu.tscn"
 	)
