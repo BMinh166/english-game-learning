@@ -9,6 +9,7 @@ var card_scene = preload("res://scenes/Card/Card.tscn")
 signal closed
 
 func _ready() -> void:
+	add_to_group("bag_popup")
 	update_language_ui()
 
 func setup(cards):
@@ -36,6 +37,10 @@ func update_language_ui():
 	back_button.text = Localization.tr_ui(
 		"back"
 	)
+	
+func close_popup():
+	emit_signal("closed")
+	queue_free()
 
 func _on_back_button_pressed() -> void:
 	AudioManager.play_button_click()
