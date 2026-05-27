@@ -95,7 +95,7 @@ func update_language_ui():
 
 
 func _on_back_button_pressed() -> void:
-
+	AudioManager.play_button_click()
 	if current_step <= 0:
 		return
 
@@ -105,7 +105,7 @@ func _on_back_button_pressed() -> void:
 
 
 func _on_next_done_button_pressed() -> void:
-
+	AudioManager.play_button_click()
 	var is_last = (
 		current_step == tutorial_steps.size() - 1
 	)
