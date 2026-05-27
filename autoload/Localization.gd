@@ -271,7 +271,7 @@ var UI_TEXT = {
 			+ "Big – Huge (Đồng nghĩa)\n"
 			+ "Hot – Warm (Mức độ)\n"
 			+ "Create – Creative (Họ)\n\n"
-			+ "Các quan hệ từ không hoạt động cứng nhắc vì thế hãy cứ thoải mái.",
+			+ "Các quan hệ từ không hoạt động cứng nhắc vì thế hãy cứ thoải mái chọn.",
 
 		"tutorial_step_3":
 			"Chain sẽ kích hoạt khi có 2 hoặc nhiều hơn từ hợp lệ liên tiếp nhau.\n"
