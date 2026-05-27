@@ -61,7 +61,9 @@ func create_default_save():
 			"music_volume": 100,
 			"sfx_volume": 100,
 
-			"game_speed": 3 
+			"game_speed": 3,
+			
+			"tutorial_completed": false
 		},
 
 		"word_tracking": {},
@@ -330,7 +332,7 @@ func update_most_used_relation():
 	save_data["statistics"]["most_used_relation"] = best_relation
 
 
-func track_item_use(item_id):
+func track_item_pick(item_id):
 
 	if !save_data.has("item_usage"):
 
@@ -345,6 +347,8 @@ func track_item_use(item_id):
 	tracking[item_id] += 1
 
 	update_most_used_item()
+
+	save_game()
 
 
 func update_most_used_item():

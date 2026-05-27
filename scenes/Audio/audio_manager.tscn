@@ -1,0 +1,83 @@
+[gd_scene load_steps=16 format=3 uid="uid://oyg0m6hesayb"]
+
+[ext_resource type="Script" uid="uid://cfgcitagq2c4" path="res://autoload/AudioManager.gd" id="1_qbhe3"]
+[ext_resource type="AudioStream" uid="uid://ccjjtp0ungrcp" path="res://audio/main_menu_bgm.ogg" id="2_3yadv"]
+[ext_resource type="AudioStream" uid="uid://jjlndl2hfri" path="res://audio/main_game_bgm.ogg" id="3_bes4q"]
+[ext_resource type="AudioStream" uid="uid://siq5kisccawx" path="res://audio/bar_increase.wav" id="4_0p2bb"]
+[ext_resource type="AudioStream" uid="uid://b214w4px1pc7p" path="res://audio/button_click.wav" id="5_m00wg"]
+[ext_resource type="AudioStream" uid="uid://obunbrw8gvw4" path="res://audio/card_click.wav" id="6_nit56"]
+[ext_resource type="AudioStream" uid="uid://vlrlo4wgw6m1" path="res://audio/card_fly.wav" id="7_7ucqt"]
+[ext_resource type="AudioStream" uid="uid://k144n2q3udg5" path="res://audio/card_hover.wav" id="8_cmggu"]
+[ext_resource type="AudioStream" uid="uid://rde8rbktfl5s" path="res://audio/floating_text_score.wav" id="9_dbfxl"]
+[ext_resource type="AudioStream" uid="uid://by3sfqoo2c4tw" path="res://audio/item_activate.wav" id="10_vetfx"]
+[ext_resource type="AudioStream" uid="uid://cwtbtq0ujvegm" path="res://audio/item_choose.wav" id="11_8fw56"]
+[ext_resource type="AudioStream" uid="uid://buj4xc07ji41l" path="res://audio/lose_run.wav" id="12_qdupe"]
+[ext_resource type="AudioStream" uid="uid://cghha61fydu41" path="res://audio/next_round.wav" id="13_oj3bt"]
+[ext_resource type="AudioStream" uid="uid://dgbulc3a3mxac" path="res://audio/score_fail.wav" id="14_8ck2m"]
+[ext_resource type="AudioStream" uid="uid://chq3isjd6hivn" path="res://audio/win_run.wav" id="15_p44se"]
+
+[node name="AudioManager" type="Node"]
+process_mode = 3
+script = ExtResource("1_qbhe3")
+
+[node name="BGM" type="Node" parent="."]
+
+[node name="MainMenuBGM" type="AudioStreamPlayer" parent="BGM"]
+stream = ExtResource("2_3yadv")
+bus = &"Music"
+parameters/looping = true
+
+[node name="MainGameBGM" type="AudioStreamPlayer" parent="BGM"]
+stream = ExtResource("3_bes4q")
+bus = &"Music"
+parameters/looping = true
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="BarIncrease" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("4_0p2bb")
+bus = &"SFX"
+
+[node name="ButtonClick" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("5_m00wg")
+bus = &"SFX"
+
+[node name="CardClick" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("6_nit56")
+bus = &"SFX"
+
+[node name="CardFly" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("7_7ucqt")
+bus = &"SFX"
+
+[node name="CardHover" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("8_cmggu")
+bus = &"SFX"
+
+[node name="FloatingTextScore" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("9_dbfxl")
+bus = &"SFX"
+
+[node name="ItemActivate" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("10_vetfx")
+bus = &"SFX"
+
+[node name="ItemChoose" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("11_8fw56")
+bus = &"SFX"
+
+[node name="LoseRun" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("12_qdupe")
+bus = &"SFX"
+
+[node name="NextRound" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("13_oj3bt")
+bus = &"SFX"
+
+[node name="ScoreFail" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("14_8ck2m")
+bus = &"SFX"
+
+[node name="WinRun" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("15_p44se")
+bus = &"SFX"

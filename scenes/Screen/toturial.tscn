@@ -1,0 +1,156 @@
+[gd_scene load_steps=13 format=3 uid="uid://cekh7b5icdo3d"]
+
+[ext_resource type="Texture2D" uid="uid://bv4xbp47kou8s" path="res://assets/background/Master Background.png" id="1_b7knx"]
+[ext_resource type="Script" uid="uid://ds6s5c2c0g0vx" path="res://scripts/Screen/Toturial.gd" id="1_fm4ir"]
+[ext_resource type="Texture2D" uid="uid://bassx3fyqj844" path="res://assets/background/MenuBG Full.png" id="2_frm2y"]
+[ext_resource type="Texture2D" uid="uid://dnev5ikck3a6" path="res://assets/menu_ui/button/BlueButton.png" id="3_aioie"]
+[ext_resource type="Texture2D" uid="uid://b2emnn3ahjrdd" path="res://assets/menu_ui/button/BlueButton Clicked.png" id="4_fm4ir"]
+[ext_resource type="Texture2D" uid="uid://doo7ho42jtu1" path="res://assets/menu_ui/button/BlueButton Hover.png" id="5_k73e0"]
+[ext_resource type="Texture2D" uid="uid://d4im801k5wfu4" path="res://assets/menu_ui/button/BlueButton Disable.png" id="6_tdx3b"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_fm4ir"]
+font_size = 24
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vtglq"]
+texture = ExtResource("3_aioie")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_d22ae"]
+texture = ExtResource("4_fm4ir")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_cqako"]
+texture = ExtResource("5_k73e0")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_gam1s"]
+texture = ExtResource("6_tdx3b")
+
+[node name="Toturial" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_fm4ir")
+
+[node name="BackBG" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_b7knx")
+expand_mode = 3
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_frm2y")
+expand_mode = 3
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer/MarginContainer"]
+custom_minimum_size = Vector2(1000, 580)
+layout_mode = 2
+
+[node name="ToturialLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "TOTURIAL"
+label_settings = SubResource("LabelSettings_fm4ir")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="ImagePanel" type="Panel" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer"]
+clip_contents = true
+custom_minimum_size = Vector2(480, 270)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Image" type="TextureRect" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer/ImagePanel"]
+clip_contents = true
+custom_minimum_size = Vector2(480, 270)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+expand_mode = 3
+
+[node name="MarginContainer2" type="MarginContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="RichTextPanel" type="Panel" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer2"]
+custom_minimum_size = Vector2(640, 200)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="DescriptionRTL" type="RichTextLabel" parent="CenterContainer/MarginContainer/VBoxContainer/MarginContainer2/RichTextPanel"]
+custom_minimum_size = Vector2(620, 180)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -310.0
+offset_top = -55.0
+offset_right = 310.0
+offset_bottom = 55.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(600, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 8
+
+[node name="BackButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 50)
+layout_mode = 2
+size_flags_horizontal = 6
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_vtglq")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_d22ae")
+theme_override_styles/hover = SubResource("StyleBoxTexture_cqako")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_gam1s")
+text = "Back
+"
+
+[node name="CurrentStepLabel" type="Label" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "1/5"
+
+[node name="NextDoneButton" type="Button" parent="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(80, 50)
+layout_mode = 2
+size_flags_horizontal = 6
+focus_mode = 0
+theme_override_styles/normal = SubResource("StyleBoxTexture_vtglq")
+theme_override_styles/pressed = SubResource("StyleBoxTexture_d22ae")
+theme_override_styles/hover = SubResource("StyleBoxTexture_cqako")
+theme_override_styles/disabled = SubResource("StyleBoxTexture_gam1s")
+text = "Next
+"
+
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/BackButton" to="." method="_on_back_button_pressed"]
+[connection signal="pressed" from="CenterContainer/MarginContainer/VBoxContainer/HBoxContainer/NextDoneButton" to="." method="_on_next_done_button_pressed"]

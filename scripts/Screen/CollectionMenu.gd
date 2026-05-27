@@ -95,33 +95,35 @@ func update_language_ui():
 
 
 func _on_word_button_pressed():
-
+	AudioManager.play_button_click()
 	get_tree().change_scene_to_file(
 		"res://scenes/Screen/word_tab.tscn"
 	)
 
 
 func _on_items_button_pressed():
-
+	AudioManager.play_button_click()
 	get_tree().change_scene_to_file(
 		"res://scenes/Screen/item_tab.tscn"
 	)
 
 
 func _on_back_button_pressed():
-
+	AudioManager.play_button_click()
 	get_tree().change_scene_to_file(
 		"res://scenes/Screen/main_menu.tscn"
 	)
 
 
 func _on_stats_button_pressed() -> void:
+	AudioManager.play_button_click()
 	get_tree().change_scene_to_file(
 		"res://scenes/Screen/stats_menu.tscn"
 	)
 
 
 func _on_delete_data_button_pressed() -> void:
+	AudioManager.play_button_click()
 
 	var popup = notify_scene.instantiate()
 
@@ -148,6 +150,7 @@ func _on_delete_data_button_pressed() -> void:
 
 
 func _on_relations_button_pressed() -> void:
+	AudioManager.play_button_click()
 
 	var popup = relation_scene.instantiate()
 

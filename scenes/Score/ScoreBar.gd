@@ -3,6 +3,9 @@ extends Control
 @onready var progress_bar = $MarginContainer/TextureProgressBarFill
 @onready var progress_score = $MarginContainer/ProgressScore
 
+var numer = 0
+var denomin = 0
+
 func set_progress_bar(numerator,denominator):
 	if denominator == 0:
 		return
@@ -10,6 +13,10 @@ func set_progress_bar(numerator,denominator):
 		var value = 100.0 * numerator / denominator
 		progress_bar.value = value
 		progress_score.text = format_number(numerator) + "/" + format_number(denominator)
+		if numerator != numer or (numerator == numer and denomin != denomin):
+			AudioManager.play_bar_increase()
+			numer = numerator
+			denomin = denominator
 	
 func format_number(n):
 

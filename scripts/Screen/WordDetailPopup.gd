@@ -23,6 +23,7 @@ func _ready():
 
 	back_button.pressed.connect(
 		func():
+			AudioManager.play_button_click()
 			queue_free()
 	)
 
@@ -45,9 +46,8 @@ func setup(word_id):
 
 	meaning_label.text = (
 		Localization.tr_ui("meaning") + ": "
-		+ word.get(
-			"meaning",
-			"No meaning"
+		+ Localization.tr_meaning(
+			word.get("text", "")
 		)
 	)
 

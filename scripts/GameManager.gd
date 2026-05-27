@@ -695,6 +695,7 @@ func get_text_from_step(step):
 			var label = step.get("relation_label", "")
 			var p = step.get("point", 0)
 			var m = step.get("mult", 1)
+			AudioManager.play_floating_text_score()
 
 			return label + " (" + str(p) + " x" + str(m) + ")"
 
@@ -723,6 +724,7 @@ func get_text_from_step(step):
 			return "Chain x" + str(step.value)
 
 		_:
+			AudioManager.play_floating_text_score()
 			return step.type
 	
 func apply_step(step: Dictionary):
@@ -813,6 +815,8 @@ func continue_next_round():
 	score -= target_score
 
 	round += 1
+	
+	AudioManager.play_next_round()
 	
 	if check_victory():
 		return
@@ -933,16 +937,27 @@ func show_reward_popup():
 func _on_reward_selected(item_data):
 
 	reward_popup_open = false
-	
-	run_used_items[item_data["id"]] = true
+
+	var item_id = item_data["id"]
+
+	# =====================
+	# TRACK ONLY ONCE PER RUN
+	# =====================
+
+	if !run_used_items.has(item_id):
+
+		run_used_items[item_id] = true
+
+		SaveManager.track_item_pick(item_id)
 
 	if item_manager.get_items().size() < 5:
 
-		item_manager.add_item(item_data["id"])
+		item_manager.add_item(item_id)
 
-		SaveManager.unlock_item(item_data["id"])
+		SaveManager.unlock_item(item_id)
 
 		emit_signal("update_item_ui")
+
 	else:
 		print("ITEM INVENTORY FULL - reward skipped")
 

@@ -293,42 +293,46 @@ func _on_item_hover_ended():
 
 func _on_play_cards(cards):
 	var selected_cards = cards
-
 	var count = selected_cards.size()
 	if count == 0:
 		return
 
 	var center_pos = get_viewport_rect().size / 2
 	var spacing = 160.0
-
 	var total_width = (count - 1) * spacing
 	var start_x = center_pos.x - total_width / 2
 
+	AudioManager.play_card_fly()
+
 	for i in range(count):
 		var card = selected_cards[i]
-		
+
+		card.locked = true
+
 		var start_pos = card.global_position
-		
 		card.get_parent().remove_child(card)
 		center_area.add_child(card)
 
 		card.scale = Vector2.ONE
 		card.global_position = start_pos
-		
+		card.visual_base_y = card.position.y
+		card.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		card.hovered = false
+
 		var target = Vector2(
 			start_x + i * spacing,
 			center_pos.y
 		) - card.size / 2
-		
+
 		var tween = create_tween()
 		tween.set_pause_mode(Tween.TWEEN_PAUSE_STOP)
 		tween.tween_property(card, "global_position", target, 0.3)
-		tween.tween_property(card, "scale", Vector2(1.2,1.2), 0.15)
-		tween.tween_property(card, "scale", Vector2(1,1), 0.1)
-		
+		tween.parallel().tween_property(card, "scale", Vector2(1.2, 1.2), 0.15)
+		tween.tween_property(card, "scale", Vector2(1, 1), 0.1)
+
 		play_button.disabled = true
 		discard_button.disabled = true
-		
+
 		await get_tree().create_timer(0.08).timeout
 		
 func _on_show_floating_text(card, data):
@@ -350,18 +354,23 @@ func _on_show_floating_text(card, data):
 	match data.type:
 		"add_point":
 			color = Color.GREEN
+			AudioManager.play_floating_text_score()
 
 		"add_mult", "mul_mult":
 			color = Color.CYAN
+			AudioManager.play_floating_text_score()
 
 		"fail":
 			color = Color.RED
+			AudioManager.play_score_fail()
 			
 		"chain":
 			color = Color.ORANGE
+			AudioManager.play_floating_text_score()
 			
 		"item":
 			color = Color.GOLD
+			AudioManager.play_floating_text_score()
 
 	print("FT_TEXT SIZE BEFORE PLAY:", ft.size)
 
@@ -370,6 +379,7 @@ func _on_show_floating_text(card, data):
 		card.size.x / 2,
 		card.size.y + 10
 	)
+	
 	
 	print("FT_POS BEFORE PLAY:", ft.position)
 
@@ -388,9 +398,33 @@ func _on_set_card_highlight(card, state, type):
 			card.set_selected(state)
 		
 func _on_clear_center():
+
 	for child in center_area.get_children():
+
 		child.get_parent().remove_child(child)
-		hand_scene.container.add_child(child)  # trả về hand
+
+		hand_scene.container.add_child(child)
+
+		# 🔓 mở khóa animation
+		child.locked = false
+
+		# ❌ reset fail đỏ
+		if child.has_method("set_fail"):
+			child.set_fail(false)
+
+		# 🔄 refresh visual
+		if child.has_method("update_visual"):
+
+			child.position.y = child.base_position.y
+
+			child.locked = false
+			child.selected = false
+			child.hovered = false
+			child.failed = false
+			child.position.y = child.base_position.y
+			child.mouse_filter = Control.MOUSE_FILTER_STOP
+			child.visual_base_y = child.position.y
+			child.update_visual()
 
 
 
@@ -408,7 +442,11 @@ func _on_play_button_pressed() -> void:
 
 	GameManager.play_selected(selected_cards)
 	selected_indices.clear()
-	update_hand_selection()
+	#update_hand_selection()
+	
+	AudioManager.play_button_click()
+	
+	update_buttons()
 
 
 func _on_discard_button_pressed() -> void:
@@ -420,6 +458,9 @@ func _on_discard_button_pressed() -> void:
 	
 	GameManager.discard_selected(selected_indices)
 	selected_indices.clear()
+	
+	AudioManager.play_button_click()
+	
 	update_hand_selection()
 	
 func _on_activate_item_slot(item_id):

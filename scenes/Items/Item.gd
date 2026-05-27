@@ -119,6 +119,8 @@ func activate():
 	var tween = create_tween()
 
 	modulate = Color(1.3, 1.3, 1.3, 1.0)
+	
+	AudioManager.play_item_activate()
 
 	tween.tween_property(
 		self,
@@ -149,10 +151,12 @@ func close_buttons():
 
 
 func _on_sell_button_pressed() -> void:
+	AudioManager.play_button_click()
 	emit_signal("sell_pressed", self)
 
 
 func _on_use_button_pressed() -> void:
+	AudioManager.play_button_click()
 	emit_signal("use_pressed", self)
 
 
@@ -162,6 +166,8 @@ func _on_click_area_pressed() -> void:
 	
 	if not can_click:
 		return
+		
+	AudioManager.play_button_click()	
 	
 	emit_signal("item_clicked", self)
 

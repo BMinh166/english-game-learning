@@ -134,10 +134,11 @@ func _on_back_button_pressed() -> void:
 
 	print("PREVIOUS:", GameManager.previous_scene_path)
 
+	AudioManager.play_button_click()
+
 	# =====================
 	# OPENED FROM PAUSE
 	# =====================
-
 	if pause_menu != null:
 
 		if pause_menu.has_method(
@@ -177,7 +178,8 @@ func _on_language_button_pressed() -> void:
 			"language",
 			"en"
 		)
-
+	AudioManager.play_button_click()
+	
 	load_settings()
 
 
@@ -189,6 +191,8 @@ func _on_master_slider_value_changed(value: float) -> void:
 		"master_volume",
 		int(master_slider.value)
 	)
+	
+	AudioManager.apply_volume_settings()
 
 	update_value_labels()
 
@@ -201,6 +205,8 @@ func _on_music_slider_value_changed(value: float) -> void:
 		"music_volume",
 		int(music_slider.value)
 	)
+	
+	AudioManager.apply_volume_settings()
 
 	update_value_labels()
 
@@ -213,6 +219,8 @@ func _on_sfx_slider_value_changed(value: float) -> void:
 		"sfx_volume",
 		int(sfx_slider.value)
 	)
+	
+	AudioManager.apply_volume_settings()
 
 	update_value_labels()
 

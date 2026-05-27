@@ -14,6 +14,8 @@ func _ready():
 	else:
 
 		GameManager.start_game()
+		
+	AudioManager.play_main_game_bgm()
 	
 func _unhandled_input(event):
 

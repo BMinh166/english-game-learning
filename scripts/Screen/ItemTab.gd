@@ -130,6 +130,7 @@ func _on_item_hover_ended():
 	item_tooltip.visible = false
 
 func _on_back_button_pressed() -> void:
+	AudioManager.play_button_click()
 	get_tree().change_scene_to_file(
 		"res://scenes/Screen/collection_menu.tscn"
 	)
