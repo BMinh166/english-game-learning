@@ -58,7 +58,12 @@ func open():
 
 	if ui:
 		ui.hide_tooltip()
-
+		
+	# 👇 tìm bag popup đang mở
+	var bag_popup = get_tree().get_first_node_in_group("bag_popup")
+	if bag_popup:
+		bag_popup.close_popup()
+		
 	show()
 	get_tree().paused = true
 
